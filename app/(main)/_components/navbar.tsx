@@ -7,23 +7,18 @@ import Logo from '@/components/logo';
 
 export default function Navbar() {
   return (
-    <div
-      className={cn(
-        'z-50 bg-background dark:bg-[#1F1F1F]  w-full py-4 px-6 flex justify-between',
-        'border-b shadow-sm'
-      )}
-    >
+    <>
       <div className='flex gap-x-12'>
         <Logo />
         {/* <DesktopMenu /> */}
       </div>
       <div className='flex gap-x-6'>
         {/* <ThemeToggle /> */}
-        <Button variant='gradient' size='lg'>
+        <Button variant='gradient' className='p-3'>
           Publish
         </Button>
         {/* <MobileMenuNavbar /> */}
       </div>
-    </div>
+    </>
   );
 }

@@ -6,10 +6,8 @@ import DragOverlayWrapper from '../_components/drag-overlay-wrapper';
 export default function Admin() {
   return (
     <DndContext>
-      <div className='flex flex-col lg:flex-row w-full h-full'>
-        <DesignerSidebar />
-        <Designer />
-      </div>
+      <DesignerSidebar />
+      <Designer />
       <DragOverlayWrapper />
     </DndContext>
   );
