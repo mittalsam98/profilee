@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Instagram, Twitter, Youtube } from 'lucide-react';
 import React from 'react';
 import { BiLogoSnapchat } from 'react-icons/bi';
 import { AiOutlineYoutube } from 'react-icons/ai';
@@ -15,25 +14,24 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 import { BsGithub, BsInstagram, BsLinkedin, BsTelegram, BsWhatsapp } from 'react-icons/bs';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { PopoverTrigger } from '@radix-ui/react-popover';
+import SocialLinkDialog from '../dialogs/social-icons-dialog';
+import { Github, Instagram, Linkedin, Twitch, Twitter, Youtube } from 'lucide-react';
+import { socialMediaData } from '../page-elements';
+import SocialIcon from '@/app/(main)/builder/_components/elements/social-icon';
 
 export default function SocialIconsPopover() {
   return (
     <Popover>
       <PopoverTrigger>
-        <AiFillPlusCircle className='text-2xl text-black hover:scale-125' />
+        <AiFillPlusCircle className='text-2xl text- ml-2' />
       </PopoverTrigger>
-
       <PopoverContent className='' align='start'>
         <div className='flex gap-4 flex-wrap '>
-          <AiOutlineYoutube className='text-2xl hover:scale-125' />
-          <BsInstagram className='text-2xl hover:scale-125' />
-          <FaXTwitter className='text-2xl hover:scale-125' />
-          <BsLinkedin className='text-2xl hover:scale-125' />
-          <BiLogoSnapchat className='text-2xl hover:scale-125' />
-          <BsGithub className='text-2xl hover:scale-125' />
-          <BsTelegram className='text-2xl hover:scale-125' />
-          <BsWhatsapp className='text-2xl hover:scale-125' />
-          <FaFacebook className='text-2xl hover:scale-125' />
+          <>
+            {socialMediaData.map((data, index) => {
+              return <SocialIcon data={data} key={data.name} />;
+            })}
+          </>
         </div>
       </PopoverContent>
     </Popover>

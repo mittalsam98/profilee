@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import Navbar from '../_components/navbar';
+import Navbar from './_components/navbar';
 
 const AdminPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (

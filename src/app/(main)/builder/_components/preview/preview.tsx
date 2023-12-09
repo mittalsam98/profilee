@@ -6,7 +6,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { preview } from '@/types/types';
 import { cn } from '@/lib/utils';
 import useDesigner from '@/hooks/use-designer';
-import Webpage from './elements/webpage';
+import Webpage from './webpage';
 
 export default function Preview() {
   const [previewMode, setPreviewMode] = useState<preview>('mobile');
