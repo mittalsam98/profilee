@@ -11,20 +11,21 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import useDesigner from '@/hooks/use-designer';
 
 export default function SocialLinkDialog({
   children,
-  name
+  name,
+  value
 }: {
   name: string;
+  value?: string;
   children: React.ReactNode;
 }) {
+  const { setLinks } = useDesigner();
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
-
-  const [input, setInput] = useState('');
-  console.log('hhd');
+  const [input, setInput] = useState(value || '');
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -34,7 +35,14 @@ export default function SocialLinkDialog({
           <DialogTitle>Add {name} link</DialogTitle>
         </DialogHeader>
 
-        <form className='space-y-4' onSubmit={(e) => {}}>
+        <form
+          className='space-y-4'
+          onSubmit={(e) => {
+            setLinks((prevState) => {
+              return { ...prevState, [name]: input };
+            });
+          }}
+        >
           <Input
             type='url'
             placeholder='Enter link'

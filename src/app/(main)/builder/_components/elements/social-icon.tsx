@@ -1,35 +1,37 @@
-import Image from 'next/image';
 import React from 'react';
-import { SocialMediaData } from '@/types/types';
 import SocialLinkDialog from '../dialogs/social-icons-dialog';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-
-type SocialMediaProps = {
-  data: SocialMediaData;
-};
-
-const SocialIcon = (props: SocialMediaProps) => {
-  const { name, color, icon } = props.data;
-  //   || {
-  //     color: '#000',
-  //     icon: (
-  //       <Image
-  //         src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=128`}
-  //         alt={'dd'}
-  //         width={24}
-  //         height={24}
-  //         className='rounded-md'
-  //       />
-  //     )
-  //   };
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { socialMediaDataByName } from '../page-elements';
+import { MinusCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import useDesigner from '@/hooks/use-designer';
+const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
+  const { setLinks } = useDesigner();
 
   return (
-    <SocialLinkDialog name={name}>
+    <SocialLinkDialog name={data} value={value}>
       <Tooltip>
         <TooltipTrigger>
-          <div className='hover:cursor-pointer'>{icon}</div>
+          <div className='relative hover:cursor-pointer p-1'>
+            {socialMediaDataByName[data]?.icon}
+            {value && (
+              <div className={cn('absolute right-0 top-0 bg-white rounded-full ')}>
+                <MinusCircle
+                  onClick={() => {
+                    setLinks((prevLinks) => {
+                      const linksCopy = { ...prevLinks };
+                      delete linksCopy[data];
+                      return linksCopy;
+                    });
+                  }}
+                  size={12}
+                  className='text-[#D11A2A]'
+                />
+              </div>
+            )}
+          </div>
         </TooltipTrigger>
-        <TooltipContent>{name}</TooltipContent>
+        <TooltipContent>{socialMediaDataByName[data]?.name}</TooltipContent>
       </Tooltip>
     </SocialLinkDialog>
   );

@@ -4,3 +4,7 @@ export type SocialMediaData = {
   color?: string;
   icon: React.ReactElement;
 };
+
+export type SocialMediaDataContext = {
+  [platform: string]: string;
+};
