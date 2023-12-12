@@ -1,21 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MinusCircle, Smartphone, Laptop2 } from 'lucide-react';
-import { useDroppable } from '@dnd-kit/core';
+import { Smartphone, Laptop2 } from 'lucide-react';
 import { preview } from '@/types/types';
 import { cn } from '@/lib/utils';
-import useDesigner from '@/hooks/use-designer';
 import Webpage from './webpage';
 
 export default function Preview() {
   const [previewMode, setPreviewMode] = useState<preview>('mobile');
-  const droppable = useDroppable({
-    id: 'designer-drop-area',
-    data: {
-      key: 'd'
-    }
-  });
+
   return (
     <div className='p-1 lg:flex-1 lg:py-5 lg:px-8'>
       <div className='flex flex-col h-full border-[1px] rounded-lg border-slate-300 bg-white'>
@@ -43,10 +36,7 @@ export default function Preview() {
           </div>
         </div>
 
-        <div
-          ref={droppable.setNodeRef}
-          className='flex items-center justify-center h-full flex-1 flex-grow p-2 text-center'
-        >
+        <div className='flex items-center justify-center h-full flex-1 flex-grow p-2 text-center'>
           {previewMode === 'mobile' && (
             <div className='relative h-[90%] max-h-[40rem] w-80 overflow-hidden rounded-[3rem] border-8 border-slate-500 bg-slate-400'>
               <div className='absolute left-1/2 right-1/2 top-2 z-20 h-4 w-1/3 -translate-x-1/2 transform rounded-md bg-slate-500'></div>

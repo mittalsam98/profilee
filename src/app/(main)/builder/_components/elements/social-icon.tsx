@@ -5,6 +5,7 @@ import { socialMediaDataByName } from '../page-elements';
 import { MinusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import useDesigner from '@/hooks/use-designer';
+import { useSortable } from '@dnd-kit/sortable';
 const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
   const { setLinks } = useDesigner();
 
@@ -14,7 +15,7 @@ const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
         <TooltipTrigger>
           <div className='relative hover:cursor-pointer p-1'>
             {socialMediaDataByName[data]?.icon}
-            {value && (
+            {/* {value && (
               <div className={cn('absolute right-0 top-0 bg-white rounded-full ')}>
                 <MinusCircle
                   onClick={() => {
@@ -28,7 +29,7 @@ const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
                   className='text-[#D11A2A]'
                 />
               </div>
-            )}
+            )} */}
           </div>
         </TooltipTrigger>
         <TooltipContent>{socialMediaDataByName[data]?.name}</TooltipContent>

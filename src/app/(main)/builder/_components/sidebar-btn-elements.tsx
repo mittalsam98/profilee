@@ -35,10 +35,9 @@ export function SidebarBtnElementDragOverlay({ pageElement }: { pageElement: Pag
   const { label, icon: Icon } = pageElement.designerBtnElement;
 
   return (
-    <Button
-      variant={'outline'}
-      className='flex flex-col gap-2 h-[120px] w-[120px] cursor-grab'
-    ></Button>
+    <Button variant={'outline'} className='flex flex-col gap-2 h-[120px] w-[120px] cursor-grab'>
+      test
+    </Button>
   );
 }
 

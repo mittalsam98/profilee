@@ -2,11 +2,13 @@ import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
 import React, { useState } from 'react';
 import { SidebarBtnElementDragOverlay } from './sidebar-btn-elements';
 import { ElementsType, PageElements } from './page-elements';
+import { Trash } from 'lucide-react';
 
 export default function DragOverlayWrapper() {
   const [draggedItem, setDraggedItem] = useState<Active | null>(null);
   useDndMonitor({
     onDragStart: (event) => {
+      console.log(event);
       setDraggedItem(event.active);
     },
     onDragCancel: (event) => {
@@ -16,7 +18,11 @@ export default function DragOverlayWrapper() {
       setDraggedItem(null);
     }
   });
-  let node = <div>No element</div>;
+  let node = (
+    <div>
+      <Trash />
+    </div>
+  );
 
   const draggedSideBarElement = draggedItem?.data?.current?.isDesignerBtnElement;
   if (draggedSideBarElement) {
