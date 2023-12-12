@@ -37,7 +37,7 @@ const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
         <span {...listeners} ref={setActivatorNodeRef} className='p-1 '>
           <GripVertical size={16} />
         </span>
-        <div className='flex w-24 items-center p-2'>
+        <div className='flex w-28 items-center p-2'>
           <span className='pr-1'>{icon}</span>
           <span className='pr-1 text-sm'>{name}</span>
         </div>
