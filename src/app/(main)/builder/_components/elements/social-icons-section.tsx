@@ -29,7 +29,7 @@ export default function SocialIconsSection() {
       </CardTitle>
       {Object.entries(links).length > 0 && (
         <div className='flex gap-4 flex-wrap mt-3 ml-2'>
-          <SortableContext items={Object.keys(links)}>
+          <SortableContext id='social-icon' items={Object.keys(links)}>
             {Object.entries(links).map(([platform, value]) => (
               <SocialIconDrag data={platform} key={platform} value={value} />
             ))}

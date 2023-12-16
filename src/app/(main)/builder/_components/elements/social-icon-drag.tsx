@@ -24,28 +24,23 @@ const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      style={style}
-      className='relative hover:cursor-pointer p-1'
-    >
+    <div ref={setNodeRef} {...attributes} style={style} className='relative p-1'>
       <div
         className={`flex items-center border rounded-sm `}
         style={{ backgroundColor: rgbaColor1, borderColor: rgbaColor2 }}
       >
-        <span {...listeners} ref={setActivatorNodeRef} className='p-1 '>
+        <span {...listeners} ref={setActivatorNodeRef} className='p-1 hover:cursor-all-scroll	 '>
           <GripVertical size={16} />
         </span>
-        <div className='flex w-28 items-center p-2'>
-          <span className='pr-1'>{icon}</span>
-          <span className='pr-1 text-sm'>{name}</span>
-        </div>
-        <span className='p-1'>
-          <SocialLinkDialog name={data} value={value}>
-            <Pencil size={12} className='mr-2' />
-          </SocialLinkDialog>
-        </span>
+        <SocialLinkDialog name={data} value={value}>
+          <div className='flex  items-center p-2'>
+            <span className='pr-1'>{icon}</span>
+            <span className='pr-1 text-sm'>{name}</span>
+            <span className='p-1'>
+              <Pencil size={12} className='mr-2' />
+            </span>
+          </div>
+        </SocialLinkDialog>
       </div>
       {value && (
         <div className={cn('absolute right-0 top-0  bg-white rounded-full ')}>

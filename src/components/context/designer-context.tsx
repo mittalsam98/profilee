@@ -20,7 +20,11 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [profileImg, setProfileImg] = useState<string>('');
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
-  const [links, setLinks] = useState<SocialMediaDataContext>({});
+  const [links, setLinks] = useState<SocialMediaDataContext>({
+    Twitter: 'http://localhost:3000/builder',
+    Instagram: 'http://localhost:3000/builder',
+    Facebook: 'http://localhost:3000/builder'
+  });
 
   return (
     <DesignerContext.Provider
