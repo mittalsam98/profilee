@@ -27,7 +27,7 @@ export default function Webpage() {
       {Object.entries(socialLinks).length > 0 && (
         <div className='flex gap-3 flex-wrap justify-center mt-3'>
           {Object.entries(socialLinks).map(([platform, value]) => (
-            <Link href={value} target='_blank'>
+            <Link href={value} key={platform} target='_blank'>
               {socialMediaDataByName[platform]?.icon}
             </Link>
           ))}
