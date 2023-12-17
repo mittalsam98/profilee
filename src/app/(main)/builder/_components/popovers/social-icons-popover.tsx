@@ -7,7 +7,7 @@ import SocialIcon from '@/app/(main)/builder/_components/elements/social-icon';
 import useDesigner from '@/hooks/use-designer';
 
 export default function SocialIconsPopover() {
-  const { links } = useDesigner();
+  const { socialLinks } = useDesigner();
   return (
     <Popover>
       <PopoverTrigger>
@@ -16,7 +16,7 @@ export default function SocialIconsPopover() {
       <PopoverContent className='' align='start'>
         <div className='flex gap-4 flex-wrap '>
           {Object.keys(socialMediaDataByName)
-            .filter((data) => !links[data])
+            .filter((data) => !socialLinks[data])
             .map((data) => {
               return <SocialIcon data={data} key={data} />;
             })}

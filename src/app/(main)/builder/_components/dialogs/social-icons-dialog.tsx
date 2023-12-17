@@ -22,7 +22,7 @@ export default function SocialLinkDialog({
   value?: string;
   children: React.ReactNode;
 }) {
-  const { setLinks } = useDesigner();
+  const { setSocialLinks } = useDesigner();
   const [open, setOpen] = useState(false);
 
   const [input, setInput] = useState(value || '');
@@ -38,7 +38,7 @@ export default function SocialLinkDialog({
         <form
           className='space-y-4'
           onSubmit={(e) => {
-            setLinks((prevState) => {
+            setSocialLinks((prevState) => {
               return { ...prevState, [name]: input };
             });
           }}

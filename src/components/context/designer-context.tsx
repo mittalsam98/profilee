@@ -10,8 +10,8 @@ type DesignerContextProps = {
   setTitle: Dispatch<SetStateAction<string>>;
   bio: string;
   setBio: Dispatch<SetStateAction<string>>;
-  links: SocialMediaDataContext;
-  setLinks: Dispatch<SetStateAction<SocialMediaDataContext>>;
+  socialLinks: SocialMediaDataContext;
+  setSocialLinks: Dispatch<SetStateAction<SocialMediaDataContext>>;
 };
 
 export const DesignerContext = createContext<DesignerContextProps | null>(null);
@@ -20,7 +20,7 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [profileImg, setProfileImg] = useState<string>('');
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
-  const [links, setLinks] = useState<SocialMediaDataContext>({
+  const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({
     Twitter: 'http://localhost:3000/builder',
     Instagram: 'http://localhost:3000/builder',
     Facebook: 'http://localhost:3000/builder'
@@ -35,8 +35,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
         setTitle,
         bio,
         setBio,
-        setLinks,
-        links
+        setSocialLinks,
+        socialLinks
       }}
     >
       {children}

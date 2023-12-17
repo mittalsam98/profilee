@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import useDesigner from '@/hooks/use-designer';
 import { useSortable } from '@dnd-kit/sortable';
 const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
-  const { setLinks } = useDesigner();
+  const { setSocialLinks } = useDesigner();
 
   return (
     <SocialLinkDialog name={data} value={value}>
@@ -19,7 +19,7 @@ const SocialIcon = ({ data, value }: { data: string; value?: string }) => {
               <div className={cn('absolute right-0 top-0 bg-white rounded-full ')}>
                 <MinusCircle
                   onClick={() => {
-                    setLinks((prevLinks) => {
+                    setSocialLinks((prevLinks) => {
                       const linksCopy = { ...prevLinks };
                       delete linksCopy[data];
                       return linksCopy;

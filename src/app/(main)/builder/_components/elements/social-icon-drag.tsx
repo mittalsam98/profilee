@@ -10,7 +10,7 @@ import useHexToRGBA from '@/hooks/use-hex-to-rgba';
 import { CSS } from '@dnd-kit/utilities';
 const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
   const { color, name, icon } = socialMediaDataByName[data]!;
-  const { setLinks } = useDesigner();
+  const { setSocialLinks } = useDesigner();
   const rgbaColor1 = useHexToRGBA(color!, 0.08);
   const rgbaColor2 = useHexToRGBA(color!, 0.2);
 
@@ -46,7 +46,7 @@ const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
         <div className={cn('absolute right-0 top-0  bg-white rounded-full ')}>
           <MinusCircle
             onClick={() => {
-              setLinks((prevLinks) => {
+              setSocialLinks((prevLinks) => {
                 const linksCopy = { ...prevLinks };
                 delete linksCopy[data];
                 return linksCopy;

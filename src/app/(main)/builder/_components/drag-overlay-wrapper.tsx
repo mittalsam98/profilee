@@ -8,7 +8,7 @@ import SocialIconDrag from './elements/social-icon-drag';
 
 export default function DragOverlayWrapper() {
   const [draggedItem, setDraggedItem] = useState<Active | null>(null);
-  const { links } = useDesigner();
+  const { socialLinks } = useDesigner();
   useDndMonitor({
     onDragStart: (event) => {
       console.log(event);

@@ -7,7 +7,7 @@ import { useDndMonitor } from '@dnd-kit/core';
 import { GripVertical } from 'lucide-react';
 
 export default function AdhocLinks() {
-  const { links, setLinks } = useDesigner();
+  const { socialLinks, setSocialLinks } = useDesigner();
   useDndMonitor({
     onDragEnd: (event) => {}
   });

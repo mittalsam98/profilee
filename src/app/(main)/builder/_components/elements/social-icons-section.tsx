@@ -7,17 +7,17 @@ import SocialIconDrag from './social-icon-drag';
 import { useDndMonitor } from '@dnd-kit/core';
 
 export default function SocialIconsSection() {
-  const { links, setLinks } = useDesigner();
+  const { socialLinks, setSocialLinks } = useDesigner();
   useDndMonitor({
     onDragEnd: (event) => {
       const { active, over } = event;
       if (!active || !over) return;
 
-      setLinks((items) => {
+      setSocialLinks((items) => {
         const oldIndex = Object.keys(items).indexOf(active.id.toString());
         const newIndex = Object.keys(items).indexOf(over.id.toString());
 
-        return Object.fromEntries(arrayMove(Object.entries(links), oldIndex, newIndex));
+        return Object.fromEntries(arrayMove(Object.entries(socialLinks), oldIndex, newIndex));
       });
     }
   });
@@ -27,10 +27,10 @@ export default function SocialIconsSection() {
         Social Icons
         <SocialIconsPopover />
       </CardTitle>
-      {Object.entries(links).length > 0 && (
+      {Object.entries(socialLinks).length > 0 && (
         <div className='flex gap-4 flex-wrap mt-3 ml-2'>
-          <SortableContext id='social-icon' items={Object.keys(links)}>
-            {Object.entries(links).map(([platform, value]) => (
+          <SortableContext id='social-icon' items={Object.keys(socialLinks)}>
+            {Object.entries(socialLinks).map(([platform, value]) => (
               <SocialIconDrag data={platform} key={platform} value={value} />
             ))}
           </SortableContext>
