@@ -24,7 +24,7 @@ const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
   };
 
   return (
-    <div ref={setNodeRef} {...attributes} style={style} className='relative p-1'>
+    <div ref={setNodeRef} {...attributes} style={style} className='relative p-1 '>
       <div
         className={`flex items-center border rounded-sm `}
         style={{ backgroundColor: rgbaColor1, borderColor: rgbaColor2 }}
@@ -43,7 +43,7 @@ const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
         </SocialLinkDialog>
       </div>
       {value && (
-        <div className={cn('absolute right-0 top-0  bg-white rounded-full ')}>
+        <div className={cn('absolute right-0 top-0  bg-white rounded-full')}>
           <MinusCircle
             onClick={() => {
               setSocialLinks((prevLinks) => {

@@ -2,25 +2,17 @@ import { Card, CardTitle } from '@/components/ui/card';
 import React from 'react';
 import SocialIconsPopover from '../popovers/social-icons-popover';
 import useDesigner from '@/hooks/use-designer';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import {
+  SortableContext,
+  arrayMove,
+  horizontalListSortingStrategy,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
 import SocialIconDrag from './social-icon-drag';
-import { useDndMonitor } from '@dnd-kit/core';
 
 export default function SocialIconsSection() {
-  const { socialLinks, setSocialLinks } = useDesigner();
-  useDndMonitor({
-    onDragEnd: (event) => {
-      const { active, over } = event;
-      if (!active || !over) return;
+  const { socialLinks } = useDesigner();
 
-      setSocialLinks((items) => {
-        const oldIndex = Object.keys(items).indexOf(active.id.toString());
-        const newIndex = Object.keys(items).indexOf(over.id.toString());
-
-        return Object.fromEntries(arrayMove(Object.entries(socialLinks), oldIndex, newIndex));
-      });
-    }
-  });
   return (
     <Card className='p-4'>
       <CardTitle className='flex text-xl'>

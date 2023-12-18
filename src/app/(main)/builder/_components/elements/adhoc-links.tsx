@@ -1,28 +1,49 @@
 import { Card, CardTitle } from '@/components/ui/card';
-import React from 'react';
+import React, { useState } from 'react';
 import useDesigner from '@/hooks/use-designer';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import SocialIconDrag from './social-icon-drag';
-import { useDndMonitor } from '@dnd-kit/core';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, MoreHorizontal } from 'lucide-react';
+import AdhocLinkDrag from './adhoc-links-drag';
+import { Dialog } from '@/components/ui/dialog';
+import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
 
 export default function AdhocLinks() {
-  const { socialLinks, setSocialLinks } = useDesigner();
-  useDndMonitor({
-    onDragEnd: (event) => {}
-  });
+  const { adhocLinks } = useDesigner();
+  const [open, setOpen] = useState(false);
+
   return (
     <div className='pt-4'>
-      <span className='text-xs font-semibold bg-black text-white px-4 p-2 rounded-full'>
+      <span
+        onClick={() => {
+          setOpen(true);
+        }}
+        className='text-xs font-semibold bg-black text-white px-4 p-2 rounded-full hover:cursor-pointer'
+      >
         Add New Links
       </span>
-      <div className='flex items-center gap-1 mt-4'>
-        <GripVertical size={20} />
-        <Card className=' w-full py-2 px-5'>
-          <div className='text-sm font-medium leading-6'>Hello Usefuile Link</div>
-          <div className='text-xs leading-5'>Hello Usefuile Link</div>
-        </Card>
+      <div className='flex justify-between text-xs text-slate-600 pl-8 mt-5	items-center'>
+        <div className='flex'>
+          Drag
+          <span>
+            <GripVertical size={16} />
+          </span>
+          to sort
+        </div>
+        <div className='flex'>
+          Tap
+          <span className='px-1'>
+            <MoreHorizontal size={16} />
+          </span>
+          to edit
+        </div>
       </div>
+      <SortableContext strategy={verticalListSortingStrategy} id='adhoc-links' items={adhocLinks}>
+        {adhocLinks.map((link, value) => (
+          <AdhocLinkDrag data={link} key={link.id} />
+        ))}
+      </SortableContext>
+      <AdhocLinksDialog open={open} setOpen={setOpen} />
     </div>
   );
 }

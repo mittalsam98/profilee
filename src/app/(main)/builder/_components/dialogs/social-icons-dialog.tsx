@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import useDesigner from '@/hooks/use-designer';
 
+// Dialog for edit and add social link
 export default function SocialLinkDialog({
   children,
   name,
@@ -35,36 +36,32 @@ export default function SocialLinkDialog({
           <DialogTitle>Add {name} link</DialogTitle>
         </DialogHeader>
 
-        <form
-          className='space-y-4'
-          onSubmit={(e) => {
-            setSocialLinks((prevState) => {
-              return { ...prevState, [name]: input };
-            });
-          }}
-        >
-          <Input
-            type='url'
-            placeholder='Enter link'
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
+        <Input
+          type='url'
+          placeholder='Enter link'
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
 
-          <div className='flex gap-x-4'>
-            <Button type='submit' disabled={!input} className='w-full'>
-              Add
-            </Button>
+        <div className='flex gap-x-4'>
+          <Button
+            type='button'
+            onClick={() => {
+              setSocialLinks((prevState) => {
+                return { ...prevState, [name]: input };
+              });
+              setOpen(false);
+            }}
+            disabled={!input}
+            className='w-full'
+          >
+            Add
+          </Button>
 
-            <Button
-              type='button'
-              variant='outline'
-              onClick={() => setOpen(false)}
-              className='w-full'
-            >
-              Close
-            </Button>
-          </div>
-        </form>
+          <Button type='button' variant='outline' onClick={() => setOpen(false)} className='w-full'>
+            Close
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
