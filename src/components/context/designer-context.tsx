@@ -22,25 +22,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [profileImg, setProfileImg] = useState<string>('');
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
-  const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([
-    {
-      name: 'ssd',
-      link: 'adfas',
-      id: 'adfadds',
-      isActive: true
-    },
-    {
-      name: 'tstee',
-      link: 'tstee',
-      id: 'tstee',
-      isActive: false
-    }
-  ]);
-  const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({
-    Twitter: 'http://localhost:3000/builder',
-    Instagram: 'http://localhost:3000/builder',
-    Facebook: 'http://localhost:3000/builder'
-  });
+  const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
+  const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
 
   return (
     <DesignerContext.Provider

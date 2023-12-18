@@ -52,7 +52,7 @@ export default function DragOverlayWrapper() {
   if (draggedContainerID === 'social-icon') {
     const socialMediaName = draggedItem?.id.toString() || '';
     node = (
-      <div className={`${overDraggedParent ? '' : 'border bg-red-500'}`}>
+      <div className={`${overDraggedParent ? '' : ' bg-red-500'}`}>
         <SocialIconDrag data={socialMediaName} />
       </div>
     );

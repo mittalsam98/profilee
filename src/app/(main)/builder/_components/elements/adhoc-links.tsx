@@ -10,40 +10,44 @@ import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
 
 export default function AdhocLinks() {
   const { adhocLinks } = useDesigner();
-  const [open, setOpen] = useState(false);
+  const [open, setAdhocLinkDialogOpen] = useState(false);
 
   return (
-    <div className='pt-4'>
+    <div className='mt-8'>
       <span
         onClick={() => {
-          setOpen(true);
+          setAdhocLinkDialogOpen(true);
         }}
-        className='text-xs font-semibold bg-black text-white px-4 p-2 rounded-full hover:cursor-pointer'
+        className='text-xs font-semibold bg-black text-white px-4 py-2 rounded-full hover:cursor-pointer'
       >
         Add New Links
       </span>
-      <div className='flex justify-between text-xs text-slate-600 pl-8 mt-5	items-center'>
-        <div className='flex'>
-          Drag
-          <span>
-            <GripVertical size={16} />
-          </span>
-          to sort
-        </div>
-        <div className='flex'>
-          Tap
-          <span className='px-1'>
-            <MoreHorizontal size={16} />
-          </span>
-          to edit
-        </div>
-      </div>
+      {adhocLinks.length > 0 && (
+        <>
+          <div className='flex justify-between text-xs text-slate-600 pl-8 mt-5	items-center'>
+            <div className='flex'>
+              Drag
+              <span>
+                <GripVertical size={16} />
+              </span>
+              to sort
+            </div>
+            <div className='flex'>
+              Tap
+              <span className='px-1'>
+                <MoreHorizontal size={16} />
+              </span>
+              to edit
+            </div>
+          </div>
+        </>
+      )}
       <SortableContext strategy={verticalListSortingStrategy} id='adhoc-links' items={adhocLinks}>
-        {adhocLinks.map((link, value) => (
+        {adhocLinks.map((link) => (
           <AdhocLinkDrag data={link} key={link.id} />
         ))}
       </SortableContext>
-      <AdhocLinksDialog open={open} setOpen={setOpen} />
+      {open && <AdhocLinksDialog open={open} setOpen={setAdhocLinkDialogOpen} />}
     </div>
   );
 }

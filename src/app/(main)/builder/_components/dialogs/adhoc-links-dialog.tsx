@@ -34,7 +34,10 @@ export default function AdhocLinksDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add link</DialogTitle>
+          <DialogTitle>
+            {data ? 'Edit ' : 'Add '}
+            link
+          </DialogTitle>
         </DialogHeader>
 
         <Input

@@ -1,3 +1,4 @@
+import { ourFileRouter } from '@/server/uploadthing';
 import { createNextRouteHandler } from 'uploadthing/next';
 
 // Export routes for Next App Router

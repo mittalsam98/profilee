@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,11 +17,13 @@ import useDesigner from '@/hooks/use-designer';
 export default function SocialLinkDialog({
   children,
   name,
-  value
+  value,
+  triggerPopover
 }: {
   name: string;
   value?: string;
   children: React.ReactNode;
+  triggerPopover?: Dispatch<SetStateAction<boolean>>;
 }) {
   const { setSocialLinks } = useDesigner();
   const [open, setOpen] = useState(false);
@@ -33,7 +35,9 @@ export default function SocialLinkDialog({
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add {name} link</DialogTitle>
+          <DialogTitle>
+            {value ? 'Edit' : 'Add'} {name} link
+          </DialogTitle>
         </DialogHeader>
 
         <Input
@@ -51,11 +55,12 @@ export default function SocialLinkDialog({
                 return { ...prevState, [name]: input };
               });
               setOpen(false);
+              if (triggerPopover) triggerPopover(false);
             }}
             disabled={!input}
             className='w-full'
           >
-            Add
+            {value ? 'Edit' : 'Add'}
           </Button>
 
           <Button type='button' variant='outline' onClick={() => setOpen(false)} className='w-full'>
