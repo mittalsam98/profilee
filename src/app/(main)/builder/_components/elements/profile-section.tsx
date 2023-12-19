@@ -23,7 +23,7 @@ export default function ProfileSection() {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
         const imageUrl = URL.createObjectURL(selectedFile);
-        setProfileImg(imageUrl);
+        setProfileImg(selectedFile);
       }
     }
   };
@@ -47,8 +47,8 @@ export default function ProfileSection() {
           {profileImg ? (
             <>
               <Image
-                key={profileImg}
-                src={profileImg}
+                key={URL.createObjectURL(profileImg)}
+                src={URL.createObjectURL(profileImg)}
                 alt='Profile link image'
                 width={150}
                 height={150}

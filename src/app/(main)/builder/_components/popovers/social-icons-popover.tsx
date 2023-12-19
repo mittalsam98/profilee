@@ -20,11 +20,7 @@ export default function SocialIconsPopover() {
           {Object.keys(socialMediaDataByName)
             .filter((data) => !socialLinks[data])
             .map((data) => {
-              return (
-                <span>
-                  <SocialIcon data={data} key={data} triggerPopover={setOpen} />
-                </span>
-              );
+              return <SocialIcon data={data} key={data} triggerPopover={setOpen} />;
             })}
         </div>
       </PopoverContent>

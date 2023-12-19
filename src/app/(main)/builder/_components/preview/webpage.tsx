@@ -15,8 +15,8 @@ export default function Webpage() {
     <div className='flex flex-col items-center'>
       {profileImg && (
         <Image
-          key={profileImg}
-          src={profileImg}
+          key={URL.createObjectURL(profileImg)}
+          src={URL.createObjectURL(profileImg)}
           alt='Profile pic'
           width={150}
           height={150}
