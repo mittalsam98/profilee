@@ -1,13 +1,11 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-import GithubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth';
+import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { env } from "@/env.mjs";
-import { db } from "@/server/db";
+import { env } from '@/env.mjs';
+import { db } from '@/server/db';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -15,13 +13,13 @@ import { db } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -37,30 +35,47 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
-      },
+        id: token.id
+      }
     }),
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    }
   },
   adapter: PrismaAdapter(db),
   providers: [
-    GithubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        password: { label: 'Password', type: 'password' }
+      },
+      async authorize(credentials, req) {
+        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' };
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      }
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
+    // GithubProvider({
+    //   clientId: env.GITHUB_CLIENT_ID,
+    //   clientSecret: env.GITHUB_CLIENT_SECRET
+    // }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET
+    })
   ],
+  session: { strategy: 'jwt' }
 };
 
 /**

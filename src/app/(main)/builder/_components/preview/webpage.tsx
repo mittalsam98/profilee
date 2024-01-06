@@ -9,7 +9,6 @@ import { Card } from '@/components/ui/card';
 
 export default function Webpage() {
   const { profileImg, title, bio, socialLinks, adhocLinks } = useDesigner();
-  console.log(profileImg);
 
   return (
     <div className='flex flex-col items-center'>
