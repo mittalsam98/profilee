@@ -42,22 +42,30 @@ model Session {
 }
 
 model User {
-    id            String       @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String
-    email         String       @unique
+    email         String        @unique
     emailVerified DateTime?
-    plan          Plan         @default(FREE)
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
+    plan          Plan          @default(FREE)
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
     image         String?
     accounts      Account[]
     sessions      Session[]
     socialLink    SocialLink[]
     adhocLink     AdhocLink[]
+    UserProfile   UserProfile[]
+}
+
+model UserProfile {
+    id     String  @id @default(uuid())
+    bio    String?
+    title  String
+    User   User    @relation(fields: [userId], references: [id])
+    userId String
 }
 
 model SocialLink {
-    bio       String?
     id        String   @id @default(uuid())
     link      String
     name      String
