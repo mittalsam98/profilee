@@ -33,25 +33,17 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
     id            String        @id @default(cuid())
     name          String
     email         String        @unique
     emailVerified DateTime?
-    plan          Plan          @default(FREE)
+    password      String?
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
     image         String?
+    plan          Plan          @default(FREE)
     accounts      Account[]
-    sessions      Session[]
     socialLink    SocialLink[]
     adhocLink     AdhocLink[]
     UserProfile   UserProfile[]

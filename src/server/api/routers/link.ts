@@ -3,7 +3,7 @@ import { UpdateLinkSchema } from '../schemas/links';
 import { z } from 'zod';
 
 export const linkRouter = createTRPCRouter({
-  updateProfile: protectedProcedure.input(UpdateLinkSchema).mutation(async ({ input }) => {
+  updateProfile: publicProcedure.input(UpdateLinkSchema).mutation(async ({ input }) => {
     console.log(input, 'sas');
     return;
   }),
