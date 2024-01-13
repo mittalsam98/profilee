@@ -34,27 +34,27 @@ model Account {
 }
 
 model User {
-    id            String        @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String
-    email         String        @unique
+    email         String       @unique
     emailVerified DateTime?
     password      String?
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @updatedAt
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
     image         String?
-    plan          Plan          @default(FREE)
+    plan          Plan         @default(FREE)
     accounts      Account[]
+    userProfile   UserProfile?
     socialLink    SocialLink[]
     adhocLink     AdhocLink[]
-    UserProfile   UserProfile[]
 }
 
 model UserProfile {
     id     String  @id @default(uuid())
     bio    String?
     title  String
-    User   User    @relation(fields: [userId], references: [id])
-    userId String
+    user   User    @relation(fields: [userId], references: [id])
+    userId String  @unique
 }
 
 model SocialLink {
@@ -63,7 +63,7 @@ model SocialLink {
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    User      User     @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
     userId    String
 }
 
@@ -74,7 +74,7 @@ model AdhocLink {
     isActive  Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    User      User     @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
     userId    String
 }
 
