@@ -18,7 +18,11 @@ export const getUser = async ({
     where: {
       id: session?.user.id
     },
-    include: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
       userProfile: includeUserProfile,
       socialLink: includeSocialLink,
       adhocLink: includeAdhocLink
