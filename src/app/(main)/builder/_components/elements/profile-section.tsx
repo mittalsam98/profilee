@@ -1,24 +1,69 @@
 import { Card } from '@/components/ui/card';
-import { InputHTMLAttributes, useRef, useState, useContext } from 'react';
-import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import useDesigner from '@/hooks/use-designer';
+import { cn } from '@/lib/utils';
+import { api } from '@/trpc/react';
 import Image from 'next/image';
-import { AiOutlineYoutube } from 'react-icons/ai';
+import { useEffect, useRef, useState, useTransition } from 'react';
+import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
 
 export default function ProfileSection() {
-  const { setBio, setTitle, setProfileImg, profileImg } = useDesigner();
-
+  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsLoading } = useDesigner();
+  const [isSaving, startProfileSaving] = useTransition();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const handleDivClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  const trpcContext = api.useUtils();
+
+  // API calls
+  const { data, isLoading: loadingProfile, refetch } = api.userProfile.getUserProfile.useQuery();
+
+  const { isLoading: savingProfile, mutateAsync: updateProfile } =
+    api.userProfile.updateUserProfile.useMutation({
+      onSuccess: (res) => {
+        console.log('🚀 ~ ProfileSection  onSuccess~ res:', res);
+      },
+      onMutate: (res) => {
+        console.log('🚀 ~ ProfileSection  onMutate~ res:', res);
+      },
+      onError: (res, newTodo, context) => {
+        refetch();
+        trpcContext.userProfile.getUserProfile.invalidate();
+        console.log('🚀 ~ ProfileSection onError ~ res:', res, newTodo, context);
+      }
+    });
+
+  useEffect(() => {
+    console.log('======= data ===', data);
+    if (data && data.userProfile) {
+      setTitle(data.userProfile.title || '');
+      setBio(data.userProfile.bio || '');
     }
+  }, [data]);
+
+  useEffect(() => {
+    setIsLoading(savingProfile || loadingProfile);
+  }, [savingProfile, loadingProfile]);
+
+  const save = ({ title, bio }: { title: string; bio?: string }) => {
+    startProfileSaving(async () => {
+      updateProfile({
+        title,
+        bio
+      });
+    });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    if (id === 'profile') {
+      setTitle(value);
+      void save({ title: value, bio });
+    } else if (id === 'bio') {
+      setBio(value);
+      void save({ title, bio: value });
+    }
+  };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
@@ -29,12 +74,13 @@ export default function ProfileSection() {
   };
   return (
     <Card className='my-2'>
-      <div className={'flex flex-row items-center gap-x-6 p-4'}>
+      <div className='text-right mx-4 mt-2 text-teal-600'>Saved</div>
+      <div className={'flex flex-row items-center gap-x-6 px-4 pb-4'}>
         <Input
           ref={fileInputRef}
           id='file-upload'
           type='file'
-          onChange={handleChange}
+          onChange={handleFileChange}
           className='file:bg-blue-50 file:text-blue-700 hidden hover:file:bg-blue-100'
         />
         <div
@@ -42,7 +88,11 @@ export default function ProfileSection() {
             'flex h-[120px] w-[120px] flex-col items-center justify-center gap-y-1 rounded-full border border-border ',
             'hover:cursor-pointer bg-background/50 overflow-hidden border-dashed relative'
           )}
-          onClick={handleDivClick}
+          onClick={() => {
+            if (fileInputRef.current) {
+              fileInputRef.current.click();
+            }
+          }}
         >
           {profileImg ? (
             <>
@@ -67,11 +117,11 @@ export default function ProfileSection() {
         </div>
         <div>
           <Label htmlFor='profile'>Title</Label>
-          <Input id='profile' onChange={(e) => setTitle(e.target.value)} />
+          <Input id='profile' value={title} onChange={handleInputChanged} />
         </div>
         <div>
           <Label htmlFor='bio'>Bio</Label>
-          <Input id='bio' onChange={(e) => setBio(e.target.value)} />
+          <Input id='bio' value={bio} onChange={handleInputChanged} />
         </div>
       </div>
     </Card>
