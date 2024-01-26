@@ -2,7 +2,14 @@
 
 import { api } from '@/trpc/react';
 import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
-import { Dispatch, useState, createContext, SetStateAction, PropsWithChildren } from 'react';
+import {
+  Dispatch,
+  useState,
+  createContext,
+  SetStateAction,
+  PropsWithChildren,
+  useEffect
+} from 'react';
 
 type DesignerContextProps = {
   profileImg: File | null;
@@ -28,6 +35,31 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [loading, setIsLoading] = useState(false);
   const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
+
+  const { data, isLoading: loadingProfile } = api.userProfile.getUserCompleteProfile.useQuery();
+
+  useEffect(() => {
+    console.log('🚀 ~ DesignerContextProvider ~ data:', data);
+    if (
+      data &&
+      data.userProfile &&
+      data.socialLink &&
+      data.socialLink.data &&
+      data.adhocLink &&
+      data.adhocLink
+    ) {
+      setTitle(data.userProfile.title || '');
+      setBio(data.userProfile.bio || '');
+      setSocialLinks(data.socialLink.data as {});
+      setAdhocLinks(data.adhocLink);
+    }
+  }, [data]);
+
+  console.log(adhocLinks);
+
+  useEffect(() => {
+    setIsLoading(loadingProfile);
+  }, [loadingProfile]);
 
   return (
     <DesignerContext.Provider

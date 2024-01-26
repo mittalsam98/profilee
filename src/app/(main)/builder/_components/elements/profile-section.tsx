@@ -9,13 +9,14 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
 
 export default function ProfileSection() {
-  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsLoading } = useDesigner();
+  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsLoading, loading } =
+    useDesigner();
   const [isSaving, startProfileSaving] = useTransition();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const trpcContext = api.useUtils();
 
   // API calls
-  const { data, isLoading: loadingProfile, refetch } = api.userProfile.getUserProfile.useQuery();
+  // const { data, isLoading: loadingProfile, refetch } = api.userProfile.getUserProfile.useQuery();
 
   const { isLoading: savingProfile, mutateAsync: updateProfile } =
     api.userProfile.updateUserProfile.useMutation({
@@ -26,23 +27,23 @@ export default function ProfileSection() {
         console.log('🚀 ~ ProfileSection  onMutate~ res:', res);
       },
       onError: (res, newTodo, context) => {
-        refetch();
+        // refetch();
         trpcContext.userProfile.getUserProfile.invalidate();
-        console.log('🚀 ~ ProfileSection onError ~ res:', res, newTodo, context);
+        console.log('🚀 ~ ProfileSection onError ~ res:', res);
       }
     });
 
-  useEffect(() => {
-    console.log('======= data ===', data);
-    if (data && data.userProfile) {
-      setTitle(data.userProfile.title || '');
-      setBio(data.userProfile.bio || '');
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   console.log('======= Profile Section client ===', data);
+  //   if (data && data.userProfile) {
+  //     setTitle(data.userProfile.title || '');
+  //     setBio(data.userProfile.bio || '');
+  //   }
+  // }, [data]);
 
   useEffect(() => {
-    setIsLoading(savingProfile || loadingProfile);
-  }, [savingProfile, loadingProfile]);
+    setIsLoading(savingProfile);
+  }, [savingProfile]);
 
   const save = ({ title, bio }: { title: string; bio?: string }) => {
     startProfileSaving(async () => {
@@ -56,11 +57,12 @@ export default function ProfileSection() {
   const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     if (id === 'profile') {
-      setTitle(value);
       void save({ title: value, bio });
+      console.log(isSaving);
+      if (!isSaving) setTitle(value);
     } else if (id === 'bio') {
-      setBio(value);
       void save({ title, bio: value });
+      if (!isSaving) setTitle(value);
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +76,7 @@ export default function ProfileSection() {
   };
   return (
     <Card className='my-2'>
-      <div className='text-right mx-4 mt-2 text-teal-600'>Saved</div>
+      {<div className='text-right mx-4 mt-2 text-teal-600'>{loading ? 'Saving...' : 'Saved'}</div>}
       <div className={'flex flex-row items-center gap-x-6 px-4 pb-4'}>
         <Input
           ref={fileInputRef}

@@ -28,5 +28,14 @@ export const userProfileRouter = createTRPCRouter({
   getUserProfile: protectedProcedure.query(async ({ ctx }) => {
     const user = await getUser({ ctx: ctx, includeUserProfile: true });
     return user;
+  }),
+  getUserCompleteProfile: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUser({
+      ctx: ctx,
+      includeUserProfile: true,
+      includeAdhocLink: true,
+      includeSocialLink: true
+    });
+    return user;
   })
 });
