@@ -8,7 +8,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { api } from '@/trpc/react';
 
 export default function Navbar() {
-  const { profileImg } = useDesigner();
+  const { profileImg, socialLinks, adhocLinks } = useDesigner();
 
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
     onClientUploadComplete: () => {
@@ -24,18 +24,21 @@ export default function Navbar() {
   });
 
   const { data: sessionData } = useSession();
+  const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
+  const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation();
+  // const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
+  // const { isLoading, mutateAsync: updateProfile } = api.link.updateProfile.useMutation({
+  //   onSuccess: () => {
+  //     console.log('Hello there');
 
-  const { isLoading, mutateAsync: updateProfile } = api.link.updateProfile.useMutation({
-    onMutate: () => {
-      return '🍪';
-    },
-    onError: (error, variables, context) => {
-      console.log(error);
-      return 'dd🍪';
-    }
-  });
-  const { data: cook } = api.link.getCookie.useQuery('ss');
-  console.log(cook);
+  //     return '🍪';
+  //   },
+  //   onError: (error, variables, context) => {
+  //     console.log('🚀 ~ Navbar ~ error:', error);
+  //     return 'Error cookie 🍪';
+  //   }
+  // });
+
   return (
     <>
       <div className='flex gap-x-12'>
@@ -49,12 +52,15 @@ export default function Navbar() {
               const files = [profileImg];
               startUpload(files);
             }
-            await updateProfile({
-              title: 'saf',
-              bio: 'title',
-              id: '333'
-            });
-            console.group('after API call');
+
+            updateSocialLink(socialLinks);
+            updateAdhocLinks(adhocLinks);
+
+            // await updateProfile({
+            //   title: 'saf',
+            //   bio: 'title',
+            //   id: '333'
+            // });
 
             // fetch(profileImg)
             //   .then((response) => response.blob())
