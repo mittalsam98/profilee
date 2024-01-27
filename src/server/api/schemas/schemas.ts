@@ -15,6 +15,7 @@ export const AdhocLinkSchema = z
       invalid_type_error: 'Title must be a string'
     }),
     link: z.string(),
+    id: z.string(),
     isActive: z.boolean()
   })
   .array();
