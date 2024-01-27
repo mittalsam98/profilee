@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { Context } from '@/server/api/trpc';
 import { db } from '@/server/db';
 
@@ -29,7 +30,7 @@ export const getUser = async ({
     }
   });
 
-  if (!user) throw new Error('User not found');
+  if (!user) throw new TRPCError({ message: 'User not found', code: 'NOT_FOUND' });
 
   return user;
 };

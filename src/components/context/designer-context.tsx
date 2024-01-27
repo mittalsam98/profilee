@@ -1,5 +1,6 @@
 'use client';
 
+import Error from '@/components/error';
 import { api } from '@/trpc/react';
 import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
 import {
@@ -32,34 +33,36 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
   const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
 
-  const { data, isLoading: loadingProfile } = api.userProfile.getUserCompleteProfile.useQuery();
+  const {
+    data,
+    isLoading: loadingProfile,
+    isFetching: fetchingProfile,
+    isError,
+    error
+  } = api.userProfile.getUserCompleteProfile.useQuery();
 
   useEffect(() => {
-    console.log('🚀 ~ DesignerContextProvider ~ data:', data);
-    if (
-      data &&
-      data.userProfile &&
-      data.socialLink &&
-      data.socialLink.data &&
-      data.adhocLink &&
-      data.adhocLink
-    ) {
+    if (data && data.userProfile) {
       setTitle(data.userProfile.title || '');
       setBio(data.userProfile.bio || '');
-      setSocialLinks(data.socialLink.data as {});
-      setAdhocLinks(data.adhocLink);
+    }
+    if (data && data.socialLink && data.socialLink.data) {
+      setSocialLinks(data.socialLink.data as SocialMediaDataContext);
+    }
+    if (data && data.adhocLink && data.adhocLink.data) {
+      setAdhocLinks(data.adhocLink.data as AdhocLinks[]);
     }
   }, [data]);
 
-  console.log(adhocLinks);
-
   useEffect(() => {
-    setIsLoading(loadingProfile);
-  }, [loadingProfile]);
+    setIsLoading(loadingProfile || fetchingProfile);
+  }, [loadingProfile, fetchingProfile]);
+
+  if (isError) return <Error error={error?.message} />;
 
   return (
     <DesignerContext.Provider
