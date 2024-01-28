@@ -6,6 +6,7 @@ import { preview } from '@/types/types';
 import { cn } from '@/lib/utils';
 import Webpage from './webpage';
 import useDesigner from '@/hooks/use-designer';
+import Skeleton from 'react-loading-skeleton';
 
 export default function Preview() {
   const [previewMode, setPreviewMode] = useState<preview>('mobile');
@@ -42,32 +43,13 @@ export default function Preview() {
           {previewMode === 'mobile' && (
             <div className='relative h-[90%] max-h-[40rem] w-80 overflow-hidden rounded-[3rem] border-8 border-slate-500 bg-slate-400'>
               <div className='absolute left-1/2 right-1/2 top-2 z-20 h-4 w-1/3 -translate-x-1/2 transform rounded-md bg-slate-500'></div>
-              {loading && (
-                <div className='absolute z-20 h-full w-full text-white opacity-30 rounded-md bg-black flex items-center justify-center'>
-                  <div className='animate-spin inline-block'>
-                    <span className='opacity-100 text-3xl'>🌀</span>
-                  </div>
-                </div>
-              )}
 
-              <div className='absolute top-0 z-10 flex h-full w-full flex-grow flex-col overflow-y-auto'>
-                <div className='flex w-full flex-grow flex-col items-center  bg-white py-6'>
-                  <div className='w-full max-w-md px-4'>
-                    <Webpage />
-                  </div>
-                </div>
-              </div>
+              <ViewWrapper loading={loading} mode={previewMode} />
             </div>
           )}
           {previewMode === 'desktop' && (
             <div className='relative h-[70%] w-full overflow-hidden rounded-[2rem] border-8 border-slate-500 bg-slate-400'>
-              <div className='absolute top-0 z-10 flex h-full w-full flex-grow flex-col overflow-y-auto'>
-                <div className='flex w-full flex-grow flex-col items-center  bg-white py-6'>
-                  <div className='w-full max-w-md px-4'>
-                    <Webpage />
-                  </div>
-                </div>
-              </div>
+              <ViewWrapper loading={loading} mode={previewMode} />
             </div>
           )}
         </div>
@@ -75,3 +57,28 @@ export default function Preview() {
     </div>
   );
 }
+
+const ViewWrapper = ({ loading, mode }: { loading: boolean; mode: string }) => {
+  if (loading) {
+    return (
+      <>
+        <div className='absolute z-20 h-full w-full flex items-center justify-center'>
+          <div className='animate-spin'>
+            <span className='text-3xl'>🌀</span>
+          </div>
+        </div>
+        <Skeleton className='h-full' />
+      </>
+    );
+  }
+
+  return (
+    <div className='absolute top-0 z-10 flex h-full w-full flex-grow flex-col overflow-y-auto'>
+      <div className='flex w-full flex-grow flex-col items-center  bg-white py-6'>
+        <div className='w-full max-w-md px-4'>
+          <Webpage />
+        </div>
+      </div>
+    </div>
+  );
+};
