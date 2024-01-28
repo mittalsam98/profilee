@@ -1,23 +1,35 @@
-import { Card, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import React, { useState } from 'react';
 import useDesigner from '@/hooks/use-designer';
-import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
-import { useDndMonitor } from '@dnd-kit/core';
-import { Edit2, EyeIcon, EyeOffIcon, GripVertical, MoreHorizontal, Trash2Icon } from 'lucide-react';
+import { useSortable } from '@dnd-kit/sortable';
+import { EyeIcon, EyeOffIcon, GripVertical, MoreHorizontal, Trash2Icon } from 'lucide-react';
 import { CSS } from '@dnd-kit/utilities';
 import { AdhocLinks } from '@/types/types';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
 
-export default function AdhocLinkDrag({ data }: { data: AdhocLinks }) {
+export default function AdhocLinkDrag({
+  data,
+  outOfOverlay
+}: {
+  data: AdhocLinks;
+  outOfOverlay?: boolean;
+}) {
   const { setAdhocLinks } = useDesigner();
   const [open, setOpen] = useState(false);
 
-  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } =
-    useSortable({
-      id: data.id
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+    over
+  } = useSortable({
+    id: data.id
+  });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition
@@ -60,12 +72,26 @@ export default function AdhocLinkDrag({ data }: { data: AdhocLinks }) {
       ref={setNodeRef}
       {...attributes}
       style={style}
-      className='relative flex items-center gap-1 mt-2'
+      className={cn(
+        'relative flex items-center gap-1 mt-2',
+        isDragging && over ? 'opacity-20' : ''
+      )}
     >
-      <span {...listeners} ref={setActivatorNodeRef}>
+      <span
+        {...listeners}
+        ref={setActivatorNodeRef}
+        className={cn('hover:cursor-all-scroll', outOfOverlay ? 'hover:cursor-not-allowed' : '')}
+      >
         <GripVertical size={20} />
       </span>
-      <Card className={cn('w-full py-2 px-5', !data.isActive ? 'opacity-40' : '')}>
+      <Card
+        className={cn(
+          'w-full py-2 px-5',
+          !data.isActive ? 'opacity-40' : '',
+          outOfOverlay ? 'bg-red-300 opacity-100' : '',
+          isDragging ? 'border border-gray-500 shadow-lg' : ''
+        )}
+      >
         <div className='flex flex-row justify-between	items-center'>
           <div>
             <div className='text-sm font-medium leading-6'>{data.name}</div>

@@ -1,6 +1,6 @@
 import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
 import React, { useState } from 'react';
-import { SidebarBtnElementDragOverlay } from './sidebar-btn-elements';
+// import { SidebarBtnElementDragOverlay } from './sidebar-btn-elements';
 import { ElementsType, PageElements } from './page-elements';
 import { Trash } from 'lucide-react';
 import useDesigner from '@/hooks/use-designer';
@@ -16,15 +16,12 @@ export default function DragOverlayWrapper() {
 
   useDndMonitor({
     onDragStart: (event) => {
-      // console.log(event);
-
       setDraggedItem(event.active);
     },
     onDragCancel: (event) => {
       setDraggedItem(null);
     },
     onDragOver: (event) => {
-      // console.log(event);
       setOverDraggedParent(!!event.over);
     },
     onDragEnd: (event) => {
@@ -51,11 +48,7 @@ export default function DragOverlayWrapper() {
 
   if (draggedContainerID === 'social-icon') {
     const socialMediaName = draggedItem?.id.toString() || '';
-    node = (
-      <div className={`${overDraggedParent ? '' : ' bg-red-500'}`}>
-        <SocialIconDrag data={socialMediaName} />
-      </div>
-    );
+    node = <SocialIconDrag data={socialMediaName} outOfOverlay={!overDraggedParent} />;
   } else if (draggedContainerID === 'adhoc-links') {
     if (draggedItem?.data?.current?.sortable.index !== undefined) {
       const draggedIndex = draggedItem.data.current.sortable.index;
@@ -63,11 +56,7 @@ export default function DragOverlayWrapper() {
 
       // Ensure adhocLinks is defined before attempting to access its elements
       if (draggedLink) {
-        node = (
-          <div className={`${overDraggedParent ? '' : 'bg-red-500'}`}>
-            <AdhocLinkDrag data={draggedLink} />
-          </div>
-        );
+        node = <AdhocLinkDrag data={draggedLink} outOfOverlay={!overDraggedParent} />;
       }
     }
   }

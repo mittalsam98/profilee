@@ -17,29 +17,12 @@ const SocialIcon = ({
   value?: string;
   triggerPopover?: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { setSocialLinks } = useDesigner();
-
   return (
     <SocialLinkDialog name={data} value={value} triggerPopover={triggerPopover}>
       <Tooltip>
         <TooltipTrigger>
           <div className='relative hover:cursor-pointer p-1'>
             {socialMediaDataByName[data]?.icon}
-            {/* {value && (
-              <div className={cn('absolute right-0 top-0 bg-white rounded-full ')}>
-                <MinusCircle
-                  onClick={() => {
-                    setSocialLinks((prevLinks) => {
-                      const linksCopy = { ...prevLinks };
-                      delete linksCopy[data];
-                      return linksCopy;
-                    });
-                  }}
-                  size={12}
-                  className='text-[#D11A2A]'
-                />
-              </div>
-            )} */}
           </div>
         </TooltipTrigger>
         <TooltipContent>{socialMediaDataByName[data]?.name}</TooltipContent>

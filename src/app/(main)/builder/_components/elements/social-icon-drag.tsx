@@ -8,28 +8,60 @@ import useDesigner from '@/hooks/use-designer';
 import { useSortable } from '@dnd-kit/sortable';
 import useHexToRGBA from '@/hooks/use-hex-to-rgba';
 import { CSS } from '@dnd-kit/utilities';
-const SocialIconDrag = ({ data, value }: { data: string; value?: string }) => {
+const SocialIconDrag = ({
+  data,
+  value,
+  outOfOverlay
+}: {
+  data: string;
+  value?: string;
+  outOfOverlay?: boolean;
+}) => {
   const { color, name, icon } = socialMediaDataByName[data]!;
   const { setSocialLinks } = useDesigner();
   const rgbaColor1 = useHexToRGBA(color!, 0.08);
   const rgbaColor2 = useHexToRGBA(color!, 0.2);
 
-  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } =
-    useSortable({
-      id: data
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+    isDragging,
+    over
+  } = useSortable({
+    id: data
+  });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition
   };
 
   return (
-    <div ref={setNodeRef} {...attributes} style={style} className='relative p-1 '>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      style={style}
+      className={cn('relative p-1 ', isDragging && over ? 'opacity-20' : '')}
+    >
       <div
-        className={`flex items-center border rounded-sm `}
-        style={{ backgroundColor: rgbaColor1, borderColor: rgbaColor2 }}
+        className={cn(
+          `flex items-center border rounded-sm `,
+          outOfOverlay ? 'border border-gray-500 bg-red-300' : '',
+          isDragging ? 'shadow-lg ring-black	' : ''
+        )}
+        style={{ backgroundColor: `${outOfOverlay ? '' : rgbaColor1}`, borderColor: rgbaColor2 }}
       >
-        <span {...listeners} ref={setActivatorNodeRef} className='p-1 hover:cursor-all-scroll	 '>
+        <span
+          {...listeners}
+          ref={setActivatorNodeRef}
+          className={cn(
+            'p-1 hover:cursor-all-scroll',
+            outOfOverlay ? 'hover:cursor-not-allowed' : ''
+          )}
+        >
           <GripVertical size={16} />
         </span>
         <SocialLinkDialog name={data} value={value}>
