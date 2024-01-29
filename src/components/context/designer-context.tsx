@@ -39,8 +39,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
 
   const {
     data,
-    isLoading: loadingProfile,
     isFetching: fetchingProfile,
+    isSuccess,
     isError,
     error
   } = api.userProfile.getUserCompleteProfile.useQuery();
@@ -56,11 +56,11 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
     if (data && data.adhocLink && data.adhocLink.data) {
       setAdhocLinks(data.adhocLink.data as AdhocLinks[]);
     }
-  }, [data]);
+  }, [isSuccess]);
 
   useEffect(() => {
-    setIsLoading(loadingProfile || fetchingProfile);
-  }, [loadingProfile, fetchingProfile]);
+    setIsLoading(fetchingProfile);
+  }, [fetchingProfile]);
 
   if (isError) return <Error error={error?.message} />;
 

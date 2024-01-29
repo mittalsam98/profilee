@@ -24,11 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang='en'>
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`h-full font-sans ${inter.variable}`}>
         <TRPCReactProvider headers={headers()}>
-          <Provider session={session}>
-            <DesignerContextProvider>{children}</DesignerContextProvider>{' '}
-          </Provider>
+          <Provider session={session}>{children}</Provider>
         </TRPCReactProvider>
       </body>
     </html>

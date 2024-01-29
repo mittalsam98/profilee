@@ -8,12 +8,12 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Admin() {
   return (
-    <DndContext>
-      <TooltipProvider>
-        <BioEditor />
-        <Preview />
-        <DragOverlayWrapper />
-      </TooltipProvider>
-    </DndContext>
+      <DndContext>
+        <TooltipProvider>
+          <BioEditor />
+          <Preview />
+          <DragOverlayWrapper />
+        </TooltipProvider>
+      </DndContext>
   );
 }

@@ -26,7 +26,6 @@ export default function Navbar() {
   const { data: sessionData } = useSession();
   const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
   const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation();
-  // const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
   // const { isLoading, mutateAsync: updateProfile } = api.link.updateProfile.useMutation({
   //   onSuccess: () => {
   //     console.log('Hello there');
@@ -53,22 +52,8 @@ export default function Navbar() {
               startUpload(files);
             }
 
-            updateSocialLink(socialLinks);
-            updateAdhocLinks(adhocLinks);
-
-            // await updateProfile({
-            //   title: 'saf',
-            //   bio: 'title',
-            //   id: '333'
-            // });
-
-            // fetch(profileImg)
-            //   .then((response) => response.blob())
-            //   .then((blob) => {
-            //     const file = new File([blob], 'Test');
-            //     // Now 'file' is the converted File object
-            //     console.log(file);
-            //   });
+            await updateSocialLink(socialLinks);
+            await updateAdhocLinks(adhocLinks);
           }}
           variant='outline'
           className='p-3'
