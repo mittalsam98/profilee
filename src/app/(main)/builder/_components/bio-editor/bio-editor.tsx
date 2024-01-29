@@ -1,5 +1,4 @@
 import React from 'react';
-import SidebarBtnElement from '../sidebar-btn-elements';
 import { PageElements } from '../page-elements';
 import SocialIconsSection from '../elements/social-icons-section';
 import ProfileSection from '../elements/profile-section';
