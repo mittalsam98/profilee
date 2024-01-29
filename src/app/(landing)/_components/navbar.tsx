@@ -7,6 +7,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import Logo from '@/components/logo';
 import { getServerAuthSession } from '@/server/auth';
 import Link from 'next/link';
+import { RiAdminFill } from 'react-icons/ri';
 
 export default async function DesktopNavbar() {
   const session = await getServerAuthSession();
@@ -23,14 +24,22 @@ export default async function DesktopNavbar() {
         <DesktopMenu />
       </div>
       <div className='flex gap-x-6'>
-        <Link
-          href={session ? '/api/auth/signout' : '/api/auth/signin'}
-          className={buttonVariants({ variant: 'outline' })}
-        >
-          {/* <Button variant='outline' className='lg:flex items-center justify-center hidden' size='lg'> */}
-          {session ? 'Logout' : 'Login'}
-          {/* </Button> */}
-        </Link>
+        <div className='flex gap-x-6 items-center'>
+          {session && (
+            <div>
+              <Link className='flex  items-center' href={'/builder'}>
+                Admin
+                <RiAdminFill />
+              </Link>
+            </div>
+          )}
+          <Link
+            href={session ? '/api/auth/signout' : '/api/auth/signin'}
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            {session ? 'Logout' : 'Login'}
+          </Link>
+        </div>
         <MobileMenuNavbar />
       </div>
     </div>

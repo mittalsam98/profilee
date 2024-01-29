@@ -34,19 +34,27 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: '/auth/login'
+  },
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.id
-      }
-    }),
     async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
       return token;
+    },
+    async session({ token, session }) {
+      // console.log('🚀 ~ session ~ token:', token);
+      // console.log('🚀 ~ session ~ session:', session);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub
+        }
+      };
     }
   },
   adapter: PrismaAdapter(db),

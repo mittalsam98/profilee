@@ -23,7 +23,7 @@ export default function DesktopMenu() {
     <nav className={'hidden items-center space-x-8 lg:flex'}>
       <NavLink href='/pricing'>Pricing</NavLink>
       <NavLink href='/blog'>Blog</NavLink>
-      <NavLink href='/builder'>Builder</NavLink>
+      {/* <NavLink href='/admin'>Admin</NavLink> */}
     </nav>
   );
 }
