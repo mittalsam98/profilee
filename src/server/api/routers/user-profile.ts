@@ -1,5 +1,5 @@
 import { Context, createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
-import { UpdateProfileSchema } from '../schemas/schemas';
+import { UpdateProfileSchema } from '../schemas';
 import { db } from '@/server/db';
 import { getUser } from '../utils/user';
 

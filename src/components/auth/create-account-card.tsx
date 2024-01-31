@@ -3,6 +3,7 @@ import * as z from 'zod';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 import { AuthPagesWrapper } from './auth-pages-wrapper';
 import { Input } from '@/components/ui/input';
@@ -17,11 +18,23 @@ import {
   FormMessage,
   FormDescription
 } from '@/components/ui/form';
+import { api } from '@/trpc/react';
+import { TRPCClientError } from '@trpc/client';
+import { Alert, AlertTitle } from '../ui/alert';
 
 export function CreateAccountCard() {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
+
+  const { isLoading, mutateAsync: createUser } = api.user.createUser.useMutation({
+    onError: (error) => {
+      if (error instanceof TRPCClientError) {
+        if (error.message) {
+          setError(error.message);
+        }
+      }
+    }
+  });
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -32,11 +45,10 @@ export function CreateAccountCard() {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
     setSuccess('');
-
-    startTransition(() => {});
+    await createUser(values);
   };
 
   return (
@@ -46,6 +58,12 @@ export function CreateAccountCard() {
       flow='signup'
     >
       <Form {...form}>
+        {error && (
+          <Alert variant='destructive'>
+            <FaExclamationTriangle />
+            <AlertTitle>{error}</AlertTitle>
+          </Alert>
+        )}
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
             <FormField
@@ -57,12 +75,14 @@ export function CreateAccountCard() {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       className='h-11'
                       placeholder='Your name'
                     />
                   </FormControl>
-                  <FormDescription>This will be your profile url.</FormDescription>
+                  <FormDescription className='italic'>
+                    This will be your unique profile url.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -76,7 +96,7 @@ export function CreateAccountCard() {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder='your.email@example.com'
                       className='h-11'
                       type='email'
@@ -95,7 +115,7 @@ export function CreateAccountCard() {
                   <FormControl>
                     <Input
                       {...field}
-                      disabled={isPending}
+                      disabled={isLoading}
                       placeholder='******'
                       className='h-11'
                       type='password'
@@ -107,7 +127,7 @@ export function CreateAccountCard() {
             />
           </div>
 
-          <Button disabled={isPending} type='submit' className='w-full'>
+          <Button disabled={isLoading} type='submit' className='w-full'>
             Create an account
           </Button>
         </form>

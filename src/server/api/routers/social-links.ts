@@ -1,7 +1,7 @@
 import { Context, createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { getUser } from '../utils/user';
-import { SocialLinkSchema } from '../schemas/schemas';
+import { SocialLinkSchema } from '../schemas';
 
 export const socialLinkRouter = createTRPCRouter({
   updateSocialLinks: protectedProcedure.input(SocialLinkSchema).mutation(async ({ input, ctx }) => {

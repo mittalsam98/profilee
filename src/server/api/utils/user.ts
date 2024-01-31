@@ -34,3 +34,34 @@ export const getUser = async ({
 
   return user;
 };
+
+export const getUserByEmail = async (email: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      email: email
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      username: true
+    }
+  });
+
+  return user;
+};
+export const getUserByUsername = async (username: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      username: username
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      username: true
+    }
+  });
+
+  return user;
+};

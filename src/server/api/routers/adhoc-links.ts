@@ -1,7 +1,7 @@
 import { Context, createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { getUser } from '../utils/user';
-import { AdhocLinkSchema } from '../schemas/schemas';
+import { AdhocLinkSchema } from '../schemas';
 import { Prisma } from '@prisma/client';
 
 export const adHocLinkRouter = createTRPCRouter({
