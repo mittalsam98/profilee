@@ -40,6 +40,7 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
               </div>
             </div>
             {children}
+            <AlternateAuthOption flow={flow} />
             <TermAndPolicy />
           </div>
         </div>
@@ -47,6 +48,20 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
     </>
   );
 }
+
+const AlternateAuthOption = ({ flow }: { flow: 'signup' | 'signin' }) => {
+  return (
+    <p className='px-8 text-center text-sm text-muted-foreground'>
+      {flow == 'signup' ? 'Already have an account? ' : "Don't have an account? "}
+      <Link
+        href={flow == 'signup' ? '/auth/login' : '/auth/register'}
+        className='underline underline-offset-4 hover:text-primary'
+      >
+        {flow == 'signup' ? 'Sign In' : 'Sign up'}
+      </Link>
+    </p>
+  );
+};
 
 const TermAndPolicy = () => {
   return (
