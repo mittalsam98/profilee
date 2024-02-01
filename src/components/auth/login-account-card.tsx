@@ -3,6 +3,7 @@ import * as z from 'zod';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 import { AuthPagesWrapper } from './auth-pages-wrapper';
 import { Input } from '@/components/ui/input';
@@ -18,7 +19,8 @@ import {
   FormMessage,
   FormDescription
 } from '@/components/ui/form';
-
+import { signIn } from 'next-auth/react';
+import { Alert, AlertTitle } from '../ui/alert';
 export default function LoginAccountCard() {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -32,14 +34,28 @@ export default function LoginAccountCard() {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError('');
     setSuccess('');
+    startTransition(async () => {
+      const response = await signIn('credentials', {
+        ...values,
+        redirect: false
+      });
 
-    startTransition(() => {});
+      if (response?.error) {
+        setError(response.error);
+      }
+    });
   };
   return (
     <AuthPagesWrapper pageTitle='Sign in to Profilee' flow='signin'>
+      {error && (
+        <Alert variant='destructive'>
+          <FaExclamationTriangle />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
@@ -84,7 +100,7 @@ export default function LoginAccountCard() {
           </div>
 
           <Button disabled={isPending} type='submit' className='w-full'>
-            Create an account
+            Sing in
           </Button>
         </form>
       </Form>

@@ -1,11 +1,14 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
+import bcrypt from 'bcrypt';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { env } from '@/env.mjs';
 import { db } from '@/server/db';
+import { TRPCError } from '@trpc/server';
+import { LoginSchema } from './api/schemas';
+import { getUserByEmail } from './api/utils/user';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -62,16 +65,40 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        email: { label: 'email', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
-        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' };
-        if (user) {
-          return user;
-        } else {
-          return null;
+        if (!credentials?.email || !credentials?.password)
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: 'Invalid Credentials.'
+          });
+
+        const validatedFields = LoginSchema.safeParse(credentials);
+
+        if (validatedFields.success) {
+          const { email, password } = validatedFields.data;
+
+          const user = await getUserByEmail(email);
+          if (!user || !user.password) {
+            throw new TRPCError({
+              code: 'NOT_FOUND',
+              message: 'User not found with this email.'
+            });
+          }
+
+          const isValidPassword = await bcrypt.compare(password, user.password);
+          if (!isValidPassword)
+            throw new TRPCError({
+              code: 'UNAUTHORIZED',
+              message: 'Invalid Password.'
+            });
+
+          if (isValidPassword) return user;
         }
+
+        return null;
       }
     }),
     // GithubProvider({

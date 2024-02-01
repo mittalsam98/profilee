@@ -39,12 +39,6 @@ export const getUserByEmail = async (email: string) => {
   const user = await db.user.findUnique({
     where: {
       email: email
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      username: true
     }
   });
 
@@ -54,12 +48,6 @@ export const getUserByUsername = async (username: string) => {
   const user = await db.user.findUnique({
     where: {
       username: username
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      username: true
     }
   });
 

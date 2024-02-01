@@ -18,7 +18,10 @@ export const userRouter = createTRPCRouter({
 
     const existingUsername = await getUserByUsername(username);
     if (existingUsername) {
-      throw new TRPCError({ message: 'Username already in use!', code: 'BAD_REQUEST' });
+      throw new TRPCError({
+        message: 'Username already in use. Please use other name!',
+        code: 'BAD_REQUEST'
+      });
     }
 
     await db.user.create({

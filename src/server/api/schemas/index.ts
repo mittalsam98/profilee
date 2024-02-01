@@ -23,9 +23,14 @@ export const AdhocLinkSchema = z
 export const SocialLinkSchema = z.record(z.string(), z.string());
 
 export const LoginSchema = z.object({
-  email: z.string().email({
-    message: 'Email is required'
-  }),
+  email: z
+    .string()
+    .min(1, {
+      message: 'Email is required'
+    })
+    .email({
+      message: 'Email is invalid'
+    }),
   password: z.string().min(1, {
     message: 'Password is required'
   })
