@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { signIn } from 'next-auth/react';
 
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
@@ -13,6 +14,9 @@ interface AuthPagesWrapper {
 }
 
 export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: AuthPagesWrapper) {
+  const onClick = async () => {
+    await signIn('google');
+  };
   return (
     <>
       <div className='flex absolute h-full w-4/6'>
@@ -27,7 +31,7 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
               <h1 className='font-semibold mb-3'>{pageTitle}</h1>
               <p className='text-sm text-muted-foreground'>{pageSubTitle}</p>
             </div>
-            <Button className='w-full rounded-2xl' variant='outline'>
+            <Button className='w-full rounded-2xl' onClick={onClick} variant='outline'>
               <FcGoogle className='mr-4 text-xl' />
               {flow === 'signin' ? 'Sign In' : 'Sign up'} with Google
             </Button>
