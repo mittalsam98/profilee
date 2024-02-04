@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { DEFAULT_LOGIN_REDIRECT, OAUTH_REDIRECT } from '@/lib/contants';
+import { DEFAULT_LOGIN_REDIRECT, OAUTH_REDIRECT } from '@/lib/constants';
 import { signIn } from 'next-auth/react';
 
 import Link from 'next/link';
