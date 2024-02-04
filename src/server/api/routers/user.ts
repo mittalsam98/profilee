@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
-import { RegisterSchema } from '../schemas';
-import { getUserByEmail, getUserByUsername } from '../utils/user';
+import { RegisterSchema, UsernameSchema } from '../schemas';
+import { getUser, getUserByEmail, getUserById, getUserByUsername } from '../utils/user';
 import { db } from '@/server/db';
 
 export const userRouter = createTRPCRouter({
@@ -33,6 +33,32 @@ export const userRouter = createTRPCRouter({
       }
     });
 
-    return { success: 'User created successfully ' };
+    return { success: true, message: 'User created successfully ' };
+  }),
+  createUsername: protectedProcedure.input(UsernameSchema).mutation(async ({ input, ctx }) => {
+    const { username } = input;
+    const { session } = ctx;
+
+    const existingUsername = await getUserByUsername(username);
+
+    if (existingUsername?.id === session.user.id) {
+      throw new TRPCError({
+        message: "Current username and new username can't be same",
+        code: 'BAD_REQUEST'
+      });
+    }
+    if (existingUsername) {
+      throw new TRPCError({
+        message: 'Username already in use. Please use other name!',
+        code: 'BAD_REQUEST'
+      });
+    }
+
+    const user = await getUserById(session.user.id);
+    if (!user) throw new TRPCError({ message: 'User not found', code: 'NOT_FOUND' });
+
+    await db.user.update({ where: { id: user.id }, data: { username: username } });
+
+    return { success: true, message: 'Username added successfully' };
   })
 });

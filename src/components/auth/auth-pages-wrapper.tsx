@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { DEFAULT_LOGIN_REDIRECT, OAUTH_REDIRECT } from '@/lib/contants';
 import { signIn } from 'next-auth/react';
 
 import Link from 'next/link';
@@ -9,13 +10,16 @@ import { FcGoogle } from 'react-icons/fc';
 interface AuthPagesWrapper {
   children: React.ReactNode;
   pageTitle: string;
-  flow: 'signup' | 'signin';
+  flow: 'signup' | 'signin' | 'newuser';
   pageSubTitle?: string;
 }
 
 export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: AuthPagesWrapper) {
   const onClick = async () => {
-    await signIn('google');
+    const res = await signIn('google', {
+      callbackUrl: OAUTH_REDIRECT
+    });
+    console.log(res);
   };
   return (
     <>
@@ -31,21 +35,31 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
               <h1 className='font-semibold mb-3'>{pageTitle}</h1>
               <p className='text-sm text-muted-foreground'>{pageSubTitle}</p>
             </div>
-            <Button className='w-full rounded-2xl' onClick={onClick} variant='outline'>
-              <FcGoogle className='mr-4 text-xl' />
-              {flow === 'signin' ? 'Sign In' : 'Sign up'} with Google
-            </Button>
-            <div className='relative'>
-              <div className='absolute inset-0 flex items-center'>
-                <span className='w-full border-t' />
-              </div>
-              <div className='relative flex justify-center text-xs uppercase'>
-                <span className='bg-background px-2 text-muted-foreground'>Or continue with</span>
-              </div>
-            </div>
+            {flow !== 'newuser' && (
+              <>
+                <Button className='w-full rounded-2xl' onClick={onClick} variant='outline'>
+                  <FcGoogle className='mr-4 text-xl' />
+                  {flow === 'signin' ? 'Sign In' : 'Sign up'} with Google
+                </Button>
+                <div className='relative'>
+                  <div className='absolute inset-0 flex items-center'>
+                    <span className='w-full border-t' />
+                  </div>
+                  <div className='relative flex justify-center text-xs uppercase'>
+                    <span className='bg-background px-2 text-muted-foreground'>
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
             {children}
-            <AlternateAuthOption flow={flow} />
-            <TermAndPolicy />
+            {flow !== 'newuser' && (
+              <>
+                <AlternateAuthOption flow={flow} />
+                <TermAndPolicy />
+              </>
+            )}
           </div>
         </div>
       </div>

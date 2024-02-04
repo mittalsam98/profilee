@@ -24,6 +24,7 @@ export const getUser = async ({
       name: true,
       email: true,
       image: true,
+      username: true,
       userProfile: includeUserProfile,
       socialLink: includeSocialLink,
       adhocLink: includeAdhocLink
@@ -39,6 +40,16 @@ export const getUserByEmail = async (email: string) => {
   const user = await db.user.findUnique({
     where: {
       email: email
+    }
+  });
+
+  return user;
+};
+
+export const getUserById = async (id: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      id: id
     }
   });
 
