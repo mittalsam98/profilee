@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
-import { AuthPagesWrapper } from './auth-pages-wrapper';
+import { AuthPagesWrapper } from '@/components/auth/auth-pages-wrapper';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -21,11 +21,16 @@ import {
 } from '@/components/ui/form';
 import { signIn } from 'next-auth/react';
 import { Alert, AlertTitle } from '../ui/alert';
+import { useSearchParams } from 'next/navigation';
 export default function LoginAccountCard() {
+  const searchParams = useSearchParams();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
-
+  const urlError =
+    searchParams.get('error') === 'OAuthAccountNotFound'
+      ? 'User not found with this email! Please create account first'
+      : '';
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -54,6 +59,12 @@ export default function LoginAccountCard() {
         <Alert variant='destructive'>
           <FaExclamationTriangle />
           <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
+      {urlError && (
+        <Alert variant='destructive'>
+          <FaExclamationTriangle />
+          <AlertTitle>{urlError}</AlertTitle>
         </Alert>
       )}
       <Form {...form}>

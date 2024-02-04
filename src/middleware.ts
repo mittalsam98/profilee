@@ -2,7 +2,7 @@ import { getToken } from 'next-auth/jwt';
 import { withAuth } from 'next-auth/middleware';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { authRoutes, publicRoutes } from './lib/routes';
-import { DEFAULT_LOGIN_REDIRECT } from './lib/contants';
+import { DEFAULT_LOGIN_REDIRECT } from './lib/constants';
 
 export default async function middleware(req: NextRequest, event: NextFetchEvent) {
   const token = await getToken({ req });

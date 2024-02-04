@@ -3,6 +3,7 @@
 import Error from '@/components/error';
 import { api } from '@/trpc/react';
 import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
+import { redirect } from 'next/navigation';
 import {
   Dispatch,
   useState,
@@ -46,6 +47,9 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   } = api.userProfile.getUserCompleteProfile.useQuery();
 
   useEffect(() => {
+    if (data && !data?.username) {
+      redirect('/claim/username');
+    }
     if (data && data.userProfile) {
       setTitle(data.userProfile.title || '');
       setBio(data.userProfile.bio || '');
