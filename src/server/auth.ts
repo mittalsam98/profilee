@@ -8,7 +8,7 @@ import { env } from '@/env.mjs';
 import { db } from '@/server/db';
 import { TRPCError } from '@trpc/server';
 import { LoginSchema } from './api/schemas';
-import { getUserByEmail } from './api/utils/user';
+import { getUserByEmail, getUserById } from './api/utils/user';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,8 +20,7 @@ declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      username: string;
     } & DefaultSession['user'];
   }
 
@@ -36,28 +35,71 @@ declare module 'next-auth' {
  *
  * @see https://next-auth.js.org/configuration/options
  */
+
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/auth/login'
+    signIn: '/auth/login',
+    newUser: '/claim/username'
   },
+  // events: {
+  // updateUser(props) {
+  //   console.log('----------', { props });
+  // },
+  // session(props) {
+  //   console.log('----22222--------------', { props });
+  // }
+  //   linkAccount(props) {
+  //     console.log('1111', { props });
+  //   }
+  // },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
+    async signIn({ user }) {
+      const userFound = await getUserById(user.id);
+      if (!userFound) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'OAuthAccountNotFound'
+        });
       }
+
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log('))))))))))', { url, baseUrl });
+
+      return url;
+    },
+    async jwt({ token, trigger }) {
+      if (!token.sub) return token;
+
+      const existingUser = await getUserById(token.sub);
+
+      if (!existingUser) return token;
+
+      if (trigger === 'update') {
+        console.log('hello in update');
+      }
+
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.username = existingUser.username;
+
+      console.log('🚀 ~ session ~ token:', token);
       return token;
     },
     async session({ token, session }) {
-      // console.log('🚀 ~ session ~ token:', token);
-      // console.log('🚀 ~ session ~ session:', session);
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
 
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.sub
-        }
-      };
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.username = token.username as string;
+      }
+      console.log('🚀 ~ session ~ session:', { session, token });
+
+      return session;
     }
   },
   adapter: PrismaAdapter(db),
