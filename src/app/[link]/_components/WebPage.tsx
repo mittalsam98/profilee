@@ -1,15 +1,20 @@
 import useDesigner from '@/hooks/use-designer';
-import { preview } from '@/types/types';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import SocialIcon from '../elements/social-icon';
-import { socialMediaDataByName } from '../page-elements';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
+import { socialMediaDataByName } from '@/app/(main)/builder/_components/page-elements';
+import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
 
-export default function Webpage() {
-  const { profileImg, title, bio, socialLinks, adhocLinks } = useDesigner();
+interface PropsTypes {
+  profileImg?: File | null;
+  title: string | null;
+  bio: string | null;
+  adhocLinks: AdhocLinks[];
+  socialLinks: SocialMediaDataContext;
+}
 
+export default function Webpage({ profileImg, title, bio, socialLinks, adhocLinks }: PropsTypes) {
   return (
     <div className='h-full max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center '>
       <figure className='p-2'>

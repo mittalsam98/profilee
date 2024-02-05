@@ -55,10 +55,25 @@ export const getUserById = async (id: string) => {
 
   return user;
 };
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (
+  username: string,
+  includeUserProfile = false,
+  includeSocialLink = false,
+  includeAdhocLink = false
+) => {
   const user = await db.user.findUnique({
     where: {
       username: username
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      username: true,
+      userProfile: includeUserProfile,
+      socialLink: includeSocialLink,
+      adhocLink: includeAdhocLink
     }
   });
 
