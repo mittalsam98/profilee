@@ -23,11 +23,13 @@ import { UsernameSchema } from '@/server/api/schemas';
 import { TRPCClientError } from '@trpc/client';
 import { api } from '@/trpc/react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function page() {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
+  const { update } = useSession();
   const form = useForm<z.infer<typeof UsernameSchema>>({
     resolver: zodResolver(UsernameSchema),
     defaultValues: {
@@ -42,11 +44,14 @@ export default function page() {
         }
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log(data);
       if (data.success) {
+        // TODO : Need to update this one
+        await signIn('jwt', {
+          redirect: false
+        });
         router.push('/builder');
-        window.location.reload();
       }
     }
   });

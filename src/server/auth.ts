@@ -64,27 +64,18 @@ export const authOptions: NextAuthOptions = {
 
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      console.log('))))))))))', { url, baseUrl });
 
-      return url;
-    },
-    async jwt({ token, trigger }) {
+    async jwt({ token }) {
       if (!token.sub) return token;
 
       const existingUser = await getUserById(token.sub);
 
       if (!existingUser) return token;
 
-      if (trigger === 'update') {
-        console.log('hello in update');
-      }
-
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.username = existingUser.username;
 
-      console.log('🚀 ~ session ~ token:', token);
       return token;
     },
     async session({ token, session }) {
@@ -97,7 +88,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.username = token.username as string;
       }
-      console.log('🚀 ~ session ~ session:', { session, token });
+      // console.log('🚀 ~ session ~ session:', { session, token });
 
       return session;
     }

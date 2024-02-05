@@ -10,20 +10,22 @@ export default async function middleware(req: NextRequest, event: NextFetchEvent
   const { nextUrl } = req;
 
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  if (isAuthRoute) {
-    if (isAuthenticated) {
-      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.url));
+  // const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  // console.log({ token, isAuthenticated }, isPublicRoute, isAuthRoute, nextUrl.pathname);
+  //TODO- After claim page it is not auto redirecting
+  if (nextUrl.pathname.includes('/builder') && isAuthenticated && token) {
+    if (!token?.username) {
+      return NextResponse.redirect(new URL('/claim/username', req.url));
     }
   }
-
   if (nextUrl.pathname === '/claim/username' && token?.username && isAuthenticated) {
     return NextResponse.redirect(new URL('/builder', req.url));
   }
 
-  //TODO- After claim page it is not auto redirecting
-  if (nextUrl.pathname.includes('/builder') && !token?.username && isAuthenticated) {
-    console.log(token?.username);
-    return NextResponse.redirect(new URL('/claim/username', req.url));
+  if (isAuthRoute) {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.url));
+    }
   }
 
   const authMiddleware = await withAuth({
