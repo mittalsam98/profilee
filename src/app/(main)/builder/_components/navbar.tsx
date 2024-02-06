@@ -6,6 +6,7 @@ import { useUploadThing } from '@/lib/uploadthing';
 import useDesigner from '@/hooks/use-designer';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { api } from '@/trpc/react';
+import { SiGradleplaypublisher } from 'react-icons/si';
 
 export default function Navbar() {
   const { profileImg, socialLinks, adhocLinks } = useDesigner();
@@ -25,18 +26,12 @@ export default function Navbar() {
 
   const { data: sessionData } = useSession();
   const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
-  const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation();
-  // const { isLoading, mutateAsync: updateProfile } = api.link.updateProfile.useMutation({
-  //   onSuccess: () => {
-  //     console.log('Hello there');
-
-  //     return '🍪';
-  //   },
-  //   onError: (error, variables, context) => {
-  //     console.log('🚀 ~ Navbar ~ error:', error);
-  //     return 'Error cookie 🍪';
-  //   }
-  // });
+  const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation({
+    onError: () => {
+      console.log('🚀 ~ Navbar ~ error:');
+      return 'Error cookie 🍪';
+    }
+  });
 
   return (
     <>
@@ -56,9 +51,10 @@ export default function Navbar() {
             await updateAdhocLinks(adhocLinks);
           }}
           variant='outline'
-          className='p-3'
+          className='mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600  text-sm font-medium text-white'
         >
           Publish
+          <SiGradleplaypublisher className='ml-2' />
         </Button>
         {/* <MobileMenuNavbar /> */}
       </div>
