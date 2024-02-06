@@ -18,6 +18,8 @@ type DesignerContextProps = {
   setProfileImg: Dispatch<SetStateAction<File | null>>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
+  username: string;
+  setUsername: Dispatch<SetStateAction<string>>;
   bio: string;
   setBio: Dispatch<SetStateAction<string>>;
   loading: boolean;
@@ -34,6 +36,7 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [profileImg, setProfileImg] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
+  const [username, setUsername] = useState('');
   const [loading, setIsLoading] = useState(true);
   const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
@@ -49,6 +52,9 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (data && !data?.username) {
       redirect('/claim/username');
+    }
+    if (data && data?.username) {
+      setUsername(data.username);
     }
     if (data && data.userProfile) {
       setTitle(data.userProfile.title || '');
@@ -77,6 +83,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
         setTitle,
         bio,
         setBio,
+        username,
+        setUsername,
         loading,
         setIsLoading,
         setSocialLinks,

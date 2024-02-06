@@ -35,30 +35,32 @@ export const userRouter = createTRPCRouter({
 
     return { success: true, message: 'User created successfully ' };
   }),
-  createUsername: protectedProcedure.input(UsernameSchema).mutation(async ({ input, ctx }) => {
-    const { username } = input;
-    const { session } = ctx;
+  createUpdateUsername: protectedProcedure
+    .input(UsernameSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { username } = input;
+      const { session } = ctx;
 
-    const existingUsername = await getUserByUsername(username);
+      const existingUsername = await getUserByUsername(username);
 
-    if (existingUsername?.id === session.user.id) {
-      throw new TRPCError({
-        message: "Current username and new username can't be same",
-        code: 'BAD_REQUEST'
-      });
-    }
-    if (existingUsername) {
-      throw new TRPCError({
-        message: 'Username already in use. Please use other name!',
-        code: 'BAD_REQUEST'
-      });
-    }
+      if (existingUsername?.id === session.user.id) {
+        throw new TRPCError({
+          message: "Current username and new username can't be same",
+          code: 'BAD_REQUEST'
+        });
+      }
+      if (existingUsername) {
+        throw new TRPCError({
+          message: 'Username already in use. Please use other name!',
+          code: 'BAD_REQUEST'
+        });
+      }
 
-    const user = await getUserById(session.user.id);
-    if (!user) throw new TRPCError({ message: 'User not found', code: 'NOT_FOUND' });
+      const user = await getUserById(session.user.id);
+      if (!user) throw new TRPCError({ message: 'User not found', code: 'NOT_FOUND' });
 
-    await db.user.update({ where: { id: user.id }, data: { username: username } });
+      await db.user.update({ where: { id: user.id }, data: { username: username } });
 
-    return { success: true, message: 'Username added successfully' };
-  })
+      return { success: true, message: 'Username added successfully' };
+    })
 });

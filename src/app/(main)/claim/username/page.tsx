@@ -36,7 +36,7 @@ export default function page() {
       username: ''
     }
   });
-  const { isLoading, mutateAsync: addUsername } = api.user.createUsername.useMutation({
+  const { isLoading, mutateAsync: addUsername } = api.user.createUpdateUsername.useMutation({
     onError: (error) => {
       if (error instanceof TRPCClientError) {
         if (error.message) {
