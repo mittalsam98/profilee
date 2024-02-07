@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 
 import { Inter } from 'next/font/google';
 import { headers } from 'next/headers';
+import { Toaster } from '@/components/ui/sonner';
 
 import { TRPCReactProvider } from '@/trpc/react';
 import DesignerContextProvider from '@/components/context/designer-context';
@@ -28,6 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <TRPCReactProvider headers={headers()}>
           <Provider session={session}>{children}</Provider>
         </TRPCReactProvider>
+        <Toaster richColors position='top-right' />
       </body>
     </html>
   );
