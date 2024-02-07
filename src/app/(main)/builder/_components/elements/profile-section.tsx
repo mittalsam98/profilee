@@ -4,65 +4,45 @@ import { Label } from '@/components/ui/label';
 import useDesigner from '@/hooks/use-designer';
 import { cn } from '@/lib/utils';
 import { api } from '@/trpc/react';
+import debounce from 'lodash.debounce';
 import Image from 'next/image';
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
 
 export default function ProfileSection() {
-  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsLoading, loading } =
+  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
     useDesigner();
-  const [isSaving, startProfileSaving] = useTransition();
+  const [titleError, setTitleError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const trpcContext = api.useUtils();
+  const utils = api.useUtils();
 
-  // API calls
-  // const { data, isLoading: loadingProfile, refetch } = api.userProfile.getUserProfile.useQuery();
-
-  const { isLoading: savingProfile, mutateAsync: updateProfile } =
-    api.userProfile.updateUserProfile.useMutation({
-      onSuccess: (res) => {
-        console.log('🚀 ~ ProfileSection  onSuccess~ res:', res);
-      },
-      onMutate: (res) => {
-        console.log('🚀 ~ ProfileSection  onMutate~ res:', res);
-      },
-      onError: (res, newTodo, context) => {
-        // refetch();
-        trpcContext.userProfile.getUserProfile.invalidate();
-        console.log('🚀 ~ ProfileSection onError ~ res:', res);
-      }
-    });
-
-  // useEffect(() => {
-  //   console.log('======= Profile Section client ===', data);
-  //   if (data && data.userProfile) {
-  //     setTitle(data.userProfile.title || '');
-  //     setBio(data.userProfile.bio || '');
-  //   }
-  // }, [data]);
+  const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
 
   useEffect(() => {
-    setIsLoading(savingProfile);
-  }, [savingProfile]);
+    setIsPublishing(isLoading);
+  }, [isLoading]);
 
-  const save = ({ title, bio }: { title: string; bio?: string }) => {
-    startProfileSaving(async () => {
-      updateProfile({
-        title,
-        bio
-      });
+  const savingProfile = ({ title, bio }: { title: string; bio?: string }) => {
+    updateProfile({
+      title,
+      bio
     });
   };
+  const debouncedInputHandler = useCallback(debounce(savingProfile, 700), []);
 
-  const handleInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     if (id === 'profile') {
-      void save({ title: value, bio });
-      console.log(isSaving);
-      if (!isSaving) setTitle(value);
+      if (value.length > 0) {
+        void debouncedInputHandler({ title: value, bio });
+        setTitle(value);
+        setTitleError(false);
+      } else {
+        setTitleError(true);
+      }
     } else if (id === 'bio') {
-      void save({ title, bio: value });
-      if (!isSaving) setTitle(value);
+      void debouncedInputHandler({ title, bio: value });
+      setBio(value);
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,9 +54,9 @@ export default function ProfileSection() {
       }
     }
   };
+
   return (
     <Card className='my-2'>
-      {<div className='text-right mx-4 mt-2 text-teal-600'>{loading ? 'Saving...' : 'Saved'}</div>}
       <div className={'flex flex-row items-center gap-x-6 px-4 pb-4'}>
         <Input
           ref={fileInputRef}
@@ -119,11 +99,14 @@ export default function ProfileSection() {
         </div>
         <div>
           <Label htmlFor='profile'>Title</Label>
-          <Input id='profile' value={title} onChange={handleInputChanged} />
+          <Input id='profile' value={title} onChange={inputHandler} />{' '}
+          {titleError && (
+            <p className={'text-sm font-medium text-destructive'}>{'Profile should have name'}</p>
+          )}
         </div>
         <div>
           <Label htmlFor='bio'>Bio</Label>
-          <Input id='bio' value={bio} onChange={handleInputChanged} />
+          <Input id='bio' value={bio} onChange={inputHandler} />
         </div>
       </div>
     </Card>

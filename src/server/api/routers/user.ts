@@ -43,15 +43,16 @@ export const userRouter = createTRPCRouter({
 
       const existingUsername = await getUserByUsername(username);
 
-      if (existingUsername?.id === session.user.id) {
-        throw new TRPCError({
-          message: "Current username and new username can't be same",
-          code: 'BAD_REQUEST'
-        });
-      }
-      if (existingUsername) {
+      // if (existingUsername?.id === session.user.id) {
+      //   throw new TRPCError({
+      //     message: "Current username and new username can't be same",
+      //     code: 'BAD_REQUEST'
+      //   });
+      // }
+      if (existingUsername && existingUsername?.id !== session.user.id) {
         throw new TRPCError({
           message: 'Username already in use. Please use other name!',
+          cause: existingUsername.userProfile,
           code: 'BAD_REQUEST'
         });
       }

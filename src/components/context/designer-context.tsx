@@ -24,6 +24,8 @@ type DesignerContextProps = {
   setBio: Dispatch<SetStateAction<string>>;
   loading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isPublishing: boolean;
+  setIsPublishing: Dispatch<SetStateAction<boolean>>;
   socialLinks: SocialMediaDataContext;
   setSocialLinks: Dispatch<SetStateAction<SocialMediaDataContext>>;
   adhocLinks: AdhocLinks[];
@@ -38,6 +40,7 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [bio, setBio] = useState('');
   const [username, setUsername] = useState('');
   const [loading, setIsLoading] = useState(true);
+  const [isPublishing, setIsPublishing] = useState(false);
   const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
 
@@ -87,6 +90,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
         setUsername,
         loading,
         setIsLoading,
+        isPublishing,
+        setIsPublishing,
         setSocialLinks,
         socialLinks,
         adhocLinks,
