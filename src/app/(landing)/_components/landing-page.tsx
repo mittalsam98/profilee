@@ -1,18 +1,14 @@
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import { BsTwitter } from 'react-icons/bs';
+import PricingSection from './pricing-section';
 export default function LandingPage() {
   return (
     <div className='relative w-full flex flex-col items-center'>
-      <a
-        target='_blank'
-        rel='noreferrer'
-        href='https://twitter.com/rishi_raj_jain_/status/1616514075688833025'
-        className='mx-auto flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-all hover:bg-blue-200'
-      >
+      <div className='mx-auto flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full bg-blue-100 px-7 py-2 transition-all hover:bg-blue-200'>
         <BsTwitter fill='#1d9bf0' />
         <p className='text-sm font-semibold text-[#1d9bf0]'>Introducing Profilee</p>
-      </a>
+      </div>
       <h1 className='font-extrabold mt-8 text-center text-4xl sm:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-blue-500 via-blue-900 to-blue-500 max-w-sm sm:max-w-2xl'>
         Share every profile.
         <br />
@@ -27,6 +23,7 @@ export default function LandingPage() {
           Create your first Profile link for free
         </Button>
       </div>
+      <PricingSection />
     </div>
   );
 }

@@ -20,15 +20,15 @@ export default async function MobileMenuNavbar() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' sideOffset={16}>
           <DropdownMenuItem asChild>
-            <Link className='flex items-center gap-3 p-2 text-lg' href='/pricing'>
+            <Link className='flex items-center gap-3 p-2 text-lg' href='#pricing'>
               Pricing
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          {/* <DropdownMenuItem asChild>
             <Link className='flex items-center gap-3 p-2 text-lg' href='/blog'>
               Blog
             </Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
