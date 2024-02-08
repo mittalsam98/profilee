@@ -27,7 +27,11 @@ export const env = createEnv({
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string()
+    GOOGLE_CLIENT_SECRET: z.string(),
+    UPLOAD_AWS_SECRET_ACCESS_KEY: z.string(),
+    UPLOAD_AWS_ACCESS_KEY_ID: z.string(),
+    UPLOAD_AWS_REGION: z.string(),
+    UPLOAD_AWS_S3_BUCKET_NAME: z.string()
   },
 
   /**
@@ -51,7 +55,11 @@ export const env = createEnv({
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    UPLOAD_AWS_SECRET_ACCESS_KEY: process.env.UPLOAD_AWS_SECRET_ACCESS_KEY,
+    UPLOAD_AWS_ACCESS_KEY_ID: process.env.UPLOAD_AWS_ACCESS_KEY_ID,
+    UPLOAD_AWS_REGION: process.env.UPLOAD_AWS_REGION,
+    UPLOAD_AWS_S3_BUCKET_NAME: process.env.UPLOAD_AWS_S3_BUCKET_NAME
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

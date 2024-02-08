@@ -54,6 +54,7 @@ model UserProfile {
     id     String  @id @default(uuid())
     bio    String?
     title  String
+    pic    String?
     user   User    @relation(fields: [userId], references: [id])
     userId String  @unique
 }
