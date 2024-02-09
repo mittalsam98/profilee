@@ -10,7 +10,7 @@ const config = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: '**.amazonaws.com',
         port: '',
         pathname: '/**'
       }

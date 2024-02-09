@@ -14,8 +14,8 @@ import {
 } from 'react';
 
 type DesignerContextProps = {
-  profileImg: File | null;
-  setProfileImg: Dispatch<SetStateAction<File | null>>;
+  profileImg: File | string | null;
+  setProfileImg: Dispatch<SetStateAction<File | null | string>>;
   title: string;
   setTitle: Dispatch<SetStateAction<string>>;
   username: string;
@@ -35,7 +35,7 @@ type DesignerContextProps = {
 export const DesignerContext = createContext<DesignerContextProps | null>(null);
 
 const DesignerContextProvider = ({ children }: PropsWithChildren) => {
-  const [profileImg, setProfileImg] = useState<File | null>(null);
+  const [profileImg, setProfileImg] = useState<File | string | null>(null);
   const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
   const [username, setUsername] = useState('');
@@ -62,6 +62,9 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
     if (data && data.userProfile) {
       setTitle(data.userProfile.title || '');
       setBio(data.userProfile.bio || '');
+      if (data.userProfile.pic) {
+        setProfileImg(data.userProfile.pic);
+      }
     }
     if (data && data.socialLink && data.socialLink.data) {
       setSocialLinks(data.socialLink.data as SocialMediaDataContext);

@@ -23,6 +23,7 @@ export default async function Page({ params }: Props) {
       <Webpage
         title={data.userProfile.title}
         bio={data?.userProfile?.bio}
+        profileImg={data?.userProfile?.pic}
         socialLinks={data?.socialLink.data}
         adhocLinks={data?.adhocLink.data}
       />

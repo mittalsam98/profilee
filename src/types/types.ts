@@ -12,7 +12,7 @@ export type SocialMediaDataContext = {
 
 export type AdhocLinks = {
   name: string;
-  id:string
+  id: string;
   link: string;
   isActive: boolean;
 };

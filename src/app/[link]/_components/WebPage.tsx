@@ -18,14 +18,17 @@ export default function Webpage({ profileImg, title, bio, socialLinks, adhocLink
   return (
     <div className='h-full max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center '>
       <figure className='p-2'>
-        {profileImg && (
+        {profileImg && typeof profileImg === 'string' && (
           <Image
-            key={URL.createObjectURL(profileImg)}
-            src={URL.createObjectURL(profileImg)}
+            src={
+              typeof profileImg === 'string'
+                ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
+                : URL.createObjectURL(profileImg as File)
+            }
             alt='Profile pic'
             width={150}
             height={150}
-            className='flex h-[120px] w-[120px]  rounded-full border border-border hover:cursor-pointer bg-background/50 '
+            className='flex h-[130px] w-[130px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50 '
           />
         )}
         <div className='text-center space-y-4'>

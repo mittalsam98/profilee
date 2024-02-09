@@ -11,16 +11,19 @@ export default function Webpage() {
   const { profileImg, title, bio, socialLinks, adhocLinks } = useDesigner();
 
   return (
-    <div className='h-full max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center '>
+    <div className='max-w-lg mx-auto px-3 overflow-hidden text-center '>
       <figure className='p-2'>
         {profileImg && (
           <Image
-            key={URL.createObjectURL(profileImg)}
-            src={URL.createObjectURL(profileImg)}
+            src={
+              typeof profileImg === 'string'
+                ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
+                : URL.createObjectURL(profileImg as File)
+            }
             alt='Profile pic'
             width={150}
             height={150}
-            className='flex h-[120px] w-[120px]  rounded-full border border-border hover:cursor-pointer bg-background/50 '
+            className='flex h-[120px] w-[120px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50 '
           />
         )}
         <div className='text-center space-y-4'>
@@ -49,7 +52,7 @@ export default function Webpage() {
                   href={link.link}
                   target='_blank'
                   key={link.id}
-                  className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
+                  className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-sm leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
                 >
                   {link.name}
                 </Link>

@@ -5,9 +5,13 @@ import useDesigner from '@/hooks/use-designer';
 import { cn } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import debounce from 'lodash.debounce';
+import { MinusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
+import Skeleton from 'react-loading-skeleton';
+import { MdOutlineDeleteSweep } from 'react-icons/md';
+import Avatar from '../../../../../../public/avatar.svg';
 
 export default function ProfileSection() {
   const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
@@ -15,8 +19,11 @@ export default function ProfileSection() {
   const [titleError, setTitleError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const utils = api.useUtils();
+  const origin = typeof window !== 'undefined' ? window.location.origin + '/' : '';
 
   const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
+  const upload = api.images.upload.useMutation();
+  const deleteProfilePic = api.images.delete.useMutation();
 
   useEffect(() => {
     setIsPublishing(isLoading);
@@ -45,30 +52,43 @@ export default function ProfileSection() {
       setBio(value);
     }
   };
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
-        const imageUrl = URL.createObjectURL(selectedFile);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const src = e.target?.result as string;
+        };
+        reader.readAsDataURL(selectedFile);
         setProfileImg(selectedFile);
+
+        const signedUrl = await upload.mutateAsync();
+
+        try {
+          const res = await fetch(signedUrl.url, {
+            method: 'PUT',
+            body: selectedFile
+          });
+          console.log(res);
+
+          if (!res.ok) throw Error(res.statusText);
+        } catch (err) {
+          console.error(err);
+
+          alert('Upload failed');
+        }
       }
     }
   };
 
   return (
     <Card className='my-2'>
-      <div className={'flex flex-row items-center gap-x-6 px-4 pb-4'}>
-        <Input
-          ref={fileInputRef}
-          id='file-upload'
-          type='file'
-          onChange={handleFileChange}
-          className='file:bg-blue-50 file:text-blue-700 hidden hover:file:bg-blue-100'
-        />
+      <div className={'flex flex-col lg:flex-row  items-center gap-x-6 px-4 py-2 '}>
         <div
           className={cn(
-            'flex h-[120px] w-[120px] flex-col items-center justify-center gap-y-1 rounded-full border border-border ',
-            'hover:cursor-pointer bg-background/50 overflow-hidden border-dashed relative'
+            'flex min-h-[120px] min-w-[120px] hover:cursor-pointer bg-background/50 border-dashed relative',
+            profileImg ? 'overflow-visible' : 'overflow-visible '
           )}
           onClick={() => {
             if (fileInputRef.current) {
@@ -76,25 +96,62 @@ export default function ProfileSection() {
             }
           }}
         >
-          {profileImg ? (
+          <Input
+            ref={fileInputRef}
+            id='file-upload'
+            type='file'
+            onChange={handleFileChange}
+            className='file:bg-blue-50 file:text-blue-700 hidden hover:file:bg-blue-100'
+          />
+          {upload.isLoading ? (
+            <div className='h-full w-full'>
+              <Skeleton height='100%' circle={true} className='bg-red-500 w-full h-full' />
+            </div>
+          ) : profileImg ? (
             <>
               <Image
-                key={URL.createObjectURL(profileImg)}
-                src={URL.createObjectURL(profileImg)}
+                src={
+                  typeof profileImg === 'string'
+                    ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
+                    : URL.createObjectURL(profileImg as File)
+                }
                 alt='Profile link image'
-                width={150}
-                height={150}
-                className='overflow-hidden'
+                width={120}
+                height={120}
+                className='overflow-hidden rounded-full'
               />
-              <div className='hidden hover:flex absolute top-0 right-0 p-2 bg-white cursor-pointer'>
-                <AiOutlineYoutube className='text-2xl hover:scale-125' />
+              <div
+                onClick={async (e) => {
+                  const res = await deleteProfilePic.mutateAsync();
+                  if (res?.message) {
+                    setProfileImg(null);
+                  }
+                  e.stopPropagation();
+                }}
+                className={cn(
+                  'absolute right-2 bottom-1 border-2 border-white p-1 rounded-full bg-slate-200'
+                )}
+              >
+                <MdOutlineDeleteSweep size={24} className='text-slate-600' />
               </div>
             </>
           ) : (
-            <>
-              <AiOutlineCloudUpload className='h-8 w-8 text-muted-foreground' />{' '}
-              <Label htmlFor='file-upload'>Upload</Label>
-            </>
+            <span className='inline-block h-full w-full bg-gray-100 rounded-full overflow-visible relative'>
+              <Image
+                width={120}
+                height={120}
+                src={Avatar}
+                alt='Upload your profile picture'
+                className=' rounded-full'
+              />
+              <div
+                className={cn(
+                  'absolute right-2 bottom-1 border-2 border-white p-1 rounded-full bg-slate-200'
+                )}
+              >
+                <AiOutlineCloudUpload size={24} className='text-slate-600' />
+              </div>
+            </span>
           )}
         </div>
         <div>
