@@ -32,7 +32,7 @@ export const imagesRouter = createTRPCRouter({
 
       await db.userProfile.update({ where: { userId: id }, data: { pic: id } });
       return {
-        url: await getSignedUrl(client, command, { expiresIn: 3600 })
+        url: await getSignedUrl(client, command, { expiresIn: 120 })
       };
     })
   //   get: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
