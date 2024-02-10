@@ -75,7 +75,7 @@ const ViewWrapper = ({ loading, mode }: { loading: boolean; mode: string }) => {
   return (
     <div className='absolute top-0 z-10 flex h-full w-full flex-grow flex-col overflow-y-auto'>
       <div className='flex w-full flex-grow flex-col items-center  bg-white py-6'>
-        <div className='w-full max-w-md px-4'>
+        <div className='w-full max-w-md h-full'>
           <Webpage />
         </div>
       </div>

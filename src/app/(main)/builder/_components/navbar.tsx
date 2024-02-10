@@ -42,11 +42,6 @@ export default function Navbar() {
         <Button
           type='button'
           onClick={async () => {
-            if (profileImg) {
-              const files = [profileImg];
-              startUpload(files);
-            }
-
             await updateSocialLink(socialLinks);
             await updateAdhocLinks(adhocLinks);
           }}

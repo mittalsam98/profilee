@@ -16,7 +16,7 @@ export default function BioEditor() {
           <Skeleton className='mb-3' height={60} />
           <Skeleton className='mb-3' height={150} />
           <Skeleton className='mb-12' height={100} />
-          <Skeleton height={500} />
+          <Skeleton height={300} />
         </>
       ) : (
         <>

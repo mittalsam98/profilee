@@ -12,22 +12,21 @@ import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
 import Skeleton from 'react-loading-skeleton';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
 import Avatar from '../../../../../../public/avatar.svg';
+import { toast } from 'sonner';
 
 export default function ProfileSection() {
   const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
     useDesigner();
   const [titleError, setTitleError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const utils = api.useUtils();
-  const origin = typeof window !== 'undefined' ? window.location.origin + '/' : '';
 
   const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
   const upload = api.images.upload.useMutation();
   const deleteProfilePic = api.images.delete.useMutation();
 
   useEffect(() => {
-    setIsPublishing(isLoading);
-  }, [isLoading]);
+    setIsPublishing(isLoading || upload.isLoading || deleteProfilePic.isLoading);
+  }, [isLoading, upload.isLoading, deleteProfilePic.isLoading]);
 
   const savingProfile = ({ title, bio }: { title: string; bio?: string }) => {
     updateProfile({
@@ -61,7 +60,6 @@ export default function ProfileSection() {
           const src = e.target?.result as string;
         };
         reader.readAsDataURL(selectedFile);
-        setProfileImg(selectedFile);
 
         const signedUrl = await upload.mutateAsync();
 
@@ -70,24 +68,24 @@ export default function ProfileSection() {
             method: 'PUT',
             body: selectedFile
           });
-          console.log(res);
 
-          if (!res.ok) throw Error(res.statusText);
+          if (res.ok) {
+            setProfileImg(selectedFile);
+          } else {
+            toast.error('Something went wrong. Please refresh page and try again');
+          }
         } catch (err) {
-          console.error(err);
-
-          alert('Upload failed');
+          toast.error('Something went wrong. Please refresh page and try again');
         }
       }
     }
   };
-
   return (
     <Card className='my-2'>
       <div className={'flex flex-col lg:flex-row  items-center gap-x-6 px-4 py-2 '}>
         <div
           className={cn(
-            'flex min-h-[120px] min-w-[120px] hover:cursor-pointer bg-background/50 border-dashed relative',
+            'flex min-h-[120px] min-w-[120px] w-[120px] h-[120px] hover:cursor-pointer bg-background/50 border-dashed relative',
             profileImg ? 'overflow-visible' : 'overflow-visible '
           )}
           onClick={() => {
@@ -122,11 +120,14 @@ export default function ProfileSection() {
               />
               <div
                 onClick={async (e) => {
+                  e.stopPropagation();
                   const res = await deleteProfilePic.mutateAsync();
                   if (res?.message) {
                     setProfileImg(null);
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = '';
+                    }
                   }
-                  e.stopPropagation();
                 }}
                 className={cn(
                   'absolute right-2 bottom-1 border-2 border-white p-1 rounded-full bg-slate-200'
