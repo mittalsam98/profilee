@@ -32,10 +32,7 @@ export default async function DesktopNavbar() {
               <RiAdminFill />
             </Link>
           )}
-          <Link
-            className='hidden lg:flex'
-            href={session ? '/api/auth/signout' : '/api/auth/signin'}
-          >
+          <Link className='hidden lg:flex' href={session ? '/api/auth/signout' : '/auth/login'}>
             <Button variant='default' size='lg'>
               {session ? 'Logout' : 'Login'}
             </Button>

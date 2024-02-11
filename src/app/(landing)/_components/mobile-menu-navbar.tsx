@@ -27,7 +27,7 @@ export default async function MobileMenuNavbar() {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
-              href={session ? '/api/auth/signout' : '/api/auth/signin'}
+              href={session ? '/api/auth/signout' : '/auth/login'}
               className='flex items-center gap-3 p-2 text-lg'
             >
               {session ? 'Logout' : 'Login'}
