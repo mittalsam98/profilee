@@ -25,7 +25,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
-export default function page() {
+export default function ClaimUsername() {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();

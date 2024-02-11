@@ -26,7 +26,7 @@ export default function SocialLinkDialog({
 }) {
   const { setSocialLinks } = useDesigner();
   const [open, setOpen] = useState(false);
-  const [input, setInput] = useState(value || '');
+  const [input, setInput] = useState(value ?? '');
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

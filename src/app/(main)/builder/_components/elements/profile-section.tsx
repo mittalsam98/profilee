@@ -11,7 +11,7 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
 import Skeleton from 'react-loading-skeleton';
 import { toast } from 'sonner';
-import Avatar from '../../../../../../public/avatar.svg';
+import avatar from '../../../../../../public/avatar.svg';
 
 export default function ProfileSection() {
   const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
@@ -26,8 +26,8 @@ export default function ProfileSection() {
     setIsPublishing(isLoading || upload.isLoading || deleteProfilePic.isLoading);
   }, [isLoading, upload.isLoading, deleteProfilePic.isLoading]);
 
-  const savingProfile = ({ title, bio }: { title: string; bio?: string }) => {
-    updateProfile({
+  const savingProfile = async ({ title, bio }: { title: string; bio?: string }) => {
+    await updateProfile({
       title,
       bio
     });
@@ -54,11 +54,7 @@ export default function ProfileSection() {
       const selectedFile = e.target.files[0];
       if (selectedFile) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          const src = e.target?.result as string;
-        };
         reader.readAsDataURL(selectedFile);
-
         const signedUrl = await upload.mutateAsync();
 
         try {
@@ -109,7 +105,7 @@ export default function ProfileSection() {
                 src={
                   typeof profileImg === 'string'
                     ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
-                    : URL.createObjectURL(profileImg as File)
+                    : URL.createObjectURL(profileImg)
                 }
                 alt='Profile link image'
                 width={120}
@@ -139,7 +135,7 @@ export default function ProfileSection() {
               <Image
                 width={120}
                 height={120}
-                src={Avatar}
+                src={avatar}
                 alt='Upload your profile picture'
                 className=' rounded-full'
               />

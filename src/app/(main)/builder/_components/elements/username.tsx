@@ -36,17 +36,17 @@ const UsernameSettings = () => {
     setIsPublishing(isLoading);
   }, [isLoading]);
 
-  const updatingUsername = (value: z.infer<typeof UsernameSchema>) => {
-    updateUsername(value);
+  const updatingUsername = async (value: z.infer<typeof UsernameSchema>) => {
+    await updateUsername(value);
   };
 
   const debouncedInputHandler = useCallback(debounce(updatingUsername, 700), []);
 
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (value.length > 0) {
       setUsername(value);
-      debouncedInputHandler({ username: value });
+      await debouncedInputHandler({ username: value });
       setUsernameError(false);
     } else {
       setUsernameError(true);

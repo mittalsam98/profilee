@@ -53,23 +53,23 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   } = api.userProfile.getUserCompleteProfile.useQuery();
 
   useEffect(() => {
-    if (data && !data?.username) {
+    if (!data?.username) {
       redirect('/claim/username');
     }
-    if (data && data?.username) {
+    if (data?.username) {
       setUsername(data.username);
     }
-    if (data && data.userProfile) {
-      setTitle(data.userProfile.title || '');
-      setBio(data.userProfile.bio || '');
+    if (data?.userProfile) {
+      setTitle(data.userProfile.title ?? '');
+      setBio(data.userProfile.bio ?? '');
       if (data.userProfile.pic) {
         setProfileImg(data.userProfile.pic);
       }
     }
-    if (data && data.socialLink && data.socialLink.data) {
+    if (data?.socialLink?.data) {
       setSocialLinks(data.socialLink.data as SocialMediaDataContext);
     }
-    if (data && data.adhocLink && data.adhocLink.data) {
+    if (data?.adhocLink?.data) {
       setAdhocLinks(data.adhocLink.data as AdhocLinks[]);
     }
   }, [isSuccess]);

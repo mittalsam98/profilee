@@ -14,7 +14,7 @@ const useHexToRGBA = (hexColor: string, opacity: number) => {
 
   useEffect(() => {
     if (hexColor && opacity >= 0 && opacity <= 1) {
-      const convertedColor: SetStateAction<string> = hexToRGBA(hexColor, opacity);
+      const convertedColor = hexToRGBA(hexColor, opacity);
       setRGBAColor(convertedColor);
     }
   }, [hexColor, opacity]);

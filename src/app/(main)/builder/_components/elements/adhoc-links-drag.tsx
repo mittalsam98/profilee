@@ -50,10 +50,9 @@ export default function AdhocLinkDrag({
       if (editIndex !== -1 && prevStateCopy[editIndex]) {
         const editedItem = prevStateCopy[editIndex];
         if (
-          editedItem &&
-          editedItem.name !== undefined &&
-          editedItem.link !== undefined &&
-          editedItem.id !== undefined
+          editedItem?.name !== undefined &&
+          editedItem?.link !== undefined &&
+          editedItem?.id !== undefined
         ) {
           prevStateCopy[editIndex] = {
             ...editedItem,

@@ -5,9 +5,7 @@ import { IoCheckmark } from 'react-icons/io5';
 import { MdCancel } from 'react-icons/md';
 import { TbInfoCircleFilled } from 'react-icons/tb';
 
-export default async function PricingSection() {
-  const session = await getServerAuthSession();
-
+export default function PricingSection() {
   const pricingItems = [
     {
       plan: 'Free',

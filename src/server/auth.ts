@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
 
       return token;
     },
-    async session({ token, session }) {
+    session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
@@ -102,7 +102,7 @@ export const authOptions: NextAuthOptions = {
           const { email, password } = validatedFields.data;
 
           const user = await getUserByEmail(email);
-          if (!user || !user.password) {
+          if (!user?.password) {
             throw new TRPCError({
               code: 'NOT_FOUND',
               message: 'User not found with this email.'

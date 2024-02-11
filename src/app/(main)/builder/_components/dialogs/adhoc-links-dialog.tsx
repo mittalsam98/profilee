@@ -19,8 +19,8 @@ export default function AdhocLinksDialog({
   data?: AdhocLinks;
 }) {
   const { setAdhocLinks } = useDesigner();
-  const [inputTitle, setInputTitle] = useState(data?.name || '');
-  const [inputLink, setInputLink] = useState(data?.link || '');
+  const [inputTitle, setInputTitle] = useState(data?.name ?? '');
+  const [inputLink, setInputLink] = useState(data?.link ?? '');
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

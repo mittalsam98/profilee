@@ -39,7 +39,7 @@ export default function LoginAccountCard() {
     }
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError('');
     setSuccess('');
     startTransition(async () => {

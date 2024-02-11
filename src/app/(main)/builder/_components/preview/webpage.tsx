@@ -14,7 +14,7 @@ export default function Webpage() {
             src={
               typeof profileImg === 'string'
                 ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
-                : URL.createObjectURL(profileImg as File)
+                : URL.createObjectURL(profileImg)
             }
             alt='Profile pic'
             width={150}
@@ -40,21 +40,20 @@ export default function Webpage() {
           </div>
         )}
 
-        {adhocLinks &&
-          adhocLinks.map((link) => {
-            return link.isActive ? (
-              <div className='pt-6 text-center space-y-4 '>
-                <Link
-                  href={link.link}
-                  target='_blank'
-                  key={link.id}
-                  className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-sm leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
-                >
-                  {link.name}
-                </Link>
-              </div>
-            ) : null;
-          })}
+        {adhocLinks?.map((link) => {
+          return link.isActive ? (
+            <div className='pt-6 text-center space-y-4 '>
+              <Link
+                href={link.link}
+                target='_blank'
+                key={link.id}
+                className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-sm leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
+              >
+                {link.name}
+              </Link>
+            </div>
+          ) : null;
+        })}
       </div>
     </div>
   );

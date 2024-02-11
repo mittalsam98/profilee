@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 export default function Error({ error }: { error: string }) {
-  useEffect(() => {}, []);
   return (
     <div className='flex flex-col justify-between h-[80vh] '>
       <div className='flex-grow flex px-4 flex-col gap-4 items-center justify-center '>

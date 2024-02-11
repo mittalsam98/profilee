@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
   return (
     <div className='h-screen w-full'>
       <Webpage
-        title={(data?.userProfile && data.userProfile.title) || ''}
+        title={data?.userProfile?.title ?? ''}
         bio={data?.userProfile?.bio}
         profileImg={data?.userProfile?.pic}
         socialLinks={data?.socialLink?.data}

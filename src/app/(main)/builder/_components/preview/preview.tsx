@@ -44,12 +44,12 @@ export default function Preview() {
             <div className='relative h-[90%] max-h-[40rem] w-80 overflow-hidden rounded-[3rem] border-8 border-slate-500 bg-slate-400'>
               <div className='absolute left-1/2 right-1/2 top-2 z-20 h-4 w-1/3 -translate-x-1/2 transform rounded-md bg-slate-500'></div>
 
-              <ViewWrapper loading={loading} mode={previewMode} />
+              <ViewWrapper loading={loading} />
             </div>
           )}
           {previewMode === 'desktop' && (
             <div className='relative h-[70%] w-full overflow-hidden rounded-[2rem] border-8 border-slate-500 bg-slate-400'>
-              <ViewWrapper loading={loading} mode={previewMode} />
+              <ViewWrapper loading={loading} />
             </div>
           )}
         </div>
@@ -58,7 +58,7 @@ export default function Preview() {
   );
 }
 
-const ViewWrapper = ({ loading, mode }: { loading: boolean; mode: string }) => {
+const ViewWrapper = ({ loading }: { loading: boolean; mode?: string }) => {
   if (loading) {
     return (
       <>

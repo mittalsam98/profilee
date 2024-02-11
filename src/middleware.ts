@@ -17,14 +17,14 @@ export default async function middleware(req: NextRequest, event: NextFetchEvent
     return NextResponse.redirect(new URL('/builder', req.url));
   }
 
-  const authMiddleware = await withAuth({
+  const authMiddleware = withAuth({
     pages: {
       signIn: '/auth/login',
       newUser: '/auth/new-user'
     }
   });
 
-  // @ts-expect-error
+  // @ts-expect-error : Cant extend req with Next Request
   return authMiddleware(req, event);
 }
 export const config = {

@@ -9,7 +9,7 @@ export default function DragOverlayWrapper() {
   const { socialLinks, setSocialLinks, adhocLinks, setAdhocLinks } = useDesigner();
   const [draggedItem, setDraggedItem] = useState<Active | null>(null);
   const [overDraggedParent, setOverDraggedParent] = useState<boolean>(true);
-  const draggedContainerID = draggedItem?.data?.current?.sortable?.containerId;
+  const draggedContainerID: string = draggedItem?.data?.current?.sortable?.containerId;
 
   useDndMonitor({
     onDragStart: (event) => {
@@ -44,11 +44,11 @@ export default function DragOverlayWrapper() {
   let node = <div>No Element Selected</div>;
 
   if (draggedContainerID === 'social-icon') {
-    const socialMediaName = draggedItem?.id.toString() || '';
+    const socialMediaName = draggedItem?.id.toString() ?? '';
     node = <SocialIconDrag data={socialMediaName} outOfOverlay={!overDraggedParent} />;
   } else if (draggedContainerID === 'adhoc-links') {
-    if (draggedItem?.data?.current?.sortable.index !== undefined) {
-      const draggedIndex = draggedItem.data.current.sortable.index;
+    if (draggedItem?.data?.current?.sortable?.index !== undefined) {
+      const draggedIndex: number = draggedItem?.data?.current?.sortable?.index;
       const draggedLink = adhocLinks[draggedIndex];
 
       // Ensure adhocLinks is defined before attempting to access its elements

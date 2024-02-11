@@ -44,7 +44,7 @@ export default function Webpage({ profileImg, title, bio, socialLinks, adhocLink
         {socialLinks && Object.entries(socialLinks).length > 0 && (
           <div className='flex gap-3 flex-wrap justify-center py-3'>
             {Object.entries(socialLinks).map(([platform, value]) => (
-              <Link href={value} key={platform} target='_blank'>
+              <Link href={new URL(value)} key={platform} target='_blank'>
                 {socialMediaDataByName[platform]?.icon}
               </Link>
             ))}
