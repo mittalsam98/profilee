@@ -3,6 +3,7 @@ import { db } from '@/server/db';
 import { getUser } from '../utils/user';
 import { AdhocLinkSchema } from '../schemas';
 import { Prisma } from '@prisma/client';
+import { AdhocLinks } from '@/types/types';
 
 export const adHocLinkRouter = createTRPCRouter({
   updateAdhocLinks: protectedProcedure.input(AdhocLinkSchema).mutation(async ({ input, ctx }) => {
@@ -13,10 +14,10 @@ export const adHocLinkRouter = createTRPCRouter({
         userId: user.id
       },
       update: {
-        data: input as Prisma.JsonArray
+        data: input as AdhocLinks[]
       },
       create: {
-        data: input as Prisma.JsonArray,
+        data: input as AdhocLinks[],
         userId: user.id
       }
     });
