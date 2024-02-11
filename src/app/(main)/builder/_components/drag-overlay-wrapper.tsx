@@ -1,24 +1,21 @@
-import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
-import React, { useState } from 'react';
-// import { SidebarBtnElementDragOverlay } from './sidebar-btn-elements';
-import { ElementsType, PageElements } from './page-elements';
-import { Trash } from 'lucide-react';
 import useDesigner from '@/hooks/use-designer';
-import SocialIconDrag from './elements/social-icon-drag';
+import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
+import { useState } from 'react';
 import AdhocLinkDrag from './elements/adhoc-links-drag';
+import SocialIconDrag from './elements/social-icon-drag';
 
 export default function DragOverlayWrapper() {
+  const { socialLinks, setSocialLinks, adhocLinks, setAdhocLinks } = useDesigner();
   const [draggedItem, setDraggedItem] = useState<Active | null>(null);
   const [overDraggedParent, setOverDraggedParent] = useState<boolean>(true);
-  const { socialLinks, setSocialLinks, adhocLinks, setAdhocLinks } = useDesigner();
   const draggedContainerID = draggedItem?.data?.current?.sortable?.containerId;
 
   useDndMonitor({
     onDragStart: (event) => {
       setDraggedItem(event.active);
     },
-    onDragCancel: (event) => {
+    onDragCancel: () => {
       setDraggedItem(null);
     },
     onDragOver: (event) => {

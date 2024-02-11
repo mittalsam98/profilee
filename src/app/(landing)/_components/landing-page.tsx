@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import React from 'react';
 import { BsTwitter } from 'react-icons/bs';
 import PricingSection from './pricing-section';
 export default function LandingPage() {

@@ -1,13 +1,7 @@
 import { Card, CardTitle } from '@/components/ui/card';
-import React from 'react';
-import SocialIconsPopover from '../popovers/social-icons-popover';
 import useDesigner from '@/hooks/use-designer';
-import {
-  SortableContext,
-  arrayMove,
-  horizontalListSortingStrategy,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable';
+import { SortableContext } from '@dnd-kit/sortable';
+import SocialIconsPopover from '../popovers/social-icons-popover';
 import SocialIconDrag from './social-icon-drag';
 
 export default function SocialIconsSection() {

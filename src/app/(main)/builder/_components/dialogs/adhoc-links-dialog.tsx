@@ -1,19 +1,12 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import useDesigner from '@/hooks/use-designer';
-import { v4 as uuidv4 } from 'uuid';
 import { AdhocLinks } from '@/types/types';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // Dialog for edit and add Adhoc Link
 export default function AdhocLinksDialog({
@@ -26,7 +19,6 @@ export default function AdhocLinksDialog({
   data?: AdhocLinks;
 }) {
   const { setAdhocLinks } = useDesigner();
-
   const [inputTitle, setInputTitle] = useState(data?.name || '');
   const [inputLink, setInputLink] = useState(data?.link || '');
 

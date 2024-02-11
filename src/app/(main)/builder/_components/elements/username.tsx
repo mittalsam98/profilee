@@ -1,15 +1,15 @@
 import { Card } from '@/components/ui/card';
 import useDesigner from '@/hooks/use-designer';
+import { cn } from '@/lib/utils';
 import { UsernameSchema } from '@/server/api/schemas';
 import { api } from '@/trpc/react';
+import { TRPCClientError } from '@trpc/client';
 import debounce from 'lodash.debounce';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ImNewTab } from 'react-icons/im';
-import { z } from 'zod';
 import { toast } from 'sonner';
-import { TRPCClientError } from '@trpc/client';
-import { cn } from '@/lib/utils';
+import { z } from 'zod';
 
 const UsernameSettings = () => {
   const { username, setUsername, setIsPublishing } = useDesigner();

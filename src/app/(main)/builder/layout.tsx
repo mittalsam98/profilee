@@ -1,6 +1,5 @@
-import { cn } from '@/lib/utils';
-import Navbar from './_components/navbar';
 import DesignerContextProvider from '@/components/context/designer-context';
+import Navbar from './_components/navbar';
 
 const AdminPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (

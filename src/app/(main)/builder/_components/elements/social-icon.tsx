@@ -1,13 +1,8 @@
-import React from 'react';
-import { Dispatch, SetStateAction, useState } from 'react';
-
-import SocialLinkDialog from '../dialogs/social-icons-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Dispatch, SetStateAction } from 'react';
+import SocialLinkDialog from '../dialogs/social-icons-dialog';
 import { socialMediaDataByName } from '../page-elements';
-import { MinusCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import useDesigner from '@/hooks/use-designer';
-import { useSortable } from '@dnd-kit/sortable';
+
 const SocialIcon = ({
   data,
   value,

@@ -1,29 +1,29 @@
 'use client';
-import * as z from 'zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import * as z from 'zod';
 
-import { Input } from '@/components/ui/input';
+import { AuthPagesWrapper } from '@/components/auth/auth-pages-wrapper';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-  FormDescription
+  FormMessage
 } from '@/components/ui/form';
-import { AuthPagesWrapper } from '@/components/auth/auth-pages-wrapper';
-import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Input } from '@/components/ui/input';
 import { UsernameSchema } from '@/server/api/schemas';
-import { TRPCClientError } from '@trpc/client';
 import { api } from '@/trpc/react';
-import { useRouter } from 'next/navigation';
+import { TRPCClientError } from '@trpc/client';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 export default function page() {
   const [error, setError] = useState<string | undefined>('');

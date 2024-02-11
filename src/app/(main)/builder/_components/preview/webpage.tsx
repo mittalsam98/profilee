@@ -1,11 +1,7 @@
 import useDesigner from '@/hooks/use-designer';
-import { preview } from '@/types/types';
 import Image from 'next/image';
-import React, { useState } from 'react';
-import SocialIcon from '../elements/social-icon';
-import { socialMediaDataByName } from '../page-elements';
 import Link from 'next/link';
-import { Card } from '@/components/ui/card';
+import { socialMediaDataByName } from '../page-elements';
 
 export default function Webpage() {
   const { profileImg, title, bio, socialLinks, adhocLinks } = useDesigner();

@@ -1,16 +1,12 @@
-import { buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
-import { ArrowRight, Check, HelpCircle, Minus } from 'lucide-react';
-import Link from 'next/link';
 import { IoCheckmark } from 'react-icons/io5';
 import { MdCancel } from 'react-icons/md';
 import { TbInfoCircleFilled } from 'react-icons/tb';
 
 export default async function PricingSection() {
   const session = await getServerAuthSession();
-  const user = session?.user;
 
   const pricingItems = [
     {
@@ -159,32 +155,6 @@ export default async function PricingSection() {
                       </li>
                     ))}
                   </ul>
-                  {/* <div className='p-5'>
-                    {plan === 'Free' ? (
-                      <Link
-                        href={user ? '/dashboard' : '/sign-in'}
-                        className={buttonVariants({
-                          className: 'w-full',
-                          variant: 'secondary'
-                        })}
-                      >
-                        {user ? 'Upgrade now' : 'Sign up'}
-                        <ArrowRight className='h-5 w-5 ml-1.5' />
-                      </Link>
-                    ) : user ? (
-                      <input />
-                    ) : (
-                      <Link
-                        href='/sign-in'
-                        className={buttonVariants({
-                          className: 'w-full'
-                        })}
-                      >
-                        {user ? 'Upgrade now' : 'Sign up'}
-                        <ArrowRight className='h-5 w-5 ml-1.5' />
-                      </Link>
-                    )}
-                  </div> */}
                 </div>
               );
             })}

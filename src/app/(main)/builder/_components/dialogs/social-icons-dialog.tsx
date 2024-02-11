@@ -1,7 +1,5 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import useDesigner from '@/hooks/use-designer';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 // Dialog for edit and add social link
 export default function SocialLinkDialog({
@@ -27,7 +26,6 @@ export default function SocialLinkDialog({
 }) {
   const { setSocialLinks } = useDesigner();
   const [open, setOpen] = useState(false);
-
   const [input, setInput] = useState(value || '');
 
   return (

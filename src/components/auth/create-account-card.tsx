@@ -1,26 +1,26 @@
 'use client';
-import * as z from 'zod';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import * as z from 'zod';
 
-import { AuthPagesWrapper } from './auth-pages-wrapper';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { RegisterSchema } from '@/server/api/schemas';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-  FormDescription
+  FormMessage
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { RegisterSchema } from '@/server/api/schemas';
 import { api } from '@/trpc/react';
 import { TRPCClientError } from '@trpc/client';
 import { Alert, AlertTitle } from '../ui/alert';
+import { AuthPagesWrapper } from './auth-pages-wrapper';
 
 export function CreateAccountCard() {
   const [error, setError] = useState<string | undefined>('');

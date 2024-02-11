@@ -1,10 +1,8 @@
-import React from 'react';
-import { PageElements } from '../page-elements';
-import SocialIconsSection from '../elements/social-icons-section';
-import ProfileSection from '../elements/profile-section';
-import AdhocLinks from '../elements/adhoc-links';
 import useDesigner from '@/hooks/use-designer';
 import Skeleton from 'react-loading-skeleton';
+import AdhocLinks from '../elements/adhoc-links';
+import ProfileSection from '../elements/profile-section';
+import SocialIconsSection from '../elements/social-icons-section';
 import UsernameSettings from '../elements/username';
 
 export default function BioEditor() {
@@ -26,7 +24,6 @@ export default function BioEditor() {
           <AdhocLinks />
         </>
       )}
-      {/* <SidebarBtnElement pageElement={PageElements.Youtube} /> */}
     </aside>
   );
 }

@@ -1,10 +1,7 @@
-import useDesigner from '@/hooks/use-designer';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Card } from '@/components/ui/card';
 import { socialMediaDataByName } from '@/app/(main)/builder/_components/page-elements';
 import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface PropsTypes {
   profileImg?: File | null;

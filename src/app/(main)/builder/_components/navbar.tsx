@@ -1,30 +1,13 @@
 'use client';
-import React from 'react';
-import { Button } from '@/components/ui/button';
 import Logo from '@/components/logo';
-import { useUploadThing } from '@/lib/uploadthing';
+import { Button } from '@/components/ui/button';
 import useDesigner from '@/hooks/use-designer';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { api } from '@/trpc/react';
 import { SiGradleplaypublisher } from 'react-icons/si';
 
 export default function Navbar() {
-  const { profileImg, socialLinks, adhocLinks, isPublishing } = useDesigner();
+  const { socialLinks, adhocLinks, isPublishing } = useDesigner();
 
-  const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
-    onClientUploadComplete: () => {
-      alert('uploaded successfully!');
-    },
-    onUploadError: (e) => {
-      console.log(e);
-      alert('error occurred while uploading');
-    },
-    onUploadBegin: () => {
-      alert('upload has begun');
-    }
-  });
-
-  const { data: sessionData } = useSession();
   const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
   const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation({
     onError: () => {

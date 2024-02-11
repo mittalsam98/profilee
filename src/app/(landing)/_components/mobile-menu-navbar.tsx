@@ -5,9 +5,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { getServerAuthSession } from '@/server/auth';
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
-import { getServerAuthSession } from '@/server/auth';
 
 export default async function MobileMenuNavbar() {
   const session = await getServerAuthSession();
@@ -24,12 +24,6 @@ export default async function MobileMenuNavbar() {
               Pricing
             </Link>
           </DropdownMenuItem>
-          {/* <DropdownMenuItem asChild>
-            <Link className='flex items-center gap-3 p-2 text-lg' href='/blog'>
-              Blog
-            </Link>
-          </DropdownMenuItem> */}
-
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link

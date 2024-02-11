@@ -1,13 +1,12 @@
-import React from 'react';
-import SocialLinkDialog from '../dialogs/social-icons-dialog';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { socialMediaDataByName } from '../page-elements';
-import { GripVertical, MinusCircle, Pencil } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import useDesigner from '@/hooks/use-designer';
-import { useSortable } from '@dnd-kit/sortable';
 import useHexToRGBA from '@/hooks/use-hex-to-rgba';
+import { cn } from '@/lib/utils';
+import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { GripVertical, MinusCircle, Pencil } from 'lucide-react';
+import SocialLinkDialog from '../dialogs/social-icons-dialog';
+import { socialMediaDataByName } from '../page-elements';
+
 const SocialIconDrag = ({
   data,
   value,
@@ -21,7 +20,6 @@ const SocialIconDrag = ({
   const { setSocialLinks } = useDesigner();
   const rgbaColor1 = useHexToRGBA(color!, 0.08);
   const rgbaColor2 = useHexToRGBA(color!, 0.2);
-
   const {
     attributes,
     listeners,
@@ -34,6 +32,7 @@ const SocialIconDrag = ({
   } = useSortable({
     id: data
   });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition

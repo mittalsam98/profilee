@@ -1,5 +1,4 @@
 import { SocialMediaData } from '@/types/types';
-import { YoutubeLinkElement } from './elements/youtube';
 import { Facebook, Github, Instagram, Linkedin, Twitch, Twitter, Youtube } from 'lucide-react';
 import {
   BsDiscord,
@@ -11,7 +10,6 @@ import {
   BsWhatsapp
 } from 'react-icons/bs';
 
-export type ElementsType = 'Youtube';
 export const socialMediaDataByName: Record<string, SocialMediaData> = {
   Twitter: {
     name: 'Twitter',
@@ -83,29 +81,4 @@ export const socialMediaDataByName: Record<string, SocialMediaData> = {
     color: '#1AB7EA',
     icon: <BsVimeo size={24} className='text-[#1AB7EA]' />
   }
-};
-
-export type PageElement = {
-  type: ElementsType;
-
-  construct: (id: string) => PageElementInstance;
-
-  designerBtnElement: {
-    icon: React.ElementType;
-    label: string;
-  };
-
-  designerComponent: React.FC;
-  formComponent: React.FC;
-
-  propertiesComponent: React.FC;
-};
-
-export type PageElementInstance = {
-  id: string;
-  type: ElementsType;
-  extraAttributes?: Record<string, any>;
-};
-export const PageElements = {
-  Youtube: YoutubeLinkElement
 };

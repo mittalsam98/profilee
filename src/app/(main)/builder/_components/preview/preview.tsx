@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Smartphone, Laptop2 } from 'lucide-react';
-import { preview } from '@/types/types';
-import { cn } from '@/lib/utils';
-import Webpage from './webpage';
 import useDesigner from '@/hooks/use-designer';
+import { cn } from '@/lib/utils';
+import { preview } from '@/types/types';
+import { Laptop2, Smartphone } from 'lucide-react';
+import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import Webpage from './webpage';
 
 export default function Preview() {
   const [previewMode, setPreviewMode] = useState<preview>('mobile');

@@ -1,13 +1,11 @@
-import useScrollTop from '@/hooks/use-scroll-top';
-import { cn } from '@/lib/utils';
-import React from 'react';
-import MobileMenuNavbar from './mobile-menu-navbar';
-import DesktopMenu from './desktop-navbar';
-import { Button, buttonVariants } from '@/components/ui/button';
 import Logo from '@/components/logo';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import Link from 'next/link';
 import { RiAdminFill } from 'react-icons/ri';
+import DesktopMenu from './desktop-navbar';
+import MobileMenuNavbar from './mobile-menu-navbar';
 
 export default async function DesktopNavbar() {
   const session = await getServerAuthSession();

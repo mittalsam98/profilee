@@ -1,12 +1,9 @@
-import { Card, CardTitle } from '@/components/ui/card';
-import React, { useState } from 'react';
 import useDesigner from '@/hooks/use-designer';
-import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import SocialIconDrag from './social-icon-drag';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { GripVertical, MoreHorizontal } from 'lucide-react';
-import AdhocLinkDrag from './adhoc-links-drag';
-import { Dialog } from '@/components/ui/dialog';
+import { useState } from 'react';
 import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
+import AdhocLinkDrag from './adhoc-links-drag';
 
 export default function AdhocLinks() {
   const { adhocLinks } = useDesigner();

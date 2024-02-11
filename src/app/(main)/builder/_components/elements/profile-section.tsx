@@ -5,21 +5,19 @@ import useDesigner from '@/hooks/use-designer';
 import { cn } from '@/lib/utils';
 import { api } from '@/trpc/react';
 import debounce from 'lodash.debounce';
-import { MinusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AiOutlineCloudUpload, AiOutlineYoutube } from 'react-icons/ai';
-import Skeleton from 'react-loading-skeleton';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
-import Avatar from '../../../../../../public/avatar.svg';
+import Skeleton from 'react-loading-skeleton';
 import { toast } from 'sonner';
+import Avatar from '../../../../../../public/avatar.svg';
 
 export default function ProfileSection() {
   const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
     useDesigner();
   const [titleError, setTitleError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
   const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
   const upload = api.images.upload.useMutation();
   const deleteProfilePic = api.images.delete.useMutation();
