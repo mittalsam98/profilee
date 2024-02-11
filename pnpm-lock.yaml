@@ -122,9 +122,6 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.3.5)
-  uploadthing:
-    specifier: ^5.7.4
-    version: 5.7.4
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
