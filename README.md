@@ -12,5 +12,11 @@ Profile Link Builder is a powerful tool designed to simplify the process of crea
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+- AWS S3 for storing images
+
+## Upcoming feature
+- QR code support
+- PRO plan support
+- More customization/ UI updates
 
 
