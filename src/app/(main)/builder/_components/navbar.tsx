@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <>
       <div className='flex gap-x-12'>
-        <Logo />
+        <Logo height={42} width={42} />
       </div>
       <div className='flex gap-x-6'>
         <Button
@@ -30,12 +30,11 @@ export default function Navbar() {
           }}
           variant='outline'
           disabled={isPublishing}
-          className='mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600  text-sm font-medium text-white'
+          className='mx-auto w-32 rounded-full bg-gradient-to-l  from-blue-800 to-blue-600 text-sm font-medium text-white'
         >
           {isPublishing ? 'Publishing' : 'Published'}
           <SiGradleplaypublisher className='ml-2' />
         </Button>
-        {/* <MobileMenuNavbar /> */}
       </div>
     </>
   );

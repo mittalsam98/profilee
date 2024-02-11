@@ -1,5 +1,5 @@
 import Logo from '@/components/logo';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getServerAuthSession } from '@/server/auth';
 import Link from 'next/link';
@@ -18,24 +18,27 @@ export default async function DesktopNavbar() {
       )}
     >
       <div className='flex gap-x-12'>
-        <Logo />
+        <Logo height={42} width={42} />
         <DesktopMenu />
       </div>
       <div className='flex gap-x-6'>
         <div className='flex gap-x-6 items-center'>
           {session && (
-            <div>
-              <Link className='flex  items-center' href={'/builder'}>
-                Admin
-                <RiAdminFill />
-              </Link>
-            </div>
+            <Link
+              className={buttonVariants({ variant: 'outline', size: 'lgp6' })}
+              href={'/builder'}
+            >
+              Admin
+              <RiAdminFill />
+            </Link>
           )}
           <Link
+            className='hidden lg:flex'
             href={session ? '/api/auth/signout' : '/api/auth/signin'}
-            className={buttonVariants({ variant: 'outline' })}
           >
-            {session ? 'Logout' : 'Login'}
+            <Button variant='default' size='lg'>
+              {session ? 'Logout' : 'Login'}
+            </Button>
           </Link>
         </div>
         <MobileMenuNavbar />

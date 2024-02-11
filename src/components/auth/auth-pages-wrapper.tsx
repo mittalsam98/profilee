@@ -3,9 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { OAUTH_REDIRECT } from '@/lib/constants';
 import { signIn } from 'next-auth/react';
-
-import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
+import Image from 'next/image';
+import Link from 'next/link';
+import Logo from '../logo';
 
 interface AuthPagesWrapper {
   children: React.ReactNode;
@@ -23,10 +24,15 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
   };
   return (
     <>
-      <div className='flex absolute h-full w-4/6'>
-        <div className='h-full w-[400px] hidden md:block bg-zinc-900 p-10 text-white '>
+      <div className='flex absolute h-full w-full p-8 lg:p-0 lg:w-5/6 xl:w-4/6'>
+        <Logo
+          height={30}
+          width={30}
+          className='absolute block lg:hidden top-2 right-4 rounded-xl'
+        />
+        <div className='h-full w-[400px] hidden lg:block bg-zinc-900 p-10 text-white '>
           <div className=' flex h-full items-center justify-center text-lg font-medium'>
-            Profilee
+            <Logo height={160} width={160} className='hover:cursor-pointer' />
           </div>
         </div>
         <div className='w-full flex'>

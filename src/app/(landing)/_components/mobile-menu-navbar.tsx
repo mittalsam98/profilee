@@ -30,7 +30,7 @@ export default async function MobileMenuNavbar() {
               href={session ? '/api/auth/signout' : '/api/auth/signin'}
               className='flex items-center gap-3 p-2 text-lg'
             >
-              {session ? 'Sign out' : 'Sign in'}
+              {session ? 'Logout' : 'Login'}
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

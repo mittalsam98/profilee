@@ -23,7 +23,6 @@ export default function DesktopMenu() {
       <NavLink href='#pricing' scroll={true}>
         Pricing
       </NavLink>
-      {/* <NavLink href='/admin'>Admin</NavLink> */}
     </nav>
   );
 }

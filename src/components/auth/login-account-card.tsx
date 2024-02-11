@@ -111,7 +111,7 @@ export default function LoginAccountCard() {
           </div>
 
           <Button disabled={isPending} type='submit' className='w-full'>
-            Sing in
+            Sign in
           </Button>
         </form>
       </Form>
