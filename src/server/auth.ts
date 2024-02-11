@@ -53,18 +53,6 @@ export const authOptions: NextAuthOptions = {
   //   }
   // },
   callbacks: {
-    async signIn({ user }) {
-      const userFound = await getUserById(user.id);
-      if (!userFound) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'OAuthAccountNotFound'
-        });
-      }
-
-      return true;
-    },
-
     async jwt({ token }) {
       if (!token.sub) return token;
 
