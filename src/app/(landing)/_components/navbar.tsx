@@ -13,7 +13,7 @@ export default async function DesktopNavbar() {
   return (
     <div
       className={cn(
-        'z-50 bg-background dark:bg-[#1F1F1F] fixed top-0  w-full p-6 flex justify-between',
+        'z-50 bg-background dark:bg-[#1F1F1F] fixed top-0  w-full px-6 py-3 flex justify-between',
         'border-b shadow-sm'
       )}
     >
