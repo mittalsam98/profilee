@@ -60,8 +60,11 @@ export const userRouter = createTRPCRouter({
       const user = await getUserById(session.user.id);
       if (!user) throw new TRPCError({ message: 'User not found', code: 'NOT_FOUND' });
 
-      await db.user.update({ where: { id: user.id }, data: { username: username } });
+      const updatedUser = await db.user.update({
+        where: { id: user.id },
+        data: { username: username }
+      });
 
-      return { success: true, message: 'Username added successfully' };
+      return { success: true, message: updatedUser.username };
     })
 });

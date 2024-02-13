@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import useDesigner from '@/hooks/use-designer';
 import { cn } from '@/lib/utils';
 import { UsernameSchema } from '@/server/api/schemas';
@@ -7,26 +7,27 @@ import { TRPCClientError } from '@trpc/client';
 import debounce from 'lodash.debounce';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ImNewTab } from 'react-icons/im';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { MdOpenInNew } from 'react-icons/md';
+import { LuCopy } from 'react-icons/lu';
 
 const UsernameSettings = () => {
-  const { username, setUsername, setIsPublishing } = useDesigner();
-  const [usernameError, setUsernameError] = useState(false);
+  const { username, setUsername, setIsPublishing, loading } = useDesigner();
+  const [usernameError, setUsernameError] = useState('');
   const origin = typeof window !== 'undefined' ? window.location.origin + '/' : '';
   const utils = api.useUtils();
 
   const { isLoading, mutateAsync: updateUsername } = api.user.createUpdateUsername.useMutation({
-    onSuccess: () => {
-      setUsernameError(false);
+    onSuccess: (res) => {
+      setUsernameError('');
+      setUsername(res.message ?? username);
     },
     onError: (error) => {
       if (error instanceof TRPCClientError) {
         if (error.message) {
-          // utils.userProfile.getUserCompleteProfile.invalidate();
           toast.error(error.message);
-          setUsernameError(true);
+          setUsernameError(error.message);
         }
       }
     }
@@ -44,41 +45,57 @@ const UsernameSettings = () => {
 
   const inputHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    const parsedUsername = UsernameSchema.safeParse({ username: value });
+
+    if (!parsedUsername.success) {
+      setUsernameError(
+        parsedUsername.error.format().username?._errors[0] ?? 'Not a valid username'
+      );
+      return;
+    }
     if (value.length > 0) {
       setUsername(value);
-      await debouncedInputHandler({ username: value });
-      setUsernameError(false);
+      if (value.trim() !== username.trim()) {
+        await debouncedInputHandler({ username: value });
+      }
+      setUsernameError('');
     } else {
-      setUsernameError(true);
+      setUsernameError('Username is required');
     }
   };
 
   return (
-    <Card className='my-2 border-neutral-200 bg-slate-50 '>
-      <div className='flex  justify-center items-center h-12 pr-2'>
-        <div className='flex flex-row justify-center items-center w-full h-full'>
-          <div className='px-2'>{origin}</div>
-          <input
+    <div className='flex justify-center h-8 pr-2'>
+      <div className='flex flex-row justify-center items-center w-full '>
+        <div>
+          <Input
             className={cn(
               `flex flex-row justify-center px-2 bg-white w-full h-full outline-none border`,
               isLoading ? 'bg-slate-50 cursor-progress	' : '',
-              usernameError ? 'border-2 border-red-500' : ''
+              usernameError ? 'focus:outline-none border-2 border-red-500' : ''
             )}
+            disabled={isLoading}
             defaultValue={username}
             onChange={inputHandler}
-          />
+          />{' '}
+          {usernameError && (
+            <p className={'text-xs mt-1 font-medium text-destructive'}>{usernameError}</p>
+          )}
         </div>
-        <div className='flex'>
-          <Link
-            target='_blank'
-            className='rounded-lg border border-neutral-400 p-1 ml-2 hover:border-neutral-500'
-            href={`/${username}`}
-          >
-            <ImNewTab className='h-6 w-6' />
-          </Link>
+        <div
+          onClick={() => {
+            navigator.clipboard.writeText(`${origin}/${username}`);
+            toast.success('URL copied to clipboard!');
+          }}
+          className='p-1 ml-2 cursor-pointer hover:border-neutral-500'
+        >
+          <LuCopy className='text-slate-400 h-4 w-4' />
         </div>
+        <Link target='_blank' className='p-1  hover:border-neutral-500' href={`/${username}`}>
+          <MdOpenInNew className='text-slate-400 h-4 w-4' />{' '}
+        </Link>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -4,27 +4,33 @@ import { Button } from '@/components/ui/button';
 import useDesigner from '@/hooks/use-designer';
 import { api } from '@/trpc/react';
 import { SiGradleplaypublisher } from 'react-icons/si';
+import UsernameSettings from './elements/username';
+import { IoReload } from 'react-icons/io5';
 
 export default function Navbar() {
-  const { socialLinks, adhocLinks, isPublishing } = useDesigner();
+  const { socialLinks, adhocLinks, isPublishing, setIsPublishing } = useDesigner();
 
   const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
   const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation({
+    onSuccess: (res) => {
+      setIsPublishing(false);
+    },
     onError: () => {
-      console.log('🚀 ~ Navbar ~ error:');
-      return 'Error cookie 🍪';
+      setIsPublishing(false);
     }
   });
 
   return (
     <>
-      <div className='flex gap-x-12'>
+      <div className='flex justify-center  items-center gap-x-12'>
         <Logo height={42} width={42} />
+        <UsernameSettings />
       </div>
       <div className='flex gap-x-6'>
         <Button
           type='button'
           onClick={async () => {
+            setIsPublishing(true);
             await updateSocialLink(socialLinks);
             await updateAdhocLinks(adhocLinks);
           }}
@@ -33,7 +39,11 @@ export default function Navbar() {
           className='mx-auto w-32 rounded-full bg-gradient-to-l  from-blue-800 to-blue-600 text-sm font-medium text-white'
         >
           {isPublishing ? 'Publishing' : 'Published'}
-          <SiGradleplaypublisher className='ml-2' />
+          {isPublishing ? (
+            <IoReload className='ml-2 h-5 w-5 animate-spin' />
+          ) : (
+            <SiGradleplaypublisher className='ml-2' />
+          )}
         </Button>
       </div>
     </>

@@ -53,7 +53,7 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   } = api.userProfile.getUserCompleteProfile.useQuery();
 
   useEffect(() => {
-    if (!data?.username) {
+    if (isSuccess && !data?.username) {
       redirect('/claim/username');
     }
     if (data?.username) {

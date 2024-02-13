@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AiFillPlusCircle } from 'react-icons/ai';
+import { MdAddCircle } from 'react-icons/md';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 import { socialMediaDataByName } from '../page-elements';
@@ -13,7 +13,7 @@ export default function SocialIconsPopover() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger>
-        <AiFillPlusCircle className='ml-2' />
+        <MdAddCircle className='text-slate-400 text-2xl' />
       </PopoverTrigger>
       <PopoverContent className='' align='start'>
         <div className='flex gap-4 flex-wrap '>

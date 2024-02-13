@@ -53,7 +53,10 @@ export const RegisterSchema = z.object({
   })
 });
 export const UsernameSchema = z.object({
-  username: z.string().min(1, {
-    message: 'Username is required'
-  })
+  username: z
+    .string()
+    .min(1, {
+      message: 'Username is required'
+    })
+    .refine((s) => !s.includes(' '), 'No spaces are allowed')
 });
