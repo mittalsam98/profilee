@@ -2,11 +2,11 @@ import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcrypt';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { RegisterSchema, UsernameSchema } from '../schemas';
-import { getUser, getUserByEmail, getUserById, getUserByUsername } from '../utils/user';
+import { getUserByEmail, getUserById, getUserByUsername } from '../utils/user';
 import { db } from '@/server/db';
 
 export const userRouter = createTRPCRouter({
-  createUser: publicProcedure.input(RegisterSchema).mutation(async ({ input, ctx }) => {
+  createUser: publicProcedure.input(RegisterSchema).mutation(async ({ input }) => {
     const { email, password, username } = input;
     const hashedPassword = await bcrypt.hash(password, 10);
 

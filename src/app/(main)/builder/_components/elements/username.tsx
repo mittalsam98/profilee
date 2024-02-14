@@ -13,10 +13,9 @@ import { MdOpenInNew } from 'react-icons/md';
 import { LuCopy } from 'react-icons/lu';
 
 const UsernameSettings = () => {
-  const { username, setUsername, setIsPublishing, loading } = useDesigner();
+  const { username, setUsername, setIsPublishing } = useDesigner();
   const [usernameError, setUsernameError] = useState('');
   const origin = typeof window !== 'undefined' ? window.location.origin + '/' : '';
-  const utils = api.useUtils();
 
   const { isLoading, mutateAsync: updateUsername } = api.user.createUpdateUsername.useMutation({
     onSuccess: (res) => {
@@ -83,8 +82,8 @@ const UsernameSettings = () => {
           )}
         </div>
         <div
-          onClick={() => {
-            navigator.clipboard.writeText(`${origin}/${username}`);
+          onClick={async () => {
+            await navigator.clipboard.writeText(`${origin}/${username}`);
             toast.success('URL copied to clipboard!');
           }}
           className='p-1 ml-2 cursor-pointer hover:border-neutral-500'

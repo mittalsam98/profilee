@@ -24,7 +24,6 @@ import { AuthPagesWrapper } from './auth-pages-wrapper';
 
 export function CreateAccountCard() {
   const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
 
   const { isLoading, mutateAsync: createUser } = api.user.createUser.useMutation({
     onError: (error) => {
@@ -47,7 +46,6 @@ export function CreateAccountCard() {
 
   const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError('');
-    setSuccess('');
     await createUser(values);
   };
 

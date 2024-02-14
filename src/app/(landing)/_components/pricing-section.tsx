@@ -1,6 +1,5 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { getServerAuthSession } from '@/server/auth';
 import { IoCheckmark } from 'react-icons/io5';
 import { MdCancel } from 'react-icons/md';
 import { TbInfoCircleFilled } from 'react-icons/tb';

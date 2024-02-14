@@ -7,7 +7,6 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 
 import { AuthPagesWrapper } from '@/components/auth/auth-pages-wrapper';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { LoginSchema } from '@/server/api/schemas';
 import {
@@ -16,8 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-  FormDescription
+  FormMessage
 } from '@/components/ui/form';
 import { signIn } from 'next-auth/react';
 import { Alert, AlertTitle } from '../ui/alert';

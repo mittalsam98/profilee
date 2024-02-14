@@ -1,4 +1,4 @@
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 
 // Function to convert hex to rgba with opacity
 const hexToRGBA = (hex: string, alpha: number) => {

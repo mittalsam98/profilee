@@ -1,4 +1,4 @@
-import { Context, createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
 import { getUser } from '../utils/user';
 import { SocialLinkSchema } from '../schemas';

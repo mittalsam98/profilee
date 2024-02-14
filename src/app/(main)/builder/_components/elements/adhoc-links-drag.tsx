@@ -101,7 +101,7 @@ export default function AdhocLinkDrag({
             </div>
             <Trash2Icon onClick={handleDelete} className='h-6 w-6' />
             <MoreHorizontal
-              onClick={(e) => {
+              onClick={() => {
                 setOpen(true);
               }}
               className='h-6 w-6'

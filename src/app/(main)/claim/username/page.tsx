@@ -21,15 +21,13 @@ import { Input } from '@/components/ui/input';
 import { UsernameSchema } from '@/server/api/schemas';
 import { api } from '@/trpc/react';
 import { TRPCClientError } from '@trpc/client';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 
 export default function ClaimUsername() {
   const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
-  const { update } = useSession();
   const form = useForm<z.infer<typeof UsernameSchema>>({
     resolver: zodResolver(UsernameSchema),
     defaultValues: {
@@ -58,7 +56,6 @@ export default function ClaimUsername() {
 
   const onSubmit = async (values: z.infer<typeof UsernameSchema>) => {
     setError('');
-    setSuccess('');
     await addUsername(values);
   };
   return (
