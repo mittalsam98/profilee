@@ -84,11 +84,23 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+@layer utilities {
+  .card-wrapper {
+    @apply relative overflow-hidden rounded-full;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .card-wrapper::before {
+    background: conic-gradient(
+      rgba(37, 99, 235, 0.9) 0deg,
+      rgba(124, 58, 237, 0.9) 0deg,
+      transparent 180deg
+    );
+
+    @apply absolute left-[-5%] top-[21%] h-[75%] w-[115%] animate-border-spin content-[''];
+  }
+
+  /* Body */
+  .card-content {
+    @apply absolute left-[1px] top-[1px] h-[calc(100%-2px)] w-[calc(100%-2px)] rounded-full bg-white;
   }
 }

@@ -20,7 +20,7 @@ const NavLink = ({ className, ...props }: React.ComponentProps<typeof Link>) => 
 export default function DesktopMenu() {
   return (
     <nav className={'hidden items-center space-x-8 lg:flex'}>
-      <NavLink href='#pricing' scroll={true}>
+      <NavLink href='#pricing' scroll={true} className='text-md'>
         Pricing
       </NavLink>
     </nav>

@@ -13,8 +13,7 @@ export default async function DesktopNavbar() {
   return (
     <div
       className={cn(
-        'z-50 bg-background dark:bg-[#1F1F1F] fixed top-0  w-full px-6 py-3 flex justify-between',
-        'border-b shadow-sm'
+        'container w-full bg-background dark:bg-[#1F1F1F] px-6 py-3 flex justify-between items-center '
       )}
     >
       <div className='flex gap-x-12'>
@@ -22,7 +21,7 @@ export default async function DesktopNavbar() {
         <DesktopMenu />
       </div>
       <div className='flex gap-x-6'>
-        <div className='flex gap-x-6 items-center'>
+        <div className='flex gap-x-4 items-center'>
           {session && (
             <Link
               className={buttonVariants({ variant: 'outline', size: 'lgp6' })}
@@ -32,11 +31,15 @@ export default async function DesktopNavbar() {
               <RiAdminFill />
             </Link>
           )}
-          <Link className='hidden lg:flex' href={session ? '/api/auth/signout' : '/auth/login'}>
-            <Button variant='default' size='lg'>
-              {session ? 'Logout' : 'Login'}
-            </Button>
+          <Link
+            className='hidden lg:flex bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white py-1 px-5 dark:focus:ring-offset-gray-800 text-lg'
+            href={session ? '/api/auth/signout' : '/auth/login'}
+          >
+            {session ? 'Logout' : 'Login'}
           </Link>
+          <Button variant='outline' className='rounded-full px-5 py-1 text-lg'>
+            Signup
+          </Button>
         </div>
         <MobileMenuNavbar />
       </div>
