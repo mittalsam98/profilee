@@ -18,7 +18,8 @@ export default async function Page({ params }: Props) {
   const adhocLinks = data.adhocLink?.data as JsonArray;
 
   return (
-    <div className='h-screen w-full'>
+    <div className='h-screen w-full flex justify-center relative'>
+      <div className='wavy-background absolute h-screen w-full'> </div>
       <Webpage
         title={data?.userProfile?.title ?? ''}
         bio={data?.userProfile?.bio}

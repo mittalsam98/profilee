@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
 /* Firefox */
 * {
   scrollbar-width: thin;
@@ -102,5 +106,12 @@
   /* Body */
   .card-content {
     @apply absolute left-[1px] top-[1px] h-[calc(100%-2px)] w-[calc(100%-2px)] rounded-full bg-white;
+  }
+
+  .wavy-background {
+    background-color: #e5e5f7;
+    opacity: 0.2;
+    background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 10px),
+      repeating-linear-gradient(#abbfae55, #abbfae);
   }
 }

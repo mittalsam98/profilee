@@ -125,7 +125,7 @@ export function CreateAccountCard() {
             />
           </div>
 
-          <Button disabled={isLoading} type='submit' className='w-full'>
+          <Button disabled={isLoading} type='submit' variant={'outline'} className='w-full'>
             Create an account
           </Button>
         </form>

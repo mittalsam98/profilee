@@ -18,7 +18,7 @@ export default async function MobileMenuNavbar() {
         <DropdownMenuTrigger>
           <MenuIcon className='h-6 w-6' />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' sideOffset={16}>
+        <DropdownMenuContent align='end' sideOffset={16} className='bg-white'>
           <DropdownMenuItem asChild>
             <Link className='flex items-center gap-3 p-2 text-lg' href='#pricing'>
               Pricing
@@ -27,10 +27,10 @@ export default async function MobileMenuNavbar() {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
-              href={session ? '/api/auth/signout' : '/auth/login'}
+              href={session ? '/api/auth/signout' : '/auth/register'}
               className='flex items-center gap-3 p-2 text-lg'
             >
-              {session ? 'Logout' : 'Login'}
+              {session ? 'Logout' : 'Sign up'}
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

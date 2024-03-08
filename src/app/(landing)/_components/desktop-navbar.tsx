@@ -9,7 +9,7 @@ const NavLink = ({ className, ...props }: React.ComponentProps<typeof Link>) => 
   return (
     <Link
       className={cn(
-        'inline-flex items-center gap-x-2.5 rounded text-sm font-medium',
+        'inline-flex items-center gap-x-2.5 rounded text-sm',
         isActive ? '' : 'hover:text-primary text-muted-foreground ',
         className
       )}

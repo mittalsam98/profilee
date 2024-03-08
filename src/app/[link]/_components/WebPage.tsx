@@ -18,7 +18,7 @@ export default function Webpage({ profileImg, title, bio, socialLinks, adhocLink
     updatedAdhocLinkType = adhocLinks as AdhocLinks[];
   }
   return (
-    <div className='h-full max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center '>
+    <div className='h-full w-full absolute max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center bg-white '>
       <figure className='p-2'>
         {profileImg && typeof profileImg === 'string' && (
           <Image
