@@ -58,7 +58,12 @@ export default function Webpage({ profileImg, title, bio, socialLinks, adhocLink
                 href={link.link}
                 target='_blank'
                 key={link.id}
-                className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
+                style={{
+                  background: link.theme.backgroundColor ? link.theme.backgroundColor : '',
+                  color: link.theme.textColor ? link.theme.textColor : '',
+                  borderColor: link.theme.textColor ? link.theme.borderColor : ''
+                }}
+                className='flex items-center rounded-lg border px-5 py-4 text-lg leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
               >
                 {link.name}
               </Link>

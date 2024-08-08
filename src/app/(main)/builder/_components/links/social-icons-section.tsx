@@ -1,12 +1,12 @@
-import { Card, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import useDesigner from '@/hooks/use-designer';
 import { SortableContext } from '@dnd-kit/sortable';
+import { IoShareSocialSharp } from 'react-icons/io5';
 import SocialIconsPopover from '../popovers/social-icons-popover';
 import SocialIconDrag from './social-icon-drag';
-import { IoShareSocialSharp } from 'react-icons/io5';
 
 export default function SocialIconsSection() {
-  const { socialLinks } = useDesigner();
+  const { state } = useDesigner();
 
   return (
     <Card className='p-4'>
@@ -17,10 +17,10 @@ export default function SocialIconsSection() {
         </p>
         <SocialIconsPopover />
       </div>
-      {Object.entries(socialLinks).length > 0 && (
+      {Object.entries(state.socialLinks).length > 0 && (
         <div className='flex gap-4 flex-wrap mt-3 ml-2'>
-          <SortableContext id='social-icon' items={Object.keys(socialLinks)}>
-            {Object.entries(socialLinks).map(([platform, value]) => (
+          <SortableContext id='social-icon' items={Object.keys(state.socialLinks)}>
+            {Object.entries(state.socialLinks).map(([platform, value]) => (
               <SocialIconDrag data={platform} key={platform} value={value} />
             ))}
           </SortableContext>

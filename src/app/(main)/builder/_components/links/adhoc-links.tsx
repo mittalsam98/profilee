@@ -6,7 +6,7 @@ import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
 import AdhocLinkDrag from './adhoc-links-drag';
 
 export default function AdhocLinks() {
-  const { adhocLinks } = useDesigner();
+  const { state } = useDesigner();
   const [open, setAdhocLinkDialogOpen] = useState(false);
 
   return (
@@ -19,7 +19,7 @@ export default function AdhocLinks() {
       >
         Add New Links
       </span>
-      {adhocLinks.length > 0 && (
+      {state.adhocLinks.length > 0 && (
         <>
           <div className='flex justify-between text-xs text-slate-600 pl-8 mt-5	items-center'>
             <div className='flex'>
@@ -39,8 +39,12 @@ export default function AdhocLinks() {
           </div>
         </>
       )}
-      <SortableContext strategy={verticalListSortingStrategy} id='adhoc-links' items={adhocLinks}>
-        {adhocLinks.map((link) => (
+      <SortableContext
+        strategy={verticalListSortingStrategy}
+        id='adhoc-links'
+        items={state.adhocLinks}
+      >
+        {state.adhocLinks.map((link) => (
           <AdhocLinkDrag data={link} key={link.id} />
         ))}
       </SortableContext>

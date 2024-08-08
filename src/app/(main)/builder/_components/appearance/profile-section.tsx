@@ -18,17 +18,16 @@ import { HiMiniIdentification } from 'react-icons/hi2';
 import { Textarea } from '@/components/ui/textarea';
 
 export default function ProfileSection() {
-  const { setBio, setTitle, setProfileImg, profileImg, bio, title, setIsPublishing } =
-    useDesigner();
+  const { state, dispatch } = useDesigner();
   const [titleError, setTitleError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
   const upload = api.images.upload.useMutation();
   const deleteProfilePic = api.images.delete.useMutation();
 
-  useEffect(() => {
-    setIsPublishing(isLoading || upload.isLoading || deleteProfilePic.isLoading);
-  }, [isLoading, upload.isLoading, deleteProfilePic.isLoading]);
+  // useEffect(() => {
+  //   setIsPublishing(isLoading || upload.isLoading || deleteProfilePic.isLoading);
+  // }, [isLoading, upload.isLoading, deleteProfilePic.isLoading]);
 
   const savingProfile = async ({ title, bio }: { title: string; bio?: string }) => {
     await updateProfile({
@@ -44,15 +43,21 @@ export default function ProfileSection() {
     const { id, value } = e.target;
     if (id === 'profile') {
       if (value.length > 0) {
-        void debouncedInputHandler({ title: value, bio });
-        setTitle(value);
+        void debouncedInputHandler({ title: value, bio: state.userProfile.bio });
+        dispatch({
+          type: 'UPDATE_TITLE',
+          payload: value
+        });
         setTitleError(false);
       } else {
         setTitleError(true);
       }
     } else if (id === 'bio') {
-      void debouncedInputHandler({ title, bio: value });
-      setBio(value);
+      void debouncedInputHandler({ title: state.userProfile.title, bio: value });
+      dispatch({
+        type: 'UPDATE_BIO',
+        payload: value
+      });
     }
   };
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +75,10 @@ export default function ProfileSection() {
           });
 
           if (res.ok) {
-            setProfileImg(selectedFile);
+            dispatch({
+              type: 'UPDATE_PROFILE_IMG',
+              payload: selectedFile
+            });
           } else {
             toast.error('Something went wrong. Please refresh page and try again');
           }
@@ -94,7 +102,7 @@ export default function ProfileSection() {
             <div className='w-4/6'>
               <div className='w-full text-left mb-2'>
                 <Label htmlFor='profile'>Title</Label>
-                <Input id='profile' value={title} onChange={inputHandler} />{' '}
+                <Input id='profile' value={state.userProfile.title} onChange={inputHandler} />{' '}
                 {titleError && (
                   <p className={'text-xs mt-1 font-medium text-destructive'}>
                     {'Profile should have name'}
@@ -103,13 +111,13 @@ export default function ProfileSection() {
               </div>
               <div className='w-full text-left'>
                 <Label htmlFor='bio'>Bio</Label>
-                <Textarea id='bio' value={bio} onChange={inputHandler} />
+                <Textarea id='bio' value={state.userProfile.bio} onChange={inputHandler} />
               </div>
             </div>
             <div
               className={cn(
                 'flex min-h-[120px] min-w-[120px] w-[120px] h-[120px] hover:cursor-pointer bg-background/50 border-dashed relative',
-                profileImg ? 'overflow-visible' : 'overflow-visible '
+                state.userProfile.profileImg ? 'overflow-visible' : 'overflow-visible '
               )}
               onClick={() => {
                 if (fileInputRef.current) {
@@ -128,13 +136,13 @@ export default function ProfileSection() {
                 <div className='h-full w-full'>
                   <Skeleton height='100%' circle={true} className='bg-red-500 w-full h-full' />
                 </div>
-              ) : profileImg ? (
+              ) : state.userProfile.profileImg ? (
                 <>
                   <Image
                     src={
-                      typeof profileImg === 'string'
-                        ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
-                        : URL.createObjectURL(profileImg)
+                      typeof state.userProfile.profileImg === 'string'
+                        ? `https://profilee-webstate.userProfile.app.s3.amazonaws.com/${state.userProfile.profileImg}`
+                        : URL.createObjectURL(state.userProfile.profileImg)
                     }
                     alt='Profile link image'
                     width={120}
@@ -146,7 +154,10 @@ export default function ProfileSection() {
                       e.stopPropagation();
                       const res = await deleteProfilePic.mutateAsync();
                       if (res?.message) {
-                        setProfileImg(null);
+                        dispatch({
+                          type: 'UPDATE_PROFILE_IMG',
+                          payload: null
+                        });
                         if (fileInputRef.current) {
                           fileInputRef.current.value = '';
                         }

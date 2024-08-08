@@ -67,11 +67,21 @@ export default {
             opacity: '1',
             transform: 'translateY(0)'
           }
+        },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' }
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' }
         }
       },
       animation: {
         'border-spin': 'border-spin 7s linear infinite',
-        slidein: 'slidein 1s ease var(--slidein-delay, 0) forwards'
+        slidein: 'slidein 1s ease var(--slidein-delay, 0) forwards',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out'
       }
     }
   },

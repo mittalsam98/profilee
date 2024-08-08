@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { socialMediaDataByName } from '../page-elements';
 
 export default function Webpage() {
-  const { profileImg, title, bio, socialLinks, adhocLinks } = useDesigner();
+  const { state } = useDesigner();
 
   return (
     <div className='max-w-lg mx-auto px-3 overflow-hidden text-center '>
       <figure className='p-2'>
-        {profileImg && (
+        {state.userProfile.profileImg && (
           <Image
             src={
-              typeof profileImg === 'string'
-                ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
-                : URL.createObjectURL(profileImg)
+              typeof state.userProfile.profileImg === 'string'
+                ? `https://profilee-webapp.s3.amazonaws.com/${state.userProfile.profileImg}`
+                : URL.createObjectURL(state.userProfile.profileImg)
             }
             alt='Profile pic'
             width={150}
@@ -24,15 +24,15 @@ export default function Webpage() {
         )}
         <div className='text-center space-y-4'>
           <figcaption className='font-medium'>
-            <div className='text-cyan-900 text-xl'>{title}</div>
-            <div className='text-gray-500 font-light'>{bio}</div>
+            <div className='text-cyan-900 text-xl'>{state.userProfile.title}</div>
+            <div className='text-gray-500 font-light'>{state.userProfile.bio}</div>
           </figcaption>
         </div>
       </figure>
       <div className='mx-auto'>
-        {Object.entries(socialLinks).length > 0 && (
+        {Object.entries(state.socialLinks).length > 0 && (
           <div className='flex gap-3 flex-wrap justify-center py-3'>
-            {Object.entries(socialLinks).map(([platform, value]) => (
+            {Object.entries(state.socialLinks).map(([platform, value]) => (
               <Link href={value} key={platform} target='_blank'>
                 {socialMediaDataByName[platform]?.icon}
               </Link>
@@ -40,14 +40,19 @@ export default function Webpage() {
           </div>
         )}
 
-        {adhocLinks?.map((link) => {
+        {state.adhocLinks?.map((link) => {
           return link.isActive ? (
-            <div className='pt-6 text-center space-y-4 '>
+            <div className='pt-6 text-center space-y-4'>
               <Link
                 href={link.link}
                 target='_blank'
                 key={link.id}
-                className='flex items-center rounded-lg border border-gray-400 px-5 py-4 text-sm leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150'
+                style={{
+                  background: link.theme.backgroundColor ? link.theme.backgroundColor : '',
+                  color: link.theme.textColor ? link.theme.textColor : '',
+                  borderColor: link.theme.textColor ? link.theme.borderColor : ''
+                }}
+                className={`flex items-center rounded-lg border  px-5 py-4 text-sm leading-6 font-medium shadow-md hover:shadow-xl transition ease-in-out duration-150`}
               >
                 {link.name}
               </Link>

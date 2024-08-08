@@ -17,7 +17,7 @@ const SocialIconDrag = ({
   outOfOverlay?: boolean;
 }) => {
   const { color, name, icon } = socialMediaDataByName[data]!;
-  const { setSocialLinks } = useDesigner();
+  const { dispatch, state } = useDesigner();
   const rgbaColor1 = useHexToRGBA(color!, 0.08);
   const rgbaColor2 = useHexToRGBA(color!, 0.2);
   const {
@@ -77,10 +77,11 @@ const SocialIconDrag = ({
         <div className={cn('absolute right-0 top-0  bg-white rounded-full')}>
           <MinusCircle
             onClick={() => {
-              setSocialLinks((prevLinks) => {
-                const linksCopy = { ...prevLinks };
-                delete linksCopy[data];
-                return linksCopy;
+              const linksCopy = { ...state.socialLinks };
+              delete linksCopy[data];
+              dispatch({
+                type: 'UPDATE_SOCIAL_LINK',
+                payload: linksCopy
               });
             }}
             size={16}

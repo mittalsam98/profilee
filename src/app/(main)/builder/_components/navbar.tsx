@@ -6,9 +6,12 @@ import { api } from '@/trpc/react';
 import { SiGradleplaypublisher } from 'react-icons/si';
 import UsernameSettings from './elements/username';
 import { IoReload } from 'react-icons/io5';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Navbar() {
-  const { socialLinks, adhocLinks, isPublishing, setIsPublishing } = useDesigner();
+  const { state } = useDesigner();
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const { mutateAsync: updateSocialLink } = api.socialLink.updateSocialLinks.useMutation();
   const { mutateAsync: updateAdhocLinks } = api.adHocLink.updateAdhocLinks.useMutation({
@@ -22,8 +25,9 @@ export default function Navbar() {
 
   return (
     <>
-      <div className='flex justify-center  items-center gap-x-12'>
+      <div className='flex justify-center items-center gap-x-12'>
         <Logo height={42} width={42} />
+        <NavBarTabs />
         <UsernameSettings />
       </div>
       <div className='flex gap-x-6'>
@@ -31,8 +35,8 @@ export default function Navbar() {
           type='button'
           onClick={async () => {
             setIsPublishing(true);
-            await updateSocialLink(socialLinks);
-            await updateAdhocLinks(adhocLinks);
+            await updateSocialLink(state.socialLinks);
+            await updateAdhocLinks(state.adhocLinks);
           }}
           variant='outline'
           disabled={isPublishing}
@@ -49,3 +53,15 @@ export default function Navbar() {
     </>
   );
 }
+
+const NavBarTabs = () => {
+  return (
+    <div className='flex justify-center items-center gap-10'>
+      <Link href='analytics' className='text-red-600'>
+        Analytics
+      </Link>
+      <Link href='links'>Links</Link>
+      <Link href='appearance'>Appearance</Link>
+    </div>
+  );
+};

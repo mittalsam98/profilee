@@ -16,7 +16,14 @@ export const AdhocLinkSchema = z
     }),
     link: z.string(),
     id: z.string(),
-    isActive: z.boolean()
+    isActive: z.boolean(),
+    theme: z.object({
+      textAlign: z.string(),
+      backgroundColor: z.string(),
+      textColor: z.string(),
+      borderColor: z.string(),
+      borderRadius: z.string()
+    })
   })
   .array();
 

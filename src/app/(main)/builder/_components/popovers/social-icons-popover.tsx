@@ -3,11 +3,11 @@ import { MdAddCircle } from 'react-icons/md';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 import { socialMediaDataByName } from '../page-elements';
-import SocialIcon from '@/app/(main)/builder/_components/elements/social-icon';
+import SocialIcon from '@/app/(main)/builder/_components/links/social-icon';
 import useDesigner from '@/hooks/use-designer';
 
 export default function SocialIconsPopover() {
-  const { socialLinks } = useDesigner();
+  const { state } = useDesigner();
   const [open, setOpen] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function SocialIconsPopover() {
       <PopoverContent className='' align='start'>
         <div className='flex gap-4 flex-wrap '>
           {Object.keys(socialMediaDataByName)
-            .filter((data) => !socialLinks[data])
+            .filter((data) => !state.socialLinks[data])
             .map((data) => {
               return <SocialIcon data={data} key={data} triggerPopover={setOpen} />;
             })}

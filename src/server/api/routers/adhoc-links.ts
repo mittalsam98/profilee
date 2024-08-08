@@ -7,6 +7,7 @@ import { AdhocLinks } from '@/types/types';
 
 export const adHocLinkRouter = createTRPCRouter({
   updateAdhocLinks: protectedProcedure.input(AdhocLinkSchema).mutation(async ({ input, ctx }) => {
+    console.log({ input });
     const user = await getUser({ ctx: ctx, includeSocialLink: true });
 
     const updatedAdhocLink = await db.adhocLink.upsert({

@@ -11,11 +11,11 @@ export default async function DesktopNavbar() {
   return (
     <div
       className={cn(
-        'container w-full dark:bg-[#1F1F1F] px-6 pt-4 pb-3 flex justify-between items-center '
+        'z-10 flex mx-auto w-full max-w-5xl items-center justify-between lg:rounded-full bg-white lg:border lg:px-2.5 lg:py-1.5 px-6 pt-4 pb-3 backdrop-blur-lg md:top-6'
       )}
     >
       <div className='flex gap-x-2 items-center'>
-        <Logo height={42} width={42} />
+        <Logo height={33} width={33} />
         <span className='hidden md:flex text-xl uppercase font-bold'>Profilee</span>
       </div>
       <div className='flex gap-x-6'>
@@ -33,7 +33,7 @@ export default async function DesktopNavbar() {
                 <path d='M0.652466 4.00002C15.8925 2.66668 48.0351 0.400018 54.6853 2.00002'></path>
               </svg>
             </Link>
-          )}{' '}
+          )}
           {!session && (
             <Link className={cn('rounded-full px-5 py-1 text-md')} href={'/auth/login'}>
               Sign in
