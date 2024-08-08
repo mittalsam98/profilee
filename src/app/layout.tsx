@@ -7,6 +7,7 @@ import { headers } from 'next/headers';
 import Provider from '@/components/context/client-provider';
 import { getServerAuthSession } from '@/server/auth';
 import { TRPCReactProvider } from '@/trpc/react';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,6 +25,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang='en'>
+      <head>
+        <Script async src='https://www.googletagmanager.com/gtag/js?id=G-3Y5VCPT4LB'></Script>
+        <Script id='google-analytics'>
+          {` window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-3Y5VCPT4LB');`}
+        </Script>
+      </head>
       <body className={`h-full font-sans ${inter.variable}`}>
         <TRPCReactProvider headers={headers()}>
           <Provider session={session}>{children}</Provider>
