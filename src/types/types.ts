@@ -32,6 +32,7 @@ export type AdhocLinks = {
   link: string;
   isActive: boolean;
   theme: LinkTheme;
+  clicks: number;
 };
 export type LinkTheme = {
   textAlign: TextAlign;

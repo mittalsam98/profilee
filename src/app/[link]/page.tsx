@@ -22,6 +22,7 @@ export default async function Page({ params }: Props) {
       <div className='wavy-background absolute h-screen w-full'> </div>
       <Webpage
         title={data?.userProfile?.title ?? ''}
+        userId={data?.id ?? ''}
         bio={data?.userProfile?.bio}
         profileImg={data?.userProfile?.pic}
         socialLinks={data?.socialLink?.data}

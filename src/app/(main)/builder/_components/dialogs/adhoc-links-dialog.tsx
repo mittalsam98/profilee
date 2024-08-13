@@ -58,6 +58,7 @@ export default function AdhocLinksDialog({
                 id: uuidv4(),
                 link: inputLink,
                 isActive: true,
+                clicks: 0,
                 theme: {
                   textAlign: TextAlign.CENTER,
                   backgroundColor: '#fff',

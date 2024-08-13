@@ -14,6 +14,11 @@ export default {
       }
     },
     extend: {
+      flexGrow: {
+        1: '1',
+        2: '2',
+        3: '3'
+      },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans]
       },

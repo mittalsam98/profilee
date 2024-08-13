@@ -12,7 +12,8 @@ import {
   GripVertical,
   MoreHorizontal,
   Paintbrush,
-  Trash2Icon
+  Trash2Icon,
+  ChartNoAxesColumnIncreasing
 } from 'lucide-react';
 import { useState } from 'react';
 import { MdDashboardCustomize } from 'react-icons/md';
@@ -141,11 +142,11 @@ export default function AdhocLinkDrag({
                 <Paintbrush />
               </ToggleGroupItem>
             </ToolTipForTextAndIcon>
-            {/* <ToolTipForTextAndIcon text={'Edit Link'}>
-              <ToggleGroupItem value='EDIT_LINK'>
-              <TypeOutline />
+            <ToolTipForTextAndIcon text={'Link Clicks'}>
+              <ToggleGroupItem value='LINK_CLICKS'>
+                <ChartNoAxesColumnIncreasing />
               </ToggleGroupItem>
-            </ToolTipForTextAndIcon> */}
+            </ToolTipForTextAndIcon>
           </div>
           <div>
             <ToolTipForTextAndIcon text={`${data.isActive ? 'Hide' : 'Show'}`}>
@@ -160,8 +161,12 @@ export default function AdhocLinkDrag({
             </ToolTipForTextAndIcon>
           </div>
         </ToggleGroup>
-        {editItem == 'EDIT_APPEARANCE' && <EditAppearance data={data} />}
-        {editItem == 'EDIT_LINK' && <EditLink />}
+        {editItem && (
+          <Card className='my-4'>
+            {editItem == 'EDIT_APPEARANCE' && <EditAppearance data={data} />}
+            {editItem == 'LINK_CLICKS' && <EditLink adhocLinkId={data.id} />}
+          </Card>
+        )}
       </Card>
       <AdhocLinksDialog open={open} setOpen={setOpen} data={data} />
     </div>

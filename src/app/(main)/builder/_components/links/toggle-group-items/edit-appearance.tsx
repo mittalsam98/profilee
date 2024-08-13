@@ -57,7 +57,7 @@ const EditAppearance: React.FC<EditAppearanceProps> = ({ data }) => {
   );
 
   return (
-    <div className='flex flex-col gap-4 mt-8'>
+    <div className='flex flex-col gap-4 p-4'>
       <div className='flex gap-4 items-center'>
         <label className='w-40'>Background Color</label>
         <GradientPicker

@@ -23,25 +23,6 @@ const initialState: DesignerContextState = {
   socialLinks: {}
 };
 
-// type DesignerContextProps = {
-//   profileImg: File | string | null;
-//   setProfileImg: Dispatch<SetStateAction<File | null | string>>;
-//   title: string;
-//   setTitle: Dispatch<SetStateAction<string>>;
-//   username: string;
-//   setUsername: Dispatch<SetStateAction<string>>;
-//   bio: string;
-//   setBio: Dispatch<SetStateAction<string>>;
-//   loading: boolean;
-//   setIsLoading: Dispatch<SetStateAction<boolean>>;
-//   isPublishing: boolean;
-//   setIsPublishing: Dispatch<SetStateAction<boolean>>;
-//   socialLinks: SocialMediaDataContext;
-//   setSocialLinks: Dispatch<SetStateAction<SocialMediaDataContext>>;
-//   adhocLinks: AdhocLinks[];
-//   setAdhocLinks: Dispatch<SetStateAction<AdhocLinks[]>>;
-// };
-
 export const DesignerContext = createContext<{
   state: DesignerContextState;
   dispatch: Dispatch<DesignerContextAction>;
@@ -57,7 +38,6 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
     isError,
     error
   } = api.userProfile.getUserCompleteProfile.useQuery();
-  console.log({ isSuccess, data, state });
 
   useEffect(() => {
     if (isSuccess) {

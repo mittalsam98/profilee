@@ -1,3 +1,4 @@
+import { EventType } from '@prisma/client';
 import * as z from 'zod';
 export const UpdateProfileSchema = z.object({
   title: z
@@ -66,4 +67,13 @@ export const UsernameSchema = z.object({
       message: 'Username is required'
     })
     .refine((s) => !s.includes(' '), 'No spaces are allowed')
+});
+
+export const LinkInteraction = z.object({
+  adhocLinkId: z.string(),
+  userId: z.string(),
+  eventType: z.enum([EventType.CLICK])
+});
+export const LinkAnalytics = z.object({
+  adhocLinkId: z.string()
 });

@@ -10,7 +10,9 @@ import Webpage from './webpage';
 
 export default function Preview() {
   const [previewMode, setPreviewMode] = useState<preview>('mobile');
-  const { loading } = useDesigner();
+  // const { loading } = useDesigner(); // TODO remove this
+
+  const loading = false;
 
   return (
     <div className='p-1 lg:flex-1 lg:py-5 lg:px-8'>
