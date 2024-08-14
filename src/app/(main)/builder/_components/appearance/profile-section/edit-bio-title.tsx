@@ -3,15 +3,12 @@ import { Card } from '@/components/ui/card';
 import useDesigner from '@/hooks/use-designer';
 import React from 'react';
 
-interface EditAppearanceProps {
+interface EditBioTitleProps {
   title: 'TITLE' | 'BIO';
   background: string;
 }
 
-const EditAppearance: React.FC<EditAppearanceProps> = ({
-  title,
-  background
-}: EditAppearanceProps) => {
+const EditBioTitle: React.FC<EditBioTitleProps> = ({ title, background }: EditBioTitleProps) => {
   const { state, dispatch } = useDesigner();
 
   const handleChangeColor = (color: string) => {
@@ -49,4 +46,4 @@ const EditAppearance: React.FC<EditAppearanceProps> = ({
   );
 };
 
-export default EditAppearance;
+export default EditBioTitle;

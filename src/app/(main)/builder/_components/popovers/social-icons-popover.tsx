@@ -3,7 +3,7 @@ import { MdAddCircle } from 'react-icons/md';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { PopoverTrigger } from '@radix-ui/react-popover';
 import { socialMediaDataByName } from '../page-elements';
-import SocialIcon from '@/app/(main)/builder/_components/links/social-icon';
+import SocialIcon from '@/app/(main)/builder/_components/links/social-links/social-icon';
 import useDesigner from '@/hooks/use-designer';
 
 export default function SocialIconsPopover() {

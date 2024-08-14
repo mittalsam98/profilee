@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { FC } from 'react';
 import { Accept, useDropzone } from 'react-dropzone';
-import drag_and_drop from '../../../../../../public/drag_and_drop.webp';
+import drag_and_drop from '../../../../../../../public/drag_and_drop.webp';
 
 interface DropzoneProps {
   onDrop: (acceptedFiles: File[]) => void;

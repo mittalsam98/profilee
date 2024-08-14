@@ -2,8 +2,8 @@ import useDesigner from '@/hooks/use-designer';
 import { Active, DragOverlay, useDndMonitor } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useState } from 'react';
-import AdhocLinkDrag from './links/adhoc-links-drag';
-import SocialIconDrag from './links/social-icon-drag';
+import AdhocLinkDrag from './links/adhoc-links/adhoc-links-drag';
+import SocialIconDrag from './links/social-links/social-icon-drag';
 
 export default function DragOverlayWrapper() {
   const { dispatch, state } = useDesigner();

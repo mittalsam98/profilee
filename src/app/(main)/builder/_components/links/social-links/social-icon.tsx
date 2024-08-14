@@ -1,7 +1,7 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Dispatch, SetStateAction } from 'react';
-import SocialLinkDialog from '../dialogs/social-icons-dialog';
-import { socialMediaDataByName } from '../page-elements';
+import SocialLinkDialog from '../../dialogs/social-icons-dialog';
+import { socialMediaDataByName } from '../../page-elements';
 
 const SocialIcon = ({
   data,

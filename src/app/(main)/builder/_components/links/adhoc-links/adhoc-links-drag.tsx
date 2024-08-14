@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { MdDashboardCustomize } from 'react-icons/md';
-import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
+import AdhocLinksDialog from '../../dialogs/adhoc-links-dialog';
 import ToolTipForTextAndIcon from '@/components/tooltip-icon-text';
 import EditAppearance from './toggle-group-items/edit-appearance';
 import EditLink from './toggle-group-items/edit-link';

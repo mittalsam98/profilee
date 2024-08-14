@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, MinusCircle, Pencil } from 'lucide-react';
-import SocialLinkDialog from '../dialogs/social-icons-dialog';
-import { socialMediaDataByName } from '../page-elements';
+import SocialLinkDialog from '../../dialogs/social-icons-dialog';
+import { socialMediaDataByName } from '../../page-elements';
 
 const SocialIconDrag = ({
   data,

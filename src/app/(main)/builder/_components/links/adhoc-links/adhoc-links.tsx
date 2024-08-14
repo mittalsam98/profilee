@@ -2,8 +2,8 @@ import useDesigner from '@/hooks/use-designer';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { GripVertical, MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
-import AdhocLinksDialog from '../dialogs/adhoc-links-dialog';
 import AdhocLinkDrag from './adhoc-links-drag';
+import AdhocLinksDialog from '../../dialogs/adhoc-links-dialog';
 
 export default function AdhocLinks() {
   const { state } = useDesigner();

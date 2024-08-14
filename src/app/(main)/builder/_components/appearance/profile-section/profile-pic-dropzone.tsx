@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Dropzone } from './dropzone';
 
-export const DocumentDropzoneBox = () => {
+export const PicDropzoneBox = () => {
   const { state, dispatch } = useDesigner();
   const deleteProfilePic = api.images.delete.useMutation();
   const upload = api.images.upload.useMutation();

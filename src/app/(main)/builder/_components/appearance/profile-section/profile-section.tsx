@@ -3,16 +3,16 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Toggle } from '@/components/ui/toggle';
 import useDesigner from '@/hooks/use-designer';
 import { api } from '@/trpc/react';
 import debounce from 'lodash.debounce';
-import { useCallback, useRef, useState } from 'react';
+import { Paintbrush } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { HiMiniIdentification } from 'react-icons/hi2';
 import { MdOutlineExpandMore } from 'react-icons/md';
-import { DocumentDropzoneBox } from './document-dropzone';
-import { Toggle } from '@/components/ui/toggle';
-import { Paintbrush } from 'lucide-react';
-import EditAppearance from './edit-appearance';
+import EditBioTitle from './edit-bio-title';
+import { PicDropzoneBox } from './profile-pic-dropzone';
 
 export default function ProfileSection() {
   const { state, dispatch } = useDesigner();
@@ -63,7 +63,7 @@ export default function ProfileSection() {
         </CollapsibleTrigger>
         <CollapsibleContent className='border-t '>
           <div className={'flex flex-col w-full gap-x-6 p-6'}>
-            <DocumentDropzoneBox />
+            <PicDropzoneBox />
             <div className='w-full text-left'>
               <Label htmlFor='profile'>Title</Label>
               <div className='flex gap-1 mt-1'>
@@ -79,7 +79,7 @@ export default function ProfileSection() {
               )}
             </div>
             {titleAppearanceToggle && (
-              <EditAppearance title='TITLE' background={state.userProfile.titleColor ?? ''} />
+              <EditBioTitle title='TITLE' background={state.userProfile.titleColor ?? ''} />
             )}
             <div className='w-full text-left'>
               <Label htmlFor='bio'>Bio</Label>
@@ -91,7 +91,7 @@ export default function ProfileSection() {
               </div>
             </div>
             {bioAppearanceToggle && (
-              <EditAppearance title='BIO' background={state.userProfile.bioColor ?? ''} />
+              <EditBioTitle title='BIO' background={state.userProfile.bioColor ?? ''} />
             )}
           </div>
         </CollapsibleContent>
