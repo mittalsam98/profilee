@@ -95,6 +95,8 @@ const designerReducer = (
       return { ...state, userProfile: { ...state.userProfile, username: action.payload } };
     case 'UPDATE_TITLE':
       return { ...state, userProfile: { ...state.userProfile, title: action.payload } };
+    case 'UPDATE_PROFILE_IMG':
+      return { ...state, userProfile: { ...state.userProfile, profileImg: action.payload } };
     case 'UPDATE_BIO_COLOR':
       return { ...state, userProfile: { ...state.userProfile, bioColor: action.payload } };
     case 'UPDATE_BIO_FONT_SIZE':
