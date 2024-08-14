@@ -24,8 +24,12 @@ export default function Webpage() {
         )}
         <div className='text-center space-y-4'>
           <figcaption className='font-medium'>
-            <div className='text-cyan-900 text-xl'>{state.userProfile.title}</div>
-            <div className='text-gray-500 font-light'>{state.userProfile.bio}</div>
+            <div className='text-cyan-900 text-xl' style={{ color: state.userProfile.titleColor }}>
+              {state.userProfile.title}
+            </div>
+            <div className='text-gray-500 font-light' style={{ color: state.userProfile.bioColor }}>
+              {state.userProfile.bio}
+            </div>
           </figcaption>
         </div>
       </figure>

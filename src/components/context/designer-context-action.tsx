@@ -6,6 +6,7 @@ export type DesignerContextAction =
       type: 'SET_INITIAL_STATE';
       payload: DesignerContextState;
     }
+  //     // User Profile Actions
   | {
       type: 'UPDATE_PROFILE_IMG';
       payload: File | string | null;
@@ -23,9 +24,31 @@ export type DesignerContextAction =
       payload: string;
     }
   | {
+      type: 'UPDATE_BIO_COLOR';
+      payload: string;
+    }
+  | {
+      type: 'UPDATE_BIO_FONT_SIZE';
+      payload: string;
+    }
+  | {
+      type: 'UPDATE_TITLE_COLOR';
+      payload: string;
+    }
+  | {
+      type: 'UPDATE_TITLE_FONT_SIZE';
+      payload: string;
+    }
+  | {
+      type: 'UPDATE_PIC_BORDER';
+      payload: string;
+    }
+  // Adhoc Links Action
+  | {
       type: 'UPDATE_ADHOC_LINK';
       payload: AdhocLinks[];
     }
+  // Social Links Action
   | {
       type: 'UPDATE_SOCIAL_LINK';
       payload: SocialMediaDataContext;

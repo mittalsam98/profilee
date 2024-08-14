@@ -10,18 +10,17 @@ import { useCallback, useRef, useState } from 'react';
 import { HiMiniIdentification } from 'react-icons/hi2';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { DocumentDropzoneBox } from './document-dropzone';
+import { Toggle } from '@/components/ui/toggle';
+import { Paintbrush } from 'lucide-react';
+import EditAppearance from './edit-appearance';
 
 export default function ProfileSection() {
   const { state, dispatch } = useDesigner();
   const [titleError, setTitleError] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { isLoading, mutateAsync: updateProfile } = api.userProfile.updateUserProfile.useMutation();
-  const deleteProfilePic = api.images.delete.useMutation();
 
-  // useEffect(() => {
-  //   setIsPublishing(isLoading || upload.isLoading || deleteProfilePic.isLoading);
-  // }, [isLoading, upload.isLoading, deleteProfilePic.isLoading]);
-
+  const [titleAppearanceToggle, setTitleAppearanceToggle] = useState(false);
+  const [bioAppearanceToggle, setBioAppearanceToggle] = useState(false);
   const savingProfile = async ({ title, bio }: { title: string; bio?: string }) => {
     await updateProfile({
       title,
@@ -29,7 +28,6 @@ export default function ProfileSection() {
     });
   };
   const debouncedInputHandler = useCallback(debounce(savingProfile, 700), []);
-
   const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -66,19 +64,35 @@ export default function ProfileSection() {
         <CollapsibleContent className='border-t '>
           <div className={'flex flex-col w-full gap-x-6 p-6'}>
             <DocumentDropzoneBox />
-            <div className='w-full text-left mb-4'>
+            <div className='w-full text-left'>
               <Label htmlFor='profile'>Title</Label>
-              <Input id='profile' value={state.userProfile.title} onChange={inputHandler} />{' '}
+              <div className='flex gap-1 mt-1'>
+                <Input id='profile' value={state.userProfile.title} onChange={inputHandler} />
+                <Toggle value='EDIT_TITLE' onPressedChange={setTitleAppearanceToggle}>
+                  <Paintbrush className='h-4 w-4' />
+                </Toggle>
+              </div>
               {titleError && (
                 <p className={'text-xs mt-1 font-medium text-destructive'}>
                   {'Profile should have name'}
                 </p>
               )}
             </div>
+            {titleAppearanceToggle && (
+              <EditAppearance title='TITLE' background={state.userProfile.titleColor ?? ''} />
+            )}
             <div className='w-full text-left'>
               <Label htmlFor='bio'>Bio</Label>
-              <Textarea id='bio' value={state.userProfile.bio} onChange={inputHandler} />
+              <div className='flex gap-1 mt-1'>
+                <Textarea id='bio' value={state.userProfile.bio} onChange={inputHandler} />
+                <Toggle value='EDIT_BIO' onPressedChange={setBioAppearanceToggle}>
+                  <Paintbrush className='h-4 w-4' />
+                </Toggle>
+              </div>
             </div>
+            {bioAppearanceToggle && (
+              <EditAppearance title='BIO' background={state.userProfile.bioColor ?? ''} />
+            )}
           </div>
         </CollapsibleContent>
       </Collapsible>

@@ -52,12 +52,17 @@ model User {
 }
 
 model UserProfile {
-    id     String  @id @default(uuid())
-    bio    String?
-    title  String
-    pic    String?
-    user   User    @relation(fields: [userId], references: [id])
-    userId String  @unique
+    id            String  @id @default(uuid())
+    bio           String?
+    title         String
+    pic           String?
+    picBorder     String?
+    bioColor      String?
+    titleColor    String?
+    titleFontSize String?
+    bioFontSize   String?
+    user          User    @relation(fields: [userId], references: [id])
+    userId        String  @unique
 }
 
 model SocialLink {
