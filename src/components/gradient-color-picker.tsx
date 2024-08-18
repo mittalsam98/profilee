@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Paintbrush } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { RgbaStringColorPicker } from 'react-colorful';
 
 type GradientPickerProps = {
   background: string;
@@ -25,34 +26,68 @@ export function GradientPicker({
   showGradientPicker = false,
   showImageGradient = false
 }: GradientPickerProps) {
-  const solids = [
-    '#E2E2E2',
-    '#ff75c3',
-    '#ffa647',
-    '#ffe83f',
-    '#9fff5b',
-    '#70e2ff',
-    '#cd93ff',
-    '#09203f'
-  ];
-
   const gradients = [
-    'linear-gradient(to top left,#accbee,#e7f0fd)',
-    'linear-gradient(to top left,#d5d4d0,#d5d4d0,#eeeeec)',
-    'linear-gradient(to top left,#000000,#434343)',
-    'linear-gradient(to top left,#09203f,#537895)',
-    'linear-gradient(to top left,#AC32E4,#7918F2,#4801FF)',
-    'linear-gradient(to top left,#f953c6,#b91d73)',
-    'linear-gradient(to top left,#ee0979,#ff6a00)',
-    'linear-gradient(to top left,#F00000,#DC281E)',
-    'linear-gradient(to top left,#00c6ff,#0072ff)',
-    'linear-gradient(to top left,#4facfe,#00f2fe)',
-    'linear-gradient(to top left,#0ba360,#3cba92)',
-    'linear-gradient(to top left,#FDFC47,#24FE41)',
-    'linear-gradient(to top left,#8a2be2,#0000cd,#228b22,#ccff00)',
-    'linear-gradient(to top left,#40E0D0,#FF8C00,#FF0080)',
-    'linear-gradient(to top left,#fcc5e4,#fda34b,#ff7882,#c8699e,#7046aa,#0c1db8,#020f75)',
-    'linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)'
+    'linear-gradient(to left top, rgb(9, 30, 58), rgb(47, 128, 237), rgb(45, 158, 224))',
+    'linear-gradient(to left top, rgb(148, 0, 211), rgb(75, 0, 130))',
+    'linear-gradient(to left top, rgb(200, 78, 137), rgb(241, 95, 121))',
+    'linear-gradient(to left top, rgb(0, 245, 160), rgb(0, 217, 245))',
+    'linear-gradient(to left top, rgb(247, 148, 30), rgb(114, 198, 239), rgb(0, 166, 81))',
+    'linear-gradient(to left top, rgb(247, 148, 30), rgb(0, 78, 143))',
+    'linear-gradient(to left top, rgb(114, 198, 239), rgb(0, 78, 143))',
+    'linear-gradient(to left top, rgb(253, 129, 18), rgb(0, 133, 202))',
+    'linear-gradient(to left top, rgb(191, 90, 224), rgb(168, 17, 218))',
+    'linear-gradient(to left top, rgb(251, 237, 150), rgb(171, 236, 214))',
+    'linear-gradient(to left top, rgb(255, 224, 0), rgb(121, 159, 12))',
+    'linear-gradient(to left top, rgb(247, 248, 248), rgb(172, 187, 120))',
+    'linear-gradient(to left top, rgb(0, 65, 106), rgb(121, 159, 12), rgb(255, 224, 0))',
+    'linear-gradient(to left top, rgb(51, 77, 80), rgb(203, 202, 165))',
+    'linear-gradient(to left top, rgb(0, 82, 212), rgb(67, 100, 247), rgb(111, 177, 252))',
+    'linear-gradient(to left top, rgb(84, 51, 255), rgb(32, 189, 255), rgb(165, 254, 203))',
+    'linear-gradient(to left top, rgb(121, 159, 12), rgb(172, 187, 120))',
+    'linear-gradient(to left top, rgb(255, 226, 89), rgb(255, 167, 81))',
+    'linear-gradient(to left top, rgb(172, 182, 229), rgb(134, 253, 232))',
+    'linear-gradient(to left top, rgb(83, 105, 118), rgb(41, 46, 73))',
+    'linear-gradient(to left top, rgb(183, 152, 145), rgb(148, 113, 107))',
+    'linear-gradient(to left top, rgb(151, 150, 240), rgb(251, 199, 212))',
+    'linear-gradient(to left top, rgb(187, 210, 197), rgb(83, 105, 118))',
+    'linear-gradient(to left top, rgb(7, 101, 133), rgb(255, 255, 255))',
+    'linear-gradient(to left top, rgb(0, 70, 127), rgb(165, 204, 130))',
+    'linear-gradient(to left top, rgb(0, 12, 64), rgb(96, 125, 139))',
+    'linear-gradient(to left top, rgb(20, 136, 204), rgb(43, 50, 178))',
+    'linear-gradient(to left top, rgb(236, 0, 140), rgb(252, 103, 103))',
+    'linear-gradient(to left top, rgb(204, 43, 94), rgb(117, 58, 136))',
+    'linear-gradient(to left top, rgb(230, 92, 0), rgb(249, 212, 35))',
+    'linear-gradient(to left top, rgb(43, 88, 118), rgb(78, 67, 118))',
+    'linear-gradient(to left top, rgb(49, 71, 85), rgb(38, 160, 218))',
+    'linear-gradient(to left top, rgb(119, 161, 211), rgb(121, 203, 202), rgb(230, 132, 174))',
+    'linear-gradient(to left top, rgb(255, 110, 127), rgb(191, 233, 255))',
+    'linear-gradient(to left top, rgb(229, 45, 39), rgb(179, 18, 23))',
+    'linear-gradient(to left top, rgb(96, 56, 19), rgb(178, 159, 148))',
+    'linear-gradient(to left top, rgb(22, 160, 133), rgb(244, 208, 63))',
+    'linear-gradient(to left top, rgb(211, 16, 39), rgb(234, 56, 77))',
+    'linear-gradient(to left top, rgb(237, 229, 116), rgb(225, 245, 196))',
+    'linear-gradient(to left top, rgb(2, 170, 176), rgb(0, 205, 172))',
+    'linear-gradient(to left top, rgb(218, 34, 255), rgb(151, 51, 238))',
+    'linear-gradient(to left top, rgb(52, 143, 80), rgb(86, 180, 211))',
+    'linear-gradient(to left top, rgb(60, 165, 92), rgb(181, 172, 73))',
+    'linear-gradient(to left top, rgb(204, 149, 192), rgb(219, 212, 180), rgb(122, 161, 210))',
+    'linear-gradient(to left top, rgb(0, 57, 115), rgb(229, 229, 190))',
+    'linear-gradient(to left top, rgb(229, 93, 135), rgb(95, 195, 228))',
+    'linear-gradient(to left top, rgb(64, 59, 74), rgb(231, 233, 187))',
+    'linear-gradient(to left top, rgb(240, 152, 25), rgb(237, 222, 93))',
+    'linear-gradient(to left top, rgb(255, 81, 47), rgb(221, 36, 118))',
+    'linear-gradient(to left top, rgb(170, 7, 107), rgb(97, 4, 95))',
+    'linear-gradient(to left top, rgb(26, 41, 128), rgb(38, 208, 206))',
+    'linear-gradient(to left top, rgb(255, 81, 47), rgb(240, 152, 25))',
+    'linear-gradient(to left top, rgb(29, 43, 100), rgb(248, 205, 218))',
+    'linear-gradient(to left top, rgb(31, 162, 255), rgb(18, 216, 250), rgb(166, 255, 203))',
+    'linear-gradient(to left top, rgb(76, 184, 196), rgb(60, 211, 173))',
+    'linear-gradient(to left top, rgb(221, 94, 137), rgb(247, 187, 151))',
+    'linear-gradient(to left top, rgb(235, 51, 73), rgb(244, 92, 67))',
+    'linear-gradient(to left top, rgb(29, 151, 108), rgb(147, 249, 185))',
+    'linear-gradient(to left top, rgb(255, 128, 8), rgb(255, 200, 55))',
+    'linear-gradient(to left top, rgb(22, 34, 42), rgb(58, 96, 115))',
+    'linear-gradient(to left top, rgb(31, 28, 44), rgb(146, 141, 171))'
   ];
 
   //  Add links accordingly
@@ -108,14 +143,12 @@ export function GradientPicker({
           </TabsList>
 
           <TabsContent value='solid' className='flex flex-wrap gap-1 mt-0'>
-            {solids.map((s) => (
-              <div
-                key={s}
-                style={{ background: s }}
-                className='rounded-md h-6 w-6 cursor-pointer active:scale-105'
-                onClick={() => setBackground(s)}
-              />
-            ))}
+            <RgbaStringColorPicker
+              color={background}
+              onChange={(s) => {
+                setBackground(s);
+              }}
+            />
           </TabsContent>
 
           <TabsContent value='gradient' className='mt-0'>
