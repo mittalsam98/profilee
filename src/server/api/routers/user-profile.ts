@@ -34,7 +34,8 @@ export const userProfileRouter = createTRPCRouter({
       ctx: ctx,
       includeUserProfile: true,
       includeAdhocLink: true,
-      includeSocialLink: true
+      includeSocialLink: true,
+      includeGeneralAppearance: true
     });
     return user;
   })

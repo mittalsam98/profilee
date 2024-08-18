@@ -47,3 +47,15 @@ export type LinkTheme = {
   borderRadius: BorderRadius;
 };
 export type AdhocLinksDataContext = AdhocLinks[];
+
+export type GeneralAppearance = {
+  hideBranding: boolean;
+  enableShareButton: boolean;
+  primaryBackgroundColor: string;
+  primaryBackgroundImage: string;
+  fontFamily: string;
+  linkCardShadow: string;
+  useSecondaryBackground: boolean;
+  secondaryBackgroundColor: string;
+  secondaryBackgroundImage: string;
+};

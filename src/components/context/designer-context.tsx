@@ -2,13 +2,14 @@
 
 import Error from '@/components/error';
 import { api } from '@/trpc/react';
-import { AdhocLinks, SocialMediaDataContext, UserProfile } from '@/types/types';
-import { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from 'react';
+import { AdhocLinks, GeneralAppearance, SocialMediaDataContext, UserProfile } from '@/types/types';
+import { createContext, Dispatch, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 import { DesignerContextAction } from './designer-context-action';
 
 export type DesignerContextState = {
   userProfile: UserProfile;
   socialLinks: SocialMediaDataContext;
+  generalAppearance: GeneralAppearance;
   adhocLinks: AdhocLinks[];
 };
 
@@ -24,6 +25,17 @@ const initialState: DesignerContextState = {
     titleFontSize: '#000',
     picBorder: ''
   },
+  generalAppearance: {
+    hideBranding: false,
+    enableShareButton: true,
+    primaryBackgroundColor: '',
+    primaryBackgroundImage: '',
+    fontFamily: '',
+    linkCardShadow: '',
+    useSecondaryBackground: false,
+    secondaryBackgroundColor: '#000',
+    secondaryBackgroundImage: ''
+  },
   adhocLinks: [],
   socialLinks: {}
 };
@@ -31,10 +43,12 @@ const initialState: DesignerContextState = {
 export const DesignerContext = createContext<{
   state: DesignerContextState;
   dispatch: Dispatch<DesignerContextAction>;
+  initialValues: DesignerContextState | undefined;
 } | null>(null);
 
 const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(designerReducer, initialState);
+  const [initialValues, setInitialValues] = useState<DesignerContextState>();
 
   const {
     data,
@@ -57,9 +71,21 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
           titleFontSize: data?.userProfile?.titleFontSize ?? '',
           bioFontSize: data?.userProfile?.bioFontSize ?? ''
         },
+        generalAppearance: {
+          hideBranding: data?.generalAppearance?.hideBranding ?? false,
+          enableShareButton: data?.generalAppearance?.enableShareButton ?? true,
+          primaryBackgroundColor: data?.generalAppearance?.primaryBackgroundColor ?? '#fff',
+          primaryBackgroundImage: data?.generalAppearance?.primaryBackgroundImage ?? '',
+          fontFamily: data?.generalAppearance?.fontFamily ?? '',
+          linkCardShadow: data?.generalAppearance?.linkCardShadow ?? '',
+          useSecondaryBackground: data?.generalAppearance?.useSecondaryBackground ?? false,
+          secondaryBackgroundColor: data?.generalAppearance?.secondaryBackgroundColor ?? '#fff',
+          secondaryBackgroundImage: data?.generalAppearance?.secondaryBackgroundImage ?? ''
+        },
         adhocLinks: (data?.adhocLink?.data as AdhocLinks[]) ?? [],
         socialLinks: (data?.socialLink?.data as SocialMediaDataContext) ?? {}
       };
+      setInitialValues(newState);
       dispatch({ type: 'SET_INITIAL_STATE', payload: newState });
     }
   }, [isSuccess, data]);
@@ -70,7 +96,8 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
     <DesignerContext.Provider
       value={{
         state,
-        dispatch
+        dispatch,
+        initialValues
       }}
     >
       {children}
@@ -88,6 +115,33 @@ const designerReducer = (
   switch (action.type) {
     case 'SET_INITIAL_STATE':
       return action.payload;
+    // General Appearance
+    case 'IS_SECONDARY_BACKGROUND':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, useSecondaryBackground: action.payload }
+      };
+    case 'UPDATE_PRIMARY_BACKGROUND_COLOR':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, primaryBackgroundColor: action.payload }
+      };
+    case 'UPDATE_SECONDARY_BACKGROUND_COLOR':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, secondaryBackgroundColor: action.payload }
+      };
+    case 'UPDATE_LINK_CARD_SHADOW':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, linkCardShadow: action.payload }
+      };
+    case 'UPDATE_FONT_FAMILY':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, fontFamily: action.payload }
+      };
+
     // User Profile Actions
     case 'UPDATE_BIO':
       return { ...state, userProfile: { ...state.userProfile, bio: action.payload } };
