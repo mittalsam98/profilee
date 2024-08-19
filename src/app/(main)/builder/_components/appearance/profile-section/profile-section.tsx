@@ -21,20 +21,20 @@ export default function ProfileSection() {
 
   const [titleAppearanceToggle, setTitleAppearanceToggle] = useState(false);
   const [bioAppearanceToggle, setBioAppearanceToggle] = useState(false);
-  const savingProfile = async ({ title, bio }: { title: string; bio?: string }) => {
-    await updateProfile({
-      title,
-      bio
-    });
-  };
-  const debouncedInputHandler = useCallback(debounce(savingProfile, 700), []);
+  // const savingProfile = async ({ title, bio }: { title: string; bio?: string }) => {
+  //   await updateProfile({
+  //     title,
+  //     bio
+  //   });
+  // };
+  // const debouncedInputHandler = useCallback(debounce(savingProfile, 700), []);
   const inputHandler = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
     if (id === 'profile') {
       if (value.length > 0) {
-        void debouncedInputHandler({ title: value, bio: state.userProfile.bio });
+        // void debouncedInputHandler({ title: value, bio: state.userProfile.bio });
         dispatch({
           type: 'UPDATE_TITLE',
           payload: value
@@ -44,7 +44,7 @@ export default function ProfileSection() {
         setTitleError(true);
       }
     } else if (id === 'bio') {
-      void debouncedInputHandler({ title: state.userProfile.title, bio: value });
+      // void debouncedInputHandler({ title: state.userProfile.title, bio: value });
       dispatch({
         type: 'UPDATE_BIO',
         payload: value
@@ -53,7 +53,7 @@ export default function ProfileSection() {
   };
 
   return (
-    <Card className='mb-6 '>
+    <Card className='mb-4 '>
       <Collapsible>
         <CollapsibleTrigger className='flex w-full hover:bg-slate-50  hover:rounded-lg  cursor-pointer  items-center  justify-between p-4'>
           <p className='text-sm font-semibold flex items-center '>
@@ -62,7 +62,7 @@ export default function ProfileSection() {
           <MdOutlineExpandMore className='text-slate-400 text-2xl' />
         </CollapsibleTrigger>
         <CollapsibleContent className='border-t '>
-          <div className={'flex flex-col w-full gap-x-6 p-6'}>
+          <div className={'flex flex-col w-full gap-4 p-6 items-end'}>
             <PicDropzoneBox />
             <div className='w-full text-left'>
               <Label htmlFor='profile'>Title</Label>

@@ -7,8 +7,10 @@ import { Laptop2, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Webpage from './webpage';
+import WebpageServer from '@/app/[link]/_components/WebPage';
 
 export default function Preview() {
+  const { state } = useDesigner();
   const [previewMode, setPreviewMode] = useState<preview>('mobile');
   // const { loading } = useDesigner(); // TODO remove this
 
@@ -43,10 +45,18 @@ export default function Preview() {
 
         <div className='flex items-center justify-center h-full flex-1 flex-grow p-2 text-center'>
           {previewMode === 'mobile' && (
-            <div className='relative h-[90%] max-h-[40rem] w-80 overflow-hidden rounded-[3rem] border-8 border-slate-500 bg-slate-400'>
-              <div className='absolute left-1/2 right-1/2 top-2 z-20 h-4 w-1/3 -translate-x-1/2 transform rounded-md bg-slate-500'></div>
+            <div className='h-[90%] max-h-[40rem] w-80  shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm '>
+              <div className='relative flex h-full w-full flex-col rounded-[24px] bg-white overflow-hidden'>
+                {/* <Webpage /> */}
 
-              <ViewWrapper loading={loading} />
+                <WebpageServer
+                  userId={state.id}
+                  socialLinks={state?.socialLinks}
+                  adhocLinks={state.adhocLinks}
+                  userProfile={{ ...state.userProfile, pic: state.id }}
+                  generalAppearance={state.generalAppearance}
+                />
+              </div>
             </div>
           )}
           {previewMode === 'desktop' && (

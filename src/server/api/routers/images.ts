@@ -32,7 +32,7 @@ export const imagesRouter = createTRPCRouter({
       Bucket: env.UPLOAD_AWS_S3_BUCKET_NAME,
       Key: id
     });
-    await db.userProfile.update({ where: { userId: id }, data: { pic: null } });
+    await db.userProfile.update({ where: { userId: id }, data: { pic: '' } });
     return {
       message: 'Successfully deleted'
     };

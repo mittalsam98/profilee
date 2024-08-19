@@ -1,51 +1,60 @@
 import { socialMediaDataByName } from '@/app/(main)/builder/_components/page-elements';
 import { AdhocLinks } from '@/types/types';
+import { GeneralAppearance, UserProfile } from '@prisma/client';
 import { JsonArray, JsonValue } from '@prisma/client/runtime/library';
 import Link from 'next/link';
 import LinkClient from './LinkClient';
 
 interface PropsTypes {
   userId: string;
-  profileImg?: string | null;
-  title: string;
-  bio?: string | null;
-  adhocLinks?: JsonArray;
+
   socialLinks?: JsonValue;
+  adhocLinks?: JsonArray;
+  userProfile: Omit<UserProfile, 'id' | 'userId'> | null;
+  generalAppearance: Omit<GeneralAppearance, 'id' | 'userId'> | null;
 }
 
 export default function WebpageServer({
-  profileImg,
-  title,
-  bio,
-  socialLinks,
+  userProfile,
   adhocLinks,
-  userId
+  userId,
+  generalAppearance,
+  socialLinks
 }: PropsTypes) {
   let updatedAdhocLinkType: AdhocLinks[] = [];
   if (adhocLinks && typeof adhocLinks === 'object' && Array.isArray(adhocLinks)) {
     updatedAdhocLinkType = adhocLinks as AdhocLinks[];
   }
 
+  console.log({ userProfile, generalAppearance });
+  if (!userProfile || !generalAppearance) {
+    return;
+  }
+
   return (
     <div className='h-full w-full absolute max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center bg-white'>
       <figure className='p-2'>
-        {profileImg && typeof profileImg === 'string' && (
+        {userProfile.pic && typeof userProfile.pic === 'string' && (
           <img
-            src={
-              typeof profileImg === 'string'
-                ? `https://profilee-webapp.s3.amazonaws.com/${profileImg}`
-                : URL.createObjectURL(profileImg as File)
-            }
+            src={`https://profilee-webapp.s3.amazonaws.com/${userProfile.pic}`}
             alt='Profile pic'
             width={150}
             height={150}
             className='flex h-[130px] w-[130px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50'
           />
         )}
-        <div className='text-center space-y-4'>
+        <div
+          className={`text-center space-y-4 ${
+            generalAppearance.useSecondaryBackground ? 'mt-16' : 'mt-2'
+          } `}
+        >
           <figcaption className='font-medium'>
-            <div className='text-cyan-900 text-xl'>{title}</div>
-            <div className='text-gray-500 font-light'>{bio}</div>
+            <div className='text-cyan-900 text-xl' style={{ color: userProfile.titleColor }}>
+              {userProfile.title}
+            </div>
+            <div className='text-gray-500 font-light' style={{ color: userProfile.bioColor }}>
+              {userProfile.bio}
+            </div>
           </figcaption>
         </div>
       </figure>

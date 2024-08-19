@@ -11,7 +11,8 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const { link } = params;
-  const data = await getUserByUsername(link, true, true, true);
+  const data = await getUserByUsername(link, true, true, true, true);
+
   if (!data) {
     return <Error error={' Page you are looking for does not exists'} />;
   }
@@ -21,12 +22,11 @@ export default async function Page({ params }: Props) {
     <div className='h-screen w-full flex justify-center relative'>
       <div className='wavy-background absolute h-screen w-full'> </div>
       <Webpage
-        title={data?.userProfile?.title ?? ''}
         userId={data?.id ?? ''}
-        bio={data?.userProfile?.bio}
-        profileImg={data?.userProfile?.pic}
         socialLinks={data?.socialLink?.data}
         adhocLinks={adhocLinks}
+        userProfile={data.userProfile}
+        generalAppearance={data.generalAppearance}
       />
     </div>
   );

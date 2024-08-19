@@ -15,11 +15,11 @@ export type UserProfile = {
   title: string;
   username: string;
   bio: string;
-  picBorder?: string;
-  bioColor?: string;
-  titleColor?: string;
-  titleFontSize?: string;
-  bioFontSize?: string;
+  profilePicBorder: string;
+  bioColor: string;
+  titleColor: string;
+  titleFontSize: string;
+  bioFontSize: string;
 };
 export type SocialMediaData = {
   name: string;

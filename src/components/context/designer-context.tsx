@@ -7,6 +7,7 @@ import { createContext, Dispatch, PropsWithChildren, useEffect, useReducer, useS
 import { DesignerContextAction } from './designer-context-action';
 
 export type DesignerContextState = {
+  id: string;
   userProfile: UserProfile;
   socialLinks: SocialMediaDataContext;
   generalAppearance: GeneralAppearance;
@@ -14,16 +15,17 @@ export type DesignerContextState = {
 };
 
 const initialState: DesignerContextState = {
+  id: '',
   userProfile: {
     profileImg: '',
     title: '',
     username: '',
     bio: '',
     bioColor: '#000',
-    bioFontSize: '#000',
+    bioFontSize: '16',
     titleColor: '#000',
-    titleFontSize: '#000',
-    picBorder: ''
+    titleFontSize: '20',
+    profilePicBorder: ''
   },
   generalAppearance: {
     hideBranding: false,
@@ -61,12 +63,14 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (isSuccess) {
       const newState: DesignerContextState = {
+        id: data.id,
         userProfile: {
           profileImg: data?.userProfile?.pic ?? '',
           title: data?.userProfile?.title ?? '',
           username: data?.username ?? '',
           bio: data?.userProfile?.bio ?? '',
           bioColor: data?.userProfile?.bioColor ?? '',
+          profilePicBorder: data?.userProfile?.profilePicBorder ?? '',
           titleColor: data?.userProfile?.titleColor ?? '',
           titleFontSize: data?.userProfile?.titleFontSize ?? '',
           bioFontSize: data?.userProfile?.bioFontSize ?? ''
@@ -161,7 +165,7 @@ const designerReducer = (
       return { ...state, userProfile: { ...state.userProfile, titleFontSize: action.payload } };
     case 'UPDATE_PIC_BORDER':
       // Adhoc Links Action
-      return { ...state, userProfile: { ...state.userProfile, picBorder: action.payload } };
+      return { ...state, userProfile: { ...state.userProfile, profilePicBorder: action.payload } };
     case 'UPDATE_ADHOC_LINK':
       return { ...state, adhocLinks: action.payload };
     // Social Links Action
