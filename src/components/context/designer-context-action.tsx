@@ -1,4 +1,4 @@
-import { AdhocLinks, UserProfile, SocialMediaDataContext } from '@/types/types';
+import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
 import { DesignerContextState } from './designer-context';
 // Adhoc Links Action
 export type AdhocLinksAction = {

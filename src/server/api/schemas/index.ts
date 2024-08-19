@@ -7,7 +7,12 @@ export const UpdateProfileSchema = z.object({
       invalid_type_error: 'Title must be a string'
     })
     .min(1),
-  bio: z.string().optional()
+  bio: z.string(),
+  bioColor: z.string(),
+  titleColor: z.string(),
+  titleFontSize: z.string(),
+  bioFontSize: z.string(),
+  profilePicBorder: z.string()
 });
 export const AdhocLinkSchema = z
   .object({
@@ -76,4 +81,16 @@ export const LinkInteraction = z.object({
 });
 export const LinkAnalytics = z.object({
   adhocLinkId: z.string()
+});
+
+export const GeneralAppearanceSchema = z.object({
+  hideBranding: z.boolean(),
+  enableShareButton: z.boolean(),
+  primaryBackgroundColor: z.string(),
+  primaryBackgroundImage: z.string(),
+  fontFamily: z.string(),
+  linkCardShadow: z.string(),
+  useSecondaryBackground: z.boolean(),
+  secondaryBackgroundImage: z.string(),
+  secondaryBackgroundColor: z.string()
 });

@@ -7,7 +7,6 @@ export const userProfileRouter = createTRPCRouter({
   updateUserProfile: protectedProcedure
     .input(UpdateProfileSchema)
     .mutation(async ({ input, ctx }) => {
-      console.log('🚀 ~ updateUserProfile:protectedProcedure.input ~ input:', input);
       const user = await getUser({ ctx: ctx, includeUserProfile: true });
       const updatedUserProfile = await db.userProfile.upsert({
         where: {
@@ -15,11 +14,22 @@ export const userProfileRouter = createTRPCRouter({
         },
         update: {
           title: input.title,
-          bio: input.bio
+          bio: input.bio,
+          bioColor: input.bioColor,
+          titleColor: input.titleColor,
+          titleFontSize: input.titleFontSize,
+          bioFontSize: input.bioFontSize,
+          profilePicBorder: input.profilePicBorder
         },
         create: {
           title: input.title,
           bio: input.bio,
+          bioColor: input.bioColor,
+          pic: user.id,
+          titleColor: input.titleColor,
+          titleFontSize: input.titleFontSize,
+          bioFontSize: input.bioFontSize,
+          profilePicBorder: input.profilePicBorder,
           userId: user.id
         }
       });

@@ -54,32 +54,32 @@ model User {
 }
 
 model GeneralAppearance {
-    id                       String   @id @default(uuid())
-    hideBranding             Boolean? @default(false)
-    enableShareButton        Boolean? @default(true)
-    primaryBackgroundColor   String?  @default("#fff")
-    primaryBackgroundImage   String?
-    fontFamily               String?
-    linkCardShadow           String?
-    useSecondaryBackground   Boolean? @default(false)
-    secondaryBackgroundColor String?  @default("#fff")
-    secondaryBackgroundImage String?
-    user                     User     @relation(fields: [userId], references: [id])
-    userId                   String   @unique
+    id                       String  @id @default(uuid())
+    hideBranding             Boolean @default(false)
+    enableShareButton        Boolean @default(true)
+    primaryBackgroundColor   String  @default("#fff")
+    primaryBackgroundImage   String
+    fontFamily               String
+    linkCardShadow           String
+    useSecondaryBackground   Boolean @default(false)
+    secondaryBackgroundColor String  @default("#fff")
+    secondaryBackgroundImage String
+    user                     User    @relation(fields: [userId], references: [id])
+    userId                   String  @unique
 }
 
 model UserProfile {
-    id               String  @id @default(uuid())
-    bio              String?
+    id               String @id @default(uuid())
+    bio              String
     title            String
-    pic              String?
-    profilePicBorder String?
-    bioColor         String?
-    titleColor       String?
-    titleFontSize    String?
-    bioFontSize      String?
-    user             User    @relation(fields: [userId], references: [id])
-    userId           String  @unique
+    pic              String
+    profilePicBorder String
+    bioColor         String
+    titleColor       String
+    titleFontSize    String
+    bioFontSize      String
+    user             User   @relation(fields: [userId], references: [id])
+    userId           String @unique
 }
 
 model SocialLink {

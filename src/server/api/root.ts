@@ -4,6 +4,7 @@ import { socialLinkRouter } from '@/server/api/routers/social-links';
 import { adHocLinkRouter } from '@/server/api/routers/adhoc-links';
 import { createTRPCRouter } from '@/server/api/trpc';
 import { imagesRouter } from './routers/images';
+import { generalAppearanceRouter } from './routers/general-appearance';
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   userProfile: userProfileRouter,
   socialLink: socialLinkRouter,
+  generalAppearance: generalAppearanceRouter,
   adHocLink: adHocLinkRouter,
   images: imagesRouter
 });

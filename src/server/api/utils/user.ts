@@ -62,7 +62,8 @@ export const getUserByUsername = async (
   username: string,
   includeUserProfile = false,
   includeSocialLink = false,
-  includeAdhocLink = false
+  includeAdhocLink = false,
+  includeGeneralAppearance = false
 ) => {
   const user = await db.user.findUnique({
     where: {
@@ -76,7 +77,8 @@ export const getUserByUsername = async (
       username: true,
       userProfile: includeUserProfile,
       socialLink: includeSocialLink,
-      adhocLink: includeAdhocLink
+      adhocLink: includeAdhocLink,
+      generalAppearance: includeGeneralAppearance
     }
   });
 
