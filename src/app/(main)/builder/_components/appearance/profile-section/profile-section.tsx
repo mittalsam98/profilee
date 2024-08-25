@@ -12,7 +12,7 @@ import { useCallback, useState } from 'react';
 import { HiMiniIdentification } from 'react-icons/hi2';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import EditBioTitle from './edit-bio-title';
-import { PicDropzoneBox } from './profile-pic-dropzone';
+import ProfilePicSection from './profile-pic-section';
 
 export default function ProfileSection() {
   const { state, dispatch } = useDesigner();
@@ -63,7 +63,7 @@ export default function ProfileSection() {
         </CollapsibleTrigger>
         <CollapsibleContent className='border-t '>
           <div className={'flex flex-col w-full gap-4 p-6 items-end'}>
-            <PicDropzoneBox />
+            <ProfilePicSection />
             <div className='w-full text-left'>
               <Label htmlFor='profile'>Title</Label>
               <div className='flex gap-1 mt-1'>

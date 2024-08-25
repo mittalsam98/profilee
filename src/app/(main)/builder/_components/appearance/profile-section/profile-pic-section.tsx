@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Dropzone } from './dropzone';
 
-export const PicDropzoneBox = () => {
+export default function ProfilePicSection() {
   const { state, dispatch } = useDesigner();
   const deleteProfilePic = api.images.delete.useMutation();
   const upload = api.images.upload.useMutation();
@@ -157,4 +157,4 @@ export const PicDropzoneBox = () => {
       />
     </div>
   );
-};
+}
