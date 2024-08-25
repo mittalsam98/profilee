@@ -18,12 +18,12 @@ export default function Webpage() {
           className='relative h-28'
         >
           <figure className='absolute inset-x-0 bottom-[-60px] flex justify-center'>
-            {state.userProfile.profileImg && (
+            {state.userProfile.pic && (
               <Image
                 src={
-                  typeof state.userProfile.profileImg === 'string'
-                    ? `https://profilee-webapp.s3.amazonaws.com/${state.userProfile.profileImg}`
-                    : URL.createObjectURL(state.userProfile.profileImg)
+                  typeof state.userProfile.pic === 'string'
+                    ? `https://profilee-webapp.s3.amazonaws.com/${state.userProfile.pic}`
+                    : URL.createObjectURL(state.userProfile.pic)
                 }
                 alt='Profile pic'
                 width={120}
@@ -38,12 +38,12 @@ export default function Webpage() {
       {/* Primary Background */}
       {!state.generalAppearance.useSecondaryBackground && (
         <figure className='flex justify-center pt-8'>
-          {state.userProfile.profileImg && (
+          {state.userProfile.pic && (
             <Image
               src={
-                typeof state.userProfile.profileImg === 'string'
-                  ? `https://profilee-webapp.s3.amazonaws.com/${state.userProfile.profileImg}`
-                  : URL.createObjectURL(state.userProfile.profileImg)
+                typeof state.userProfile.pic === 'string'
+                  ? `https://profilee-webapp.s3.amazonaws.com/${state.userProfile.pic}`
+                  : URL.createObjectURL(state.userProfile.pic)
               }
               alt='Profile pic'
               width={120}

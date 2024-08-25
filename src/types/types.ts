@@ -11,7 +11,7 @@ export enum BorderRadius {
   LG = 'LG'
 }
 export type UserProfile = {
-  profileImg: File | string | null;
+  pic: string;
   title: string;
   username: string;
   bio: string;

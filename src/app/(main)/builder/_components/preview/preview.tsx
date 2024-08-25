@@ -53,7 +53,7 @@ export default function Preview() {
                   userId={state.id}
                   socialLinks={state?.socialLinks}
                   adhocLinks={state.adhocLinks}
-                  userProfile={{ ...state.userProfile, pic: state.id }}
+                  userProfile={{ ...state.userProfile, pic: state.userProfile.pic }}
                   generalAppearance={state.generalAppearance}
                 />
               </div>

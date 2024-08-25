@@ -7,7 +7,7 @@ export type AdhocLinksAction = {
 };
 
 export type UserProfileAction =
-  | { type: 'UPDATE_PROFILE_IMG'; payload: File | string | null }
+  | { type: 'UPDATE_PROFILE_IMG'; payload: string }
   | { type: 'UPDATE_BIO'; payload: string }
   | { type: 'UPDATE_USERNAME'; payload: string }
   | { type: 'UPDATE_TITLE'; payload: string }

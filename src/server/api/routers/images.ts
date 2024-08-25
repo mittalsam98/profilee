@@ -14,24 +14,32 @@ const client = new S3Client({
 });
 
 export const imagesRouter = createTRPCRouter({
-  upload: protectedProcedure.mutation(async ({ ctx }) => {
+  signedUrl: protectedProcedure.mutation(async ({ ctx }) => {
     const { id } = ctx.session?.user;
     const command = await new PutObjectCommand({
       Bucket: env.UPLOAD_AWS_S3_BUCKET_NAME,
       Key: id
     });
 
-    await db.userProfile.update({ where: { userId: id }, data: { pic: id } });
     return {
       url: await getSignedUrl(client, command, { expiresIn: 120 })
     };
   }),
+  upload: protectedProcedure.mutation(async ({ ctx }) => {
+    const { id } = ctx.session?.user;
+
+    await db.userProfile.update({ where: { userId: id }, data: { pic: id } });
+    return {
+      message: 'Success'
+    };
+  }),
   delete: protectedProcedure.mutation(async ({ ctx }) => {
     const { id } = ctx.session?.user;
-    new DeleteObjectCommand({
+    const cmd = new DeleteObjectCommand({
       Bucket: env.UPLOAD_AWS_S3_BUCKET_NAME,
       Key: id
     });
+    await client.send(cmd);
     await db.userProfile.update({ where: { userId: id }, data: { pic: '' } });
     return {
       message: 'Successfully deleted'

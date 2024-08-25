@@ -17,7 +17,7 @@ export type DesignerContextState = {
 const initialState: DesignerContextState = {
   id: '',
   userProfile: {
-    profileImg: '',
+    pic: '',
     title: '',
     username: '',
     bio: '',
@@ -65,24 +65,24 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
       const newState: DesignerContextState = {
         id: data.id,
         userProfile: {
-          profileImg: data?.userProfile?.pic ?? '',
           title: data?.userProfile?.title ?? '',
-          username: data?.username ?? '',
           bio: data?.userProfile?.bio ?? '',
-          bioColor: data?.userProfile?.bioColor ?? '',
+          pic: data?.userProfile?.pic ?? '',
+          username: data?.username ?? '',
           profilePicBorder: data?.userProfile?.profilePicBorder ?? '',
+          bioColor: data?.userProfile?.bioColor ?? '',
           titleColor: data?.userProfile?.titleColor ?? '',
           titleFontSize: data?.userProfile?.titleFontSize ?? '',
           bioFontSize: data?.userProfile?.bioFontSize ?? ''
         },
         generalAppearance: {
-          hideBranding: data?.generalAppearance?.hideBranding ?? false,
-          enableShareButton: data?.generalAppearance?.enableShareButton ?? true,
+          hideBranding: !!data?.generalAppearance?.hideBranding,
+          enableShareButton: !!data?.generalAppearance?.enableShareButton,
           primaryBackgroundColor: data?.generalAppearance?.primaryBackgroundColor ?? '#fff',
           primaryBackgroundImage: data?.generalAppearance?.primaryBackgroundImage ?? '',
           fontFamily: data?.generalAppearance?.fontFamily ?? '',
           linkCardShadow: data?.generalAppearance?.linkCardShadow ?? '',
-          useSecondaryBackground: data?.generalAppearance?.useSecondaryBackground ?? false,
+          useSecondaryBackground: !!data?.generalAppearance?.useSecondaryBackground,
           secondaryBackgroundColor: data?.generalAppearance?.secondaryBackgroundColor ?? '#fff',
           secondaryBackgroundImage: data?.generalAppearance?.secondaryBackgroundImage ?? ''
         },
@@ -154,7 +154,7 @@ const designerReducer = (
     case 'UPDATE_TITLE':
       return { ...state, userProfile: { ...state.userProfile, title: action.payload } };
     case 'UPDATE_PROFILE_IMG':
-      return { ...state, userProfile: { ...state.userProfile, profileImg: action.payload } };
+      return { ...state, userProfile: { ...state.userProfile, pic: action.payload } };
     case 'UPDATE_BIO_COLOR':
       return { ...state, userProfile: { ...state.userProfile, bioColor: action.payload } };
     case 'UPDATE_BIO_FONT_SIZE':

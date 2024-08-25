@@ -11,6 +11,7 @@ export const PicDropzoneBox = () => {
   const { state, dispatch } = useDesigner();
   const deleteProfilePic = api.images.delete.useMutation();
   const upload = api.images.upload.useMutation();
+  const signedUrlMutation = api.images.signedUrl.useMutation();
   const [progress, setProgress] = useState<number>(0); // Track upload progress
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
@@ -23,7 +24,7 @@ export const PicDropzoneBox = () => {
     setIsUploading(true);
     setProgress(10);
 
-    const signedUrl = await upload.mutateAsync();
+    const signedUrl = await signedUrlMutation.mutateAsync();
 
     if (!signedUrl || !file) {
       toast.error('Failed to get signed URL or file is not valid');
@@ -49,7 +50,7 @@ export const PicDropzoneBox = () => {
         if (xhr.status === 200) {
           dispatch({
             type: 'UPDATE_PROFILE_IMG',
-            payload: file
+            payload: state.id
           });
           toast.success('Upload successful!');
         } else {
@@ -65,7 +66,8 @@ export const PicDropzoneBox = () => {
         setProgress(0);
       };
 
-      xhr.send(file);
+      await xhr.send(file);
+      await upload.mutateAsync();
     } catch (error) {
       toast.error('An error occurred during the upload.');
       setIsUploading(false);
@@ -83,16 +85,14 @@ export const PicDropzoneBox = () => {
 
   return (
     <div className='max-h-50 flex flex-col items-center justify-center w-full relative rounded-md border border-input px-8 py-4 text-sm shadow-sm mb-4'>
-      {state?.userProfile?.profileImg ? (
+      {state?.userProfile?.pic ? (
         <div className='flex w-full items-center justify-around'>
           <div className='grow'>
-            {state?.userProfile?.profileImg && (
-              <Image
-                src={
-                  typeof state?.userProfile?.profileImg === 'string'
-                    ? `https://profilee-webapp.s3.amazonaws.com/${state?.userProfile?.profileImg}`
-                    : URL.createObjectURL(state.userProfile.profileImg)
-                }
+            {state?.userProfile?.pic && (
+              <img
+                src={`https://profilee-webapp.s3.amazonaws.com/${
+                  state.userProfile.pic
+                }?lastUpdated=${Date.now()}`}
                 alt='Profile link image'
                 width={120}
                 height={120}
@@ -110,7 +110,7 @@ export const PicDropzoneBox = () => {
                 if (res?.message) {
                   dispatch({
                     type: 'UPDATE_PROFILE_IMG',
-                    payload: null
+                    payload: ''
                   });
                 }
               }}

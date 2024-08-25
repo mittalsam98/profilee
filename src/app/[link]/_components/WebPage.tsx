@@ -4,6 +4,7 @@ import { GeneralAppearance, UserProfile } from '@prisma/client';
 import { JsonArray, JsonValue } from '@prisma/client/runtime/library';
 import Link from 'next/link';
 import LinkClient from './LinkClient';
+import Image from 'next/image';
 
 interface PropsTypes {
   userId: string;
@@ -32,33 +33,64 @@ export default function WebpageServer({
   }
 
   return (
-    <div className='h-full w-full absolute max-w-lg shadow-md shadow-slate-400 p-8 mx-auto text-center bg-white'>
-      <figure className='p-2'>
-        {userProfile.pic && typeof userProfile.pic === 'string' && (
-          <img
-            src={`https://profilee-webapp.s3.amazonaws.com/${userProfile.pic}`}
-            alt='Profile pic'
-            width={150}
-            height={150}
-            className='flex h-[130px] w-[130px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50'
-          />
-        )}
+    <div
+      style={{ background: generalAppearance.primaryBackgroundColor }}
+      className='h-full w-full absolute max-w-lg shadow-md shadow-slate-400 mx-auto text-center bg-white'
+    >
+      {generalAppearance.useSecondaryBackground && (
         <div
-          className={`text-center space-y-4 ${
-            generalAppearance.useSecondaryBackground ? 'mt-16' : 'mt-2'
-          } `}
+          style={{ background: generalAppearance.secondaryBackgroundColor }}
+          className='relative h-28'
         >
-          <figcaption className='font-medium'>
-            <div className='text-cyan-900 text-xl' style={{ color: userProfile.titleColor }}>
-              {userProfile.title}
-            </div>
-            <div className='text-gray-500 font-light' style={{ color: userProfile.bioColor }}>
-              {userProfile.bio}
-            </div>
-          </figcaption>
+          <figure className='absolute inset-x-0 bottom-[-60px] flex justify-center'>
+            {userProfile.pic && (
+              <img
+                src={`https://profilee-webapp.s3.amazonaws.com/${
+                  userProfile.pic
+                }?lastUpdated=${Date.now()}`}
+                alt='Profile pic'
+                width={150}
+                height={150}
+                className='flex h-[130px] w-[130px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50'
+              />
+            )}
+          </figure>
         </div>
-      </figure>
-      <div className='mx-auto'>
+      )}
+
+      {/* Primary Background */}
+      {!generalAppearance.useSecondaryBackground && (
+        <figure className='flex justify-center pt-8'>
+          {userProfile.pic && (
+            <img
+              src={`https://profilee-webapp.s3.amazonaws.com/${
+                userProfile.pic
+              }?lastUpdated=${Date.now()}`}
+              alt='Profile pic'
+              width={150}
+              height={150}
+              className='flex h-[130px] w-[130px] m-auto rounded-full border border-border hover:cursor-pointer bg-background/50'
+            />
+          )}
+        </figure>
+      )}
+
+      {/* Title and Bio */}
+      <div
+        className={`text-center space-y-4 ${
+          generalAppearance.useSecondaryBackground ? 'mt-16' : 'mt-2'
+        } `}
+      >
+        <figcaption className='font-medium'>
+          <div className='text-cyan-900 text-xl' style={{ color: userProfile.titleColor }}>
+            {userProfile.title}
+          </div>
+          <div className='text-gray-500 font-light' style={{ color: userProfile.bioColor }}>
+            {userProfile.bio}
+          </div>
+        </figcaption>
+      </div>
+      <div className='mx-auto px-4'>
         {socialLinks && Object.entries(socialLinks).length > 0 && (
           <div className='flex gap-3 flex-wrap justify-center py-3'>
             {Object.entries(socialLinks).map(([platform, value]) => (
