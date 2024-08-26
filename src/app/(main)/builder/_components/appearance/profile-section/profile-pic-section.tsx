@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useDesigner from '@/hooks/use-designer';
 import { api } from '@/trpc/react';
-import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
+import ImageCropDialog from '../../dialogs/image-crop-dialog';
 import { Dropzone } from './dropzone';
 
 export default function ProfilePicSection() {
@@ -14,19 +14,20 @@ export default function ProfilePicSection() {
   const signedUrlMutation = api.images.signedUrl.useMutation();
   const [progress, setProgress] = useState<number>(0); // Track upload progress
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [imgSrc, setImgSrc] = useState<string>();
+  const [imgCropModal, setImgCropModal] = useState(false);
 
-  // Create a ref for the hidden file input
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const onDrop = async (acceptedFiles: File[]) => {
-    const [file] = acceptedFiles;
-
+  const handleCrop = async (croppedImageBlob: Blob) => {
+    await uploadImageToS3(croppedImageBlob);
+    setImgCropModal(false);
+  };
+  const uploadImageToS3 = async (file: Blob) => {
     setIsUploading(true);
     setProgress(10);
 
     const signedUrl = await signedUrlMutation.mutateAsync();
 
-    if (!signedUrl || !file) {
+    if (!signedUrl) {
       toast.error('Failed to get signed URL or file is not valid');
       setIsUploading(false);
       return;
@@ -73,6 +74,26 @@ export default function ProfilePicSection() {
       setIsUploading(false);
       setProgress(0);
     }
+  };
+
+  // Create a ref for the hidden file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const onDrop = async (acceptedFiles: File[]) => {
+    const [file] = acceptedFiles;
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      const imageElement = new Image();
+      const imageUrl = reader.result?.toString() || '';
+      imageElement.src = imageUrl;
+
+      setImgSrc(imageUrl);
+      setImgCropModal(true);
+    });
+    reader.readAsDataURL(file);
   };
 
   // Handle the file input change event
@@ -155,6 +176,14 @@ export default function ProfilePicSection() {
         ref={fileInputRef}
         onChange={handleFileChange}
       />
+      {imgSrc && imgCropModal && (
+        <ImageCropDialog
+          imgSrcUrl={imgSrc}
+          open={imgCropModal}
+          setOpen={setImgCropModal}
+          onCropComplete={handleCrop} // Pass handleCrop to be called with the cropped image data
+        />
+      )}
     </div>
   );
 }
