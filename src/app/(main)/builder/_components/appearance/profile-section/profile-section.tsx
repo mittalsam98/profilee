@@ -62,7 +62,7 @@ export default function ProfileSection() {
           <MdOutlineExpandMore className='text-slate-400 text-2xl' />
         </CollapsibleTrigger>
         <CollapsibleContent className='border-t '>
-          <div className={'flex flex-col w-full gap-4 p-6 items-end'}>
+          <div className={'flex flex-col gap-4 p-6'}>
             <ProfilePicSection />
             <div className='w-full text-left'>
               <Label htmlFor='profile'>Title</Label>

@@ -1,15 +1,7 @@
+import FontPicker from '@/components/font-picker';
 import { GradientPicker } from '@/components/gradient-color-picker';
 import { Card } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import useDesigner from '@/hooks/use-designer';
@@ -78,22 +70,11 @@ export default function GeneralSetting() {
                   />
                 </div>
               </>
-            )}{' '}
+            )}
             <Separator />
             <div className='flex gap-4 items-center'>
               <label className='w-60'>Font Family</label>
-              <Select>
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='Select font family' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-
-                    <SelectItem value='pineapple'>Pineapple</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <FontPicker />
             </div>
           </div>
         </CollapsibleContent>

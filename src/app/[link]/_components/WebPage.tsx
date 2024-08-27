@@ -4,7 +4,7 @@ import { GeneralAppearance, UserProfile } from '@prisma/client';
 import { JsonArray, JsonValue } from '@prisma/client/runtime/library';
 import Link from 'next/link';
 import LinkClient from './LinkClient';
-import Image from 'next/image';
+import { fontsDictionary } from '@/lib/fonts';
 
 interface PropsTypes {
   userId: string;
@@ -32,10 +32,17 @@ export default function WebpageServer({
     return;
   }
 
+  const fontInstance =
+    fontsDictionary[generalAppearance.fontFamily as keyof typeof fontsDictionary]?.instance ?? null;
+
+  console.log({ fontInstance: fontInstance?.className, generalAppearance });
   return (
     <div
       style={{ background: generalAppearance.primaryBackgroundColor }}
-      className='h-full w-full absolute max-w-lg shadow-md shadow-slate-400 mx-auto text-center bg-white'
+      className={
+        (fontInstance?.className ? fontInstance.className : '') +
+        ' h-full w-full absolute max-w-lg shadow-md shadow-slate-400 mx-auto text-center bg-white'
+      }
     >
       {generalAppearance.useSecondaryBackground && (
         <div

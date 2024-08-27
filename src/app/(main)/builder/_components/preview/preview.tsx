@@ -45,7 +45,7 @@ export default function Preview() {
 
         <div className='flex items-center justify-center h-full flex-1 flex-grow p-2 text-center'>
           {previewMode === 'mobile' && (
-            <div className='h-[90%] max-h-[40rem] w-80  shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm '>
+            <div className='h-[812px] w-[375px]  shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm '>
               <div className='relative flex h-full w-full flex-col rounded-[24px] bg-white overflow-hidden'>
                 {/* <Webpage /> */}
 
@@ -60,8 +60,16 @@ export default function Preview() {
             </div>
           )}
           {previewMode === 'desktop' && (
-            <div className='relative h-[70%] w-full overflow-hidden rounded-[2rem] border-8 border-slate-500 bg-slate-400'>
-              <ViewWrapper loading={loading} />
+            <div className='flex justify-center h-[70%] w-full overflow-y-scroll rounded-[1rem] border-8 border-slate-500  m-auto'>
+              <div className='relative flex h-[812px] w-[375px] flex-col  bg-white overflow-hidden'>
+                <WebpageServer
+                  userId={state.id}
+                  socialLinks={state?.socialLinks}
+                  adhocLinks={state.adhocLinks}
+                  userProfile={{ ...state.userProfile, pic: state.userProfile.pic }}
+                  generalAppearance={state.generalAppearance}
+                />
+              </div>
             </div>
           )}
         </div>
