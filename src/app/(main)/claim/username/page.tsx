@@ -43,7 +43,6 @@ export default function ClaimUsername() {
       }
     },
     onSuccess: async (data) => {
-      console.log(data);
       if (data.success) {
         // TODO : Need to update this one
         await signIn('jwt', {

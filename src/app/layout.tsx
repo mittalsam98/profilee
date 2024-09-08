@@ -11,9 +11,9 @@ import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import { PHProvider } from '@/lib/posthog-provider';
 
-const PostHogPageView = dynamic(() => import('../components/PostHogPageView'), {
-  ssr: false
-});
+// const PostHogPageView = dynamic(() => import('../components/PostHogPageView'), {
+//   ssr: false
+// });
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans'
@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body className={`h-full font-sans ${inter.variable}`}>
           <TRPCReactProvider headers={headers()}>
             <Provider session={session}>
-              <PostHogPageView />
+              {/* <PostHogPageView /> */}
               {children}
             </Provider>
           </TRPCReactProvider>

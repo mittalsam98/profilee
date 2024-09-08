@@ -16,7 +16,7 @@ const client = new S3Client({
 export const imagesRouter = createTRPCRouter({
   signedUrl: protectedProcedure.mutation(async ({ ctx }) => {
     const { id } = ctx.session?.user;
-    const command = await new PutObjectCommand({
+    const command = new PutObjectCommand({
       Bucket: env.UPLOAD_AWS_S3_BUCKET_NAME,
       Key: id
     });

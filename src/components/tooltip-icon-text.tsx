@@ -7,8 +7,8 @@ const ToolTipForTextAndIcon = ({
   onClick
 }: {
   children: ReactNode;
-  text: String;
-  onClick?: () => {};
+  text: string;
+  onClick?: () => void;
 }) => {
   return (
     <TooltipProvider>

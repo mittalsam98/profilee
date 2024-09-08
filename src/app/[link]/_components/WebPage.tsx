@@ -27,7 +27,6 @@ export default function WebpageServer({
     updatedAdhocLinkType = adhocLinks as AdhocLinks[];
   }
 
-  console.log({ userProfile, generalAppearance });
   if (!userProfile || !generalAppearance) {
     return;
   }
@@ -35,7 +34,6 @@ export default function WebpageServer({
   const fontInstance =
     fontsDictionary[generalAppearance.fontFamily as keyof typeof fontsDictionary]?.instance ?? null;
 
-  console.log({ fontInstance: fontInstance?.className, generalAppearance });
   return (
     <div
       style={{ background: generalAppearance.primaryBackgroundColor }}

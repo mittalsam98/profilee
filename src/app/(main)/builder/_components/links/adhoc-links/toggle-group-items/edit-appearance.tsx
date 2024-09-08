@@ -1,6 +1,6 @@
 import { GradientPicker } from '@/components/gradient-color-picker';
 import useDesigner from '@/hooks/use-designer';
-import { AdhocLinks } from '@/types/types';
+import { AdhocLinks, BorderRadius, TextAlign } from '@/types/types';
 import React from 'react';
 
 interface EditAppearanceProps {
@@ -19,14 +19,23 @@ const EditAppearance: React.FC<EditAppearanceProps> = ({ data }) => {
 
     const updatedLinks = [...state.adhocLinks];
 
-    if (updatedLinks[editIndex]) {
-      updatedLinks[editIndex] = {
-        ...updatedLinks[editIndex],
+    const currentLink = updatedLinks[editIndex];
+    if (updatedLinks[editIndex] && currentLink) {
+      const updatedAdhocLink: AdhocLinks = {
+        name: currentLink.name || '',
+        id: currentLink.id || '',
+        link: currentLink.link || '',
+        isActive: currentLink.isActive ?? true,
+        clicks: currentLink.clicks || 0,
         theme: {
-          ...updatedLinks[editIndex].theme,
-          [property]: color
+          ...currentLink.theme,
+          textAlign: currentLink.theme.textAlign ?? TextAlign.CENTER,
+          borderRadius: currentLink.theme.borderRadius ?? BorderRadius.SM,
+          [property]: color ?? ''
         }
       };
+
+      updatedLinks[editIndex] = { ...updatedAdhocLink };
 
       dispatch({
         type: 'UPDATE_ADHOC_LINK',

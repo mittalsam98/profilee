@@ -115,7 +115,6 @@ const designerReducer = (
   state: DesignerContextState = initialState,
   action: DesignerContextAction
 ): DesignerContextState => {
-  console.log(action, state);
   switch (action.type) {
     case 'SET_INITIAL_STATE':
       return action.payload;

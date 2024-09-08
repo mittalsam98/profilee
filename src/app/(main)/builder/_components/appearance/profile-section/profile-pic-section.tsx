@@ -67,7 +67,7 @@ export default function ProfilePicSection() {
         setProgress(0);
       };
 
-      await xhr.send(file);
+      xhr.send(file);
       await upload.mutateAsync();
     } catch (error) {
       toast.error('An error occurred during the upload.');
@@ -79,7 +79,7 @@ export default function ProfilePicSection() {
   // Create a ref for the hidden file input
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const onDrop = async (acceptedFiles: File[]) => {
+  const onDrop = (acceptedFiles: File[]) => {
     const [file] = acceptedFiles;
 
     if (!file) return;
@@ -87,7 +87,7 @@ export default function ProfilePicSection() {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       const imageElement = new Image();
-      const imageUrl = reader.result?.toString() || '';
+      const imageUrl = reader.result?.toString() ?? '';
       imageElement.src = imageUrl;
 
       setImgSrc(imageUrl);

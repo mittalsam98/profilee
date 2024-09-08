@@ -14,9 +14,8 @@ interface PropsTypes {
 export default function LinkClient({ adhocLinks = [], userId }: PropsTypes) {
   const { mutateAsync: updateLinkInteraction } = api.adHocLink.adhocLinkInteraction.useMutation();
 
-  const adhocLinkHandler = (id: string) => {
-    console.log('Link clicked');
-    updateLinkInteraction({ userId: userId, adhocLinkId: id, eventType: EventType.CLICK });
+  const adhocLinkHandler = async (id: string) => {
+    await updateLinkInteraction({ userId: userId, adhocLinkId: id, eventType: EventType.CLICK });
   };
 
   return (

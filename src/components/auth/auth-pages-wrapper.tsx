@@ -20,7 +20,6 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
     const res = await signIn('google', {
       callbackUrl: OAUTH_REDIRECT
     });
-    console.log(res);
   };
   return (
     <>
@@ -52,9 +51,7 @@ export function AuthPagesWrapper({ children, pageTitle, pageSubTitle, flow }: Au
                     <span className='w-full border-t' />
                   </div>
                   <div className='relative flex justify-center text-xs uppercase'>
-                    <span className='bg-white px-2 text-muted-foreground'>
-                      Or continue with
-                    </span>
+                    <span className='bg-white px-2 text-muted-foreground'>Or continue with</span>
                   </div>
                 </div>
               </>

@@ -34,7 +34,7 @@ export default function ImageCropDialog({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   imgSrcUrl: string;
-  onCropComplete: (croppedImageBlob: Blob) => {};
+  onCropComplete: (croppedImageBlob: Blob) => void;
 }) {
   const imgRef = useRef(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -60,13 +60,12 @@ export default function ImageCropDialog({
     setCrop(centeredCrop);
   };
 
-  const handleCrop = async () => {
+  const handleCrop = () => {
     if (imgRef.current && previewCanvasRef.current && completedCrop) {
       setCanvasPreview(imgRef.current, previewCanvasRef.current, completedCrop);
       const dataUrl = previewCanvasRef.current.toDataURL();
       // You can now use the dataUrl as needed
       setOpen(false);
-      console.log({ dataUrl });
       onCropComplete(dataURLtoBlob(dataUrl));
     }
   };

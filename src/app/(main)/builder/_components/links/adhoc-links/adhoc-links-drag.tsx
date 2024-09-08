@@ -83,7 +83,6 @@ export default function AdhocLinkDrag({
   };
 
   const onValueChangeToggleGrp = (e: string) => {
-    console.log(e);
     setEditItem(e);
   };
 

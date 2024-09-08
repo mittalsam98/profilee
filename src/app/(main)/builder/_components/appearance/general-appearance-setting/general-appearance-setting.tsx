@@ -50,7 +50,6 @@ export default function GeneralSetting() {
                 id='secondary-background'
                 checked={state.generalAppearance.useSecondaryBackground}
                 onCheckedChange={(e) => {
-                  console.log(e);
                   dispatch({
                     type: 'IS_SECONDARY_BACKGROUND',
                     payload: e

@@ -49,14 +49,15 @@ export default function AdhocLinksDialog({
           <Button
             type='button'
             onClick={() => {
-              const editIndex =
-                data && data.id ? state.adhocLinks.findIndex((val) => val.id === data.id) : -1;
+              const editIndex = data?.id
+                ? state.adhocLinks.findIndex((val) => val.id === data.id)
+                : -1;
               const prevStateCopy = [...state.adhocLinks];
 
               const updatedAdhocLink: AdhocLinks = {
-                name: inputTitle,
+                name: inputTitle ?? '',
                 id: uuidv4(),
-                link: inputLink,
+                link: inputLink ?? '',
                 isActive: true,
                 clicks: 0,
                 theme: {
