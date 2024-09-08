@@ -24,7 +24,7 @@ export default function SocialLinkDialog({
   children: React.ReactNode;
   triggerPopover?: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { setSocialLinks } = useDesigner();
+  const { dispatch, state } = useDesigner();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState(value ?? '');
 
@@ -49,8 +49,9 @@ export default function SocialLinkDialog({
           <Button
             type='button'
             onClick={() => {
-              setSocialLinks((prevState) => {
-                return { ...prevState, [name]: input };
+              dispatch({
+                type: 'UPDATE_SOCIAL_LINK',
+                payload: { ...state.socialLinks, [name]: input }
               });
               setOpen(false);
               if (triggerPopover) triggerPopover(false);

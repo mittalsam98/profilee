@@ -1,3 +1,4 @@
+import { EventType } from '@prisma/client';
 import * as z from 'zod';
 export const UpdateProfileSchema = z.object({
   title: z
@@ -6,7 +7,12 @@ export const UpdateProfileSchema = z.object({
       invalid_type_error: 'Title must be a string'
     })
     .min(1),
-  bio: z.string().optional()
+  bio: z.string(),
+  bioColor: z.string(),
+  titleColor: z.string(),
+  titleFontSize: z.string(),
+  bioFontSize: z.string(),
+  profilePicBorder: z.string()
 });
 export const AdhocLinkSchema = z
   .object({
@@ -16,7 +22,14 @@ export const AdhocLinkSchema = z
     }),
     link: z.string(),
     id: z.string(),
-    isActive: z.boolean()
+    isActive: z.boolean(),
+    theme: z.object({
+      textAlign: z.string(),
+      backgroundColor: z.string(),
+      textColor: z.string(),
+      borderColor: z.string(),
+      borderRadius: z.string()
+    })
   })
   .array();
 
@@ -59,4 +72,25 @@ export const UsernameSchema = z.object({
       message: 'Username is required'
     })
     .refine((s) => !s.includes(' '), 'No spaces are allowed')
+});
+
+export const LinkInteraction = z.object({
+  adhocLinkId: z.string(),
+  userId: z.string(),
+  eventType: z.enum([EventType.CLICK])
+});
+export const LinkAnalytics = z.object({
+  adhocLinkId: z.string()
+});
+
+export const GeneralAppearanceSchema = z.object({
+  hideBranding: z.boolean(),
+  enableShareButton: z.boolean(),
+  primaryBackgroundColor: z.string(),
+  primaryBackgroundImage: z.string(),
+  fontFamily: z.string(),
+  linkCardShadow: z.string(),
+  useSecondaryBackground: z.boolean(),
+  secondaryBackgroundImage: z.string(),
+  secondaryBackgroundColor: z.string()
 });

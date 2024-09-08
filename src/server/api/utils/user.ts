@@ -6,12 +6,14 @@ export const getUser = async ({
   ctx,
   includeUserProfile = false,
   includeSocialLink = false,
-  includeAdhocLink = false
+  includeAdhocLink = false,
+  includeGeneralAppearance = false
 }: {
   ctx: Context;
   includeUserProfile?: boolean;
   includeSocialLink?: boolean;
   includeAdhocLink?: boolean;
+  includeGeneralAppearance?: boolean;
 }) => {
   const { session } = ctx;
 
@@ -27,7 +29,8 @@ export const getUser = async ({
       username: true,
       userProfile: includeUserProfile,
       socialLink: includeSocialLink,
-      adhocLink: includeAdhocLink
+      adhocLink: includeAdhocLink,
+      generalAppearance: includeGeneralAppearance
     }
   });
 
@@ -59,7 +62,8 @@ export const getUserByUsername = async (
   username: string,
   includeUserProfile = false,
   includeSocialLink = false,
-  includeAdhocLink = false
+  includeAdhocLink = false,
+  includeGeneralAppearance = false
 ) => {
   const user = await db.user.findUnique({
     where: {
@@ -73,7 +77,8 @@ export const getUserByUsername = async (
       username: true,
       userProfile: includeUserProfile,
       socialLink: includeSocialLink,
-      adhocLink: includeAdhocLink
+      adhocLink: includeAdhocLink,
+      generalAppearance: includeGeneralAppearance
     }
   });
 

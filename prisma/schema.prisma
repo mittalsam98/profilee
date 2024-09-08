@@ -34,29 +34,52 @@ model Account {
 }
 
 model User {
-    id            String       @id @default(cuid())
-    name          String
-    email         String       @unique
-    username      String?      @unique
-    emailVerified DateTime?
-    password      String?
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
-    image         String?
-    plan          Plan         @default(FREE)
-    accounts      Account[]
-    userProfile   UserProfile?
-    socialLink    SocialLink?
-    adhocLink     AdhocLink?
+    id                  String             @id @default(cuid())
+    name                String
+    email               String             @unique
+    username            String?            @unique
+    emailVerified       DateTime?
+    password            String?
+    createdAt           DateTime           @default(now())
+    updatedAt           DateTime           @updatedAt
+    image               String?
+    plan                Plan               @default(FREE)
+    accounts            Account[]
+    userProfile         UserProfile?
+    socialLink          SocialLink?
+    adhocLink           AdhocLink?
+    generalAppearance   GeneralAppearance?
+    linkAnalytics       LinkAnalytics[]
+    generalAppearanceId String?
+}
+
+model GeneralAppearance {
+    id                       String  @id @default(uuid())
+    hideBranding             Boolean @default(false)
+    enableShareButton        Boolean @default(true)
+    primaryBackgroundColor   String  @default("#fff")
+    primaryBackgroundImage   String
+    fontFamily               String
+    linkCardShadow           String
+    useSecondaryBackground   Boolean @default(false)
+    secondaryBackgroundColor String  @default("#fff")
+    secondaryBackgroundImage String
+    user                     User    @relation(fields: [userId], references: [id])
+    userId                   String  @unique
 }
 
 model UserProfile {
-    id     String  @id @default(uuid())
-    bio    String?
-    title  String
-    pic    String?
-    user   User    @relation(fields: [userId], references: [id])
-    userId String  @unique
+    id               String @id @default(uuid())
+    bio              String
+    title            String
+    pic              String
+    profilePicBorder String
+    bioColor         String
+    titleColor       String
+    titleFontSize    String
+    bioFontSize      String
+    user             User   @relation(fields: [userId], references: [id])
+    userId           String @unique
 }
 
 model SocialLink {
@@ -77,6 +100,25 @@ model AdhocLink {
     userId    String   @unique
 }
 
+model LinkAnalytics {
+    id          String    @id @default(uuid())
+    eventType   EventType
+    timestamp   DateTime  @default(now())
+    ipAddress   String?
+    count       Int       @default(1)
+    userAgent   String?
+    adhocLinkId String    @unique
+    User        User?     @relation(fields: [userId], references: [id])
+    userId      String?
+
+    @@unique([userId, adhocLinkId])
+}
+
+enum EventType {
+    CLICK
+    OPEN
+}
+
 enum Plan {
     FREE
     PRO
@@ -89,3 +131,26 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+// enum TextAlign {
+//     CENTER
+//     LEFT
+//     RIGHT
+// }
+
+// enum PropertSize {
+//     SM
+//     MD
+//     LG
+// }
+
+// model LinkTheme {
+//     id              String      @id @default(uuid())
+//     textAlign       TextAlign   @default(CENTER)
+//     backgroundColor String?
+//     textColor       String?
+//     borderColor     String?
+//     borderRadius    PropertSize @default(MD)
+//     adhoclink       AdhocLink   @relation(fields: [adhocLinkId], references: [id])
+//     adhocLinkId     String      @unique
+// }

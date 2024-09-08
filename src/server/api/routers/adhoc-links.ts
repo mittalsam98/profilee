@@ -1,12 +1,13 @@
-import { Context, createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { db } from '@/server/db';
-import { getUser } from '../utils/user';
-import { AdhocLinkSchema } from '../schemas';
-import { Prisma } from '@prisma/client';
 import { AdhocLinks } from '@/types/types';
+import { EventType } from '@prisma/client';
+import { AdhocLinkSchema, LinkAnalytics, LinkInteraction } from '../schemas';
+import { getUser } from '../utils/user';
 
 export const adHocLinkRouter = createTRPCRouter({
   updateAdhocLinks: protectedProcedure.input(AdhocLinkSchema).mutation(async ({ input, ctx }) => {
+    console.log({ input });
     const user = await getUser({ ctx: ctx, includeSocialLink: true });
 
     const updatedAdhocLink = await db.adhocLink.upsert({
@@ -26,5 +27,57 @@ export const adHocLinkRouter = createTRPCRouter({
   getSocialLinks: protectedProcedure.query(async ({ ctx }) => {
     const user = await getUser({ ctx: ctx, includeSocialLink: true });
     return user;
+  }),
+  adhocLinkInteraction: publicProcedure.input(LinkInteraction).mutation(async ({ input }) => {
+    const { adhocLinkId, userId } = input;
+
+    const linkAnalytics = await db.linkAnalytics.findFirst({
+      where: {
+        userId: userId,
+        adhocLinkId: adhocLinkId
+      }
+    });
+
+    if (!linkAnalytics) {
+      await db.linkAnalytics.create({
+        data: {
+          userId,
+          eventType: EventType.CLICK,
+          adhocLinkId
+        }
+      });
+    } else {
+      await db.linkAnalytics.update({
+        where: {
+          userId_adhocLinkId: {
+            userId: userId,
+            adhocLinkId: adhocLinkId
+          }
+        },
+        data: {
+          userId,
+          eventType: EventType.CLICK,
+          adhocLinkId,
+          count: {
+            increment: 1
+          }
+        }
+      });
+    }
+
+    return { message: 'success' };
+  }),
+  getLinkAnalytics: protectedProcedure.input(LinkAnalytics).query(async ({ input, ctx }) => {
+    const { session } = ctx;
+    const { adhocLinkId } = input;
+
+    const linkAnalytics = await db.linkAnalytics.findFirst({
+      where: {
+        userId: session?.user.id,
+        adhocLinkId: adhocLinkId
+      }
+    });
+
+    return linkAnalytics;
   })
 });

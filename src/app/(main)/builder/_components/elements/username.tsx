@@ -13,14 +13,18 @@ import { MdOpenInNew } from 'react-icons/md';
 import { LuCopy } from 'react-icons/lu';
 
 const UsernameSettings = () => {
-  const { username, setUsername, setIsPublishing } = useDesigner();
+  const [isPublishing, setIsPublishing] = useState(false); //FIX this
+  const { dispatch, state } = useDesigner();
   const [usernameError, setUsernameError] = useState('');
   const origin = typeof window !== 'undefined' ? window.location.origin + '/' : '';
 
   const { isLoading, mutateAsync: updateUsername } = api.user.createUpdateUsername.useMutation({
     onSuccess: (res) => {
       setUsernameError('');
-      setUsername(res.message ?? username);
+      dispatch({
+        type: 'UPDATE_USERNAME',
+        payload: res.message ?? state.userProfile.username
+      });
     },
     onError: (error) => {
       if (error instanceof TRPCClientError) {
@@ -53,8 +57,11 @@ const UsernameSettings = () => {
       return;
     }
     if (value.length > 0) {
-      setUsername(value);
-      if (value.trim() !== username.trim()) {
+      dispatch({
+        type: 'UPDATE_USERNAME',
+        payload: value
+      });
+      if (value.trim() !== state.userProfile.username.trim()) {
         await debouncedInputHandler({ username: value });
       }
       setUsernameError('');
@@ -74,7 +81,7 @@ const UsernameSettings = () => {
               usernameError ? 'focus:outline-none border-2 border-red-500' : ''
             )}
             disabled={isLoading}
-            defaultValue={username}
+            defaultValue={state.userProfile.username}
             onChange={inputHandler}
           />{' '}
           {usernameError && (
@@ -83,14 +90,18 @@ const UsernameSettings = () => {
         </div>
         <div
           onClick={async () => {
-            await navigator.clipboard.writeText(`${origin}/${username}`);
+            await navigator.clipboard.writeText(`${origin}/${state.userProfile.username}`);
             toast.success('URL copied to clipboard!');
           }}
           className='p-1 ml-2 cursor-pointer hover:border-neutral-500'
         >
           <LuCopy className='text-slate-400 h-4 w-4' />
         </div>
-        <Link target='_blank' className='p-1  hover:border-neutral-500' href={`/${username}`}>
+        <Link
+          target='_blank'
+          className='p-1  hover:border-neutral-500'
+          href={`/${state.userProfile.username}`}
+        >
           <MdOpenInNew className='text-slate-400 h-4 w-4' />{' '}
         </Link>
       </div>

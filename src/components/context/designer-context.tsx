@@ -2,47 +2,55 @@
 
 import Error from '@/components/error';
 import { api } from '@/trpc/react';
-import { AdhocLinks, SocialMediaDataContext } from '@/types/types';
-import { redirect } from 'next/navigation';
-import {
-  Dispatch,
-  useState,
-  createContext,
-  SetStateAction,
-  PropsWithChildren,
-  useEffect
-} from 'react';
+import { AdhocLinks, GeneralAppearance, SocialMediaDataContext, UserProfile } from '@/types/types';
+import { createContext, Dispatch, PropsWithChildren, useEffect, useReducer, useState } from 'react';
+import { DesignerContextAction } from './designer-context-action';
 
-type DesignerContextProps = {
-  profileImg: File | string | null;
-  setProfileImg: Dispatch<SetStateAction<File | null | string>>;
-  title: string;
-  setTitle: Dispatch<SetStateAction<string>>;
-  username: string;
-  setUsername: Dispatch<SetStateAction<string>>;
-  bio: string;
-  setBio: Dispatch<SetStateAction<string>>;
-  loading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  isPublishing: boolean;
-  setIsPublishing: Dispatch<SetStateAction<boolean>>;
+export type DesignerContextState = {
+  id: string;
+  userProfile: UserProfile;
   socialLinks: SocialMediaDataContext;
-  setSocialLinks: Dispatch<SetStateAction<SocialMediaDataContext>>;
+  generalAppearance: GeneralAppearance;
   adhocLinks: AdhocLinks[];
-  setAdhocLinks: Dispatch<SetStateAction<AdhocLinks[]>>;
 };
 
-export const DesignerContext = createContext<DesignerContextProps | null>(null);
+const initialState: DesignerContextState = {
+  id: '',
+  userProfile: {
+    pic: '',
+    title: '',
+    username: '',
+    bio: '',
+    bioColor: '#000',
+    bioFontSize: '16',
+    titleColor: '#000',
+    titleFontSize: '20',
+    profilePicBorder: ''
+  },
+  generalAppearance: {
+    hideBranding: false,
+    enableShareButton: true,
+    primaryBackgroundColor: '',
+    primaryBackgroundImage: '',
+    fontFamily: '',
+    linkCardShadow: '',
+    useSecondaryBackground: false,
+    secondaryBackgroundColor: '#000',
+    secondaryBackgroundImage: ''
+  },
+  adhocLinks: [],
+  socialLinks: {}
+};
+
+export const DesignerContext = createContext<{
+  state: DesignerContextState;
+  dispatch: Dispatch<DesignerContextAction>;
+  initialValues: DesignerContextState | undefined;
+} | null>(null);
 
 const DesignerContextProvider = ({ children }: PropsWithChildren) => {
-  const [profileImg, setProfileImg] = useState<File | string | null>(null);
-  const [title, setTitle] = useState('');
-  const [bio, setBio] = useState('');
-  const [username, setUsername] = useState('');
-  const [loading, setIsLoading] = useState(true);
-  const [isPublishing, setIsPublishing] = useState(false);
-  const [adhocLinks, setAdhocLinks] = useState<AdhocLinks[]>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialMediaDataContext>({});
+  const [state, dispatch] = useReducer(designerReducer, initialState);
+  const [initialValues, setInitialValues] = useState<DesignerContextState>();
 
   const {
     data,
@@ -53,52 +61,47 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
   } = api.userProfile.getUserCompleteProfile.useQuery();
 
   useEffect(() => {
-    if (isSuccess && !data?.username) {
-      redirect('/claim/username');
+    if (isSuccess) {
+      const newState: DesignerContextState = {
+        id: data.id,
+        userProfile: {
+          title: data?.userProfile?.title ?? '',
+          bio: data?.userProfile?.bio ?? '',
+          pic: data?.userProfile?.pic ?? '',
+          username: data?.username ?? '',
+          profilePicBorder: data?.userProfile?.profilePicBorder ?? '',
+          bioColor: data?.userProfile?.bioColor ?? '',
+          titleColor: data?.userProfile?.titleColor ?? '',
+          titleFontSize: data?.userProfile?.titleFontSize ?? '',
+          bioFontSize: data?.userProfile?.bioFontSize ?? ''
+        },
+        generalAppearance: {
+          hideBranding: !!data?.generalAppearance?.hideBranding,
+          enableShareButton: !!data?.generalAppearance?.enableShareButton,
+          primaryBackgroundColor: data?.generalAppearance?.primaryBackgroundColor ?? '#fff',
+          primaryBackgroundImage: data?.generalAppearance?.primaryBackgroundImage ?? '',
+          fontFamily: data?.generalAppearance?.fontFamily ?? '',
+          linkCardShadow: data?.generalAppearance?.linkCardShadow ?? '',
+          useSecondaryBackground: !!data?.generalAppearance?.useSecondaryBackground,
+          secondaryBackgroundColor: data?.generalAppearance?.secondaryBackgroundColor ?? '#fff',
+          secondaryBackgroundImage: data?.generalAppearance?.secondaryBackgroundImage ?? ''
+        },
+        adhocLinks: (data?.adhocLink?.data as AdhocLinks[]) ?? [],
+        socialLinks: (data?.socialLink?.data as SocialMediaDataContext) ?? {}
+      };
+      setInitialValues(newState);
+      dispatch({ type: 'SET_INITIAL_STATE', payload: newState });
     }
-    if (data?.username) {
-      setUsername(data.username);
-    }
-    if (data?.userProfile) {
-      setTitle(data.userProfile.title ?? '');
-      setBio(data.userProfile.bio ?? '');
-      if (data.userProfile.pic) {
-        setProfileImg(data.userProfile.pic);
-      }
-    }
-    if (data?.socialLink?.data) {
-      setSocialLinks(data.socialLink.data as SocialMediaDataContext);
-    }
-    if (data?.adhocLink?.data) {
-      setAdhocLinks(data.adhocLink.data as AdhocLinks[]);
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    setIsLoading(fetchingProfile);
-  }, [fetchingProfile]);
+  }, [isSuccess, data]);
 
   if (isError) return <Error error={error?.message} />;
 
   return (
     <DesignerContext.Provider
       value={{
-        profileImg,
-        setProfileImg,
-        title,
-        setTitle,
-        bio,
-        setBio,
-        username,
-        setUsername,
-        loading,
-        setIsLoading,
-        isPublishing,
-        setIsPublishing,
-        setSocialLinks,
-        socialLinks,
-        adhocLinks,
-        setAdhocLinks
+        state,
+        dispatch,
+        initialValues
       }}
     >
       {children}
@@ -107,3 +110,68 @@ const DesignerContextProvider = ({ children }: PropsWithChildren) => {
 };
 
 export default DesignerContextProvider;
+
+const designerReducer = (
+  state: DesignerContextState = initialState,
+  action: DesignerContextAction
+): DesignerContextState => {
+  console.log(action, state);
+  switch (action.type) {
+    case 'SET_INITIAL_STATE':
+      return action.payload;
+    // General Appearance
+    case 'IS_SECONDARY_BACKGROUND':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, useSecondaryBackground: action.payload }
+      };
+    case 'UPDATE_PRIMARY_BACKGROUND_COLOR':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, primaryBackgroundColor: action.payload }
+      };
+    case 'UPDATE_SECONDARY_BACKGROUND_COLOR':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, secondaryBackgroundColor: action.payload }
+      };
+    case 'UPDATE_LINK_CARD_SHADOW':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, linkCardShadow: action.payload }
+      };
+    case 'UPDATE_FONT_FAMILY':
+      return {
+        ...state,
+        generalAppearance: { ...state.generalAppearance, fontFamily: action.payload }
+      };
+
+    // User Profile Actions
+    case 'UPDATE_BIO':
+      return { ...state, userProfile: { ...state.userProfile, bio: action.payload } };
+    case 'UPDATE_USERNAME':
+      return { ...state, userProfile: { ...state.userProfile, username: action.payload } };
+    case 'UPDATE_TITLE':
+      return { ...state, userProfile: { ...state.userProfile, title: action.payload } };
+    case 'UPDATE_PROFILE_IMG':
+      return { ...state, userProfile: { ...state.userProfile, pic: action.payload } };
+    case 'UPDATE_BIO_COLOR':
+      return { ...state, userProfile: { ...state.userProfile, bioColor: action.payload } };
+    case 'UPDATE_BIO_FONT_SIZE':
+      return { ...state, userProfile: { ...state.userProfile, bioFontSize: action.payload } };
+    case 'UPDATE_TITLE_COLOR':
+      return { ...state, userProfile: { ...state.userProfile, titleColor: action.payload } };
+    case 'UPDATE_TITLE_FONT_SIZE':
+      return { ...state, userProfile: { ...state.userProfile, titleFontSize: action.payload } };
+    case 'UPDATE_PIC_BORDER':
+      // Adhoc Links Action
+      return { ...state, userProfile: { ...state.userProfile, profilePicBorder: action.payload } };
+    case 'UPDATE_ADHOC_LINK':
+      return { ...state, adhocLinks: action.payload };
+    // Social Links Action
+    case 'UPDATE_SOCIAL_LINK':
+      return { ...state, socialLinks: action.payload };
+    default:
+      return state;
+  }
+};

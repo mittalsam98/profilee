@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import useDesigner from '@/hooks/use-designer';
-import { AdhocLinks } from '@/types/types';
+import { AdhocLinks, BorderRadius, TextAlign } from '@/types/types';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,7 +18,7 @@ export default function AdhocLinksDialog({
   setOpen: Dispatch<SetStateAction<boolean>>;
   data?: AdhocLinks;
 }) {
-  const { setAdhocLinks } = useDesigner();
+  const { dispatch, state } = useDesigner();
   const [inputTitle, setInputTitle] = useState(data?.name ?? '');
   const [inputLink, setInputLink] = useState(data?.link ?? '');
 
@@ -49,22 +49,38 @@ export default function AdhocLinksDialog({
           <Button
             type='button'
             onClick={() => {
-              setAdhocLinks((prevState) => {
-                const prevStateCopy = [...prevState];
-                const updatedAdhocLink = {
-                  name: inputTitle,
-                  id: uuidv4(),
-                  link: inputLink,
-                  isActive: true
-                };
-                if (data) {
-                  const editIndex = prevState.findIndex((val) => val.id == data.id);
-                  prevStateCopy[editIndex] = updatedAdhocLink;
-                  return prevStateCopy;
-                } else {
-                  return [...prevStateCopy, updatedAdhocLink];
+              const editIndex =
+                data && data.id ? state.adhocLinks.findIndex((val) => val.id === data.id) : -1;
+              const prevStateCopy = [...state.adhocLinks];
+
+              const updatedAdhocLink: AdhocLinks = {
+                name: inputTitle,
+                id: uuidv4(),
+                link: inputLink,
+                isActive: true,
+                clicks: 0,
+                theme: {
+                  textAlign: TextAlign.CENTER,
+                  backgroundColor: '#fff',
+                  textColor: '#000',
+                  borderColor: '',
+                  borderRadius: BorderRadius.SM
                 }
-              });
+              };
+
+              if (editIndex !== -1) {
+                prevStateCopy[editIndex] = updatedAdhocLink;
+                dispatch({
+                  type: 'UPDATE_ADHOC_LINK',
+                  payload: prevStateCopy
+                });
+              } else {
+                dispatch({
+                  type: 'UPDATE_ADHOC_LINK',
+                  payload: [...prevStateCopy, updatedAdhocLink]
+                });
+              }
+
               setOpen(false);
             }}
             disabled={!inputLink || !inputTitle}
