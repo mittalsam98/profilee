@@ -8,6 +8,7 @@ import useDesigner from '@/hooks/use-designer';
 import isequal from 'lodash.isequal';
 import { api } from '@/trpc/react';
 import { UserProfile } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
 
 export default function Appearance() {
   const { state, initialValues } = useDesigner();
@@ -52,7 +53,8 @@ export default function Appearance() {
         variant='ghost'
         disabled={isGeneralAppearanceStateEqual && isProfileStateEqual} // Disable button if no changes detected
       >
-        Save
+        {isLoadingGA || isLoadingUP ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : null}
+        {isLoadingGA || isLoadingUP ? 'Saving' : 'Save'}
       </Button>
       <ProfileSection />
       <GeneralSetting />

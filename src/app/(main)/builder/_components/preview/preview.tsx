@@ -45,7 +45,7 @@ export default function Preview() {
 
         <div className='flex items-center justify-center h-full flex-1 flex-grow p-2 text-center'>
           {previewMode === 'mobile' && (
-            <div className='h-[812px] w-[375px]  shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm '>
+            <div className='h-full w-[375px]  shrink-0 m-10 rounded-[32px] border border-slate-700 bg-zinc-900 p-2 shadow-white/70 shadow-sm '>
               <div className='relative flex h-full w-full flex-col rounded-[24px] bg-white overflow-hidden'>
                 {/* <Webpage /> */}
 

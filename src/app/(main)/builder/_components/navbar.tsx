@@ -57,9 +57,9 @@ export default function Navbar() {
 const NavBarTabs = () => {
   return (
     <div className='flex justify-center items-center gap-10'>
-      <Link href='analytics' className='text-red-600'>
+      {/* <Link href='analytics' className='text-red-600'>
         Analytics
-      </Link>
+      </Link> */}
       <Link href='links'>Links</Link>
       <Link href='appearance'>Appearance</Link>
     </div>
