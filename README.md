@@ -1,6 +1,6 @@
 # Profilee
 
-Profilee is an open source profile link bio page builder.
+Profilee is an open source profile link bio page builder. Featured at offical t3 docs website [here](https://create.t3.gg/en/t3-collection#:~:text=Profilee%20%2D%20A%20Profile%20Link%20Builder)
 
 ## What is Profilee?
 
