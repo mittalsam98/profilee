@@ -15,8 +15,11 @@ Profile Link Builder is a powerful tool designed to simplify the process of crea
 - AWS S3 for storing images
 
 ## Upcoming feature
+- Ligh and Dark Mode
 - QR code support
 - PRO plan support
 - More customization/ UI updates
+
+Feel free to raise the PR, I would love to merge the changes
 
 
